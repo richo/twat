@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+# ALL TODO
+# OptionParser is the class for handling args
+# twat -u account <tweet> | -a account (enter details) | -d account (delorts)
