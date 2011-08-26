@@ -7,3 +7,10 @@ multiple accounts so that I can harass the world relentlessly (basically use a
 twitter feed to replace my code/cheat/ files)
 
 Also as an excuse to learn more ruby in my spare time
+
+== Release status
+
+This is massively pre-alpha. I plan to do my best to leave it in a
+consistent-ish state so that I can use it for day to day use, but the config
+format is liable to change at short notice. If things suddenly fail, that's
+probably a good place to look.
