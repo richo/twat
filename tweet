@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'twitter'
+# Certain methods require authentication. To get your Twitter OAuth credentials,
+# register an app at http://dev.twitter.com/apps
+Twitter.configure do |config|
+  config.consumer_key =  "[redacted]"
+  config.consumer_secret =  "[redacted]"
+  config.oauth_token = "[redacted]"
+  config.oauth_token_secret = "[redacted]"
+end
+
+# Update your status
+Twitter.update(ARGV.join(" "))
