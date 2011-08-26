@@ -1,13 +1,24 @@
 #!/usr/bin/env ruby
 require 'twitter'
+#require './config.rb'
 # Certain methods require authentication. To get your Twitter OAuth credentials,
 # register an app at http://dev.twitter.com/apps
-Twitter.configure do |config|
-  config.consumer_key =  "[redacted]"
-  config.consumer_secret =  "[redacted]"
-  config.oauth_token = "[redacted]"
-  config.oauth_token_secret = "[redacted]"
+# Twitter.configure do |config|
+#   config.consumer_key =  "[redacted]"
+#   config.consumer_secret =  "[redacted]"
+#   config.oauth_token = "[redacted]"
+#   config.oauth_token_secret = "[redacted]"
+# end
+
+# At some point, ruby this shit up and make it a gem
+# Update your status
+#Twitter.update(ARGV.join(" "))
+
+def config
+  # Hardcoded :/
+  @config ||= YAML.load_file(ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc")
 end
 
-# Update your status
-Twitter.update(ARGV.join(" "))
+puts config.to_s
+
+
