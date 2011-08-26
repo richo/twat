@@ -1,0 +1,9 @@
+= Twatterator
+
+this is the tweety thing I used for the Singularity Summit
+
+I plan to extend it into (yet another) basic cli tweet app that supports
+multiple accounts so that I can harass the world relentlessly (basically use a
+twitter feed to replace my code/cheat/ files)
+
+Also as an excuse to learn more ruby in my spare time
