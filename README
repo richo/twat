@@ -10,7 +10,10 @@ Also as an excuse to learn more ruby in my spare time
 
 == Release status
 
-This is massively pre-alpha. I plan to do my best to leave it in a
-consistent-ish state so that I can use it for day to day use, but the config
-format is liable to change at short notice. If things suddenly fail, that's
-probably a good place to look.
+Ok, so it's less pre-alpha now. I've pushed it to Rubygems and it seems to work
+in the limited testing that I've done.
+
+== Credits and thanks
+
+I used a lot the structure from codeplane to work out how to structure it. It's
+obviously not as neat, but the gemspec was shamelessly adapted from codeplane
