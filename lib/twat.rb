@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 
+$:.push File.expand_path("../", __FILE__)
 require 'twitter'
 require 'yaml'
 require 'optparse'
 require 'oauth'
 
 %w[config exceptions argparse actions].each do |filename|
-  require "lib/twat/#{filename}"
+  require "twat/#{filename}"
 end
 
 module Twat
