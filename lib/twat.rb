@@ -1,13 +1,12 @@
 #!/usr/bin/env ruby
 
-root = File.dirname(__FILE__)
 require 'twitter'
 require 'yaml'
 require 'optparse'
 require 'oauth'
 
 %w[config exceptions argparse actions].each do |filename|
-  require "#{root}/lib/#{filename}"
+  require "lib/twat/#{filename}"
 end
 
 module Twat
