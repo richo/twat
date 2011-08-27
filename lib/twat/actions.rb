@@ -31,12 +31,16 @@ module Twat
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = gets.chomp
-      access_token = token_request.get_access_token(oauth_verifier: pin)
-      cf[opts[:account]] = {
-        oauth_token: access_token.token,
-        oauth_token_secret: access_token.secret
-      }
-      cf.save!
+      begin
+        access_token = token_request.get_access_token(oauth_verifier: pin)
+        cf[opts[:account]] = {
+          oauth_token: access_token.token,
+          oauth_token_secret: access_token.secret
+        }
+        cf.save! 
+      rescue OAuth::Unauthorized
+        puts "Couldn't authenticate you, did you enter the pin correctly?"
+      end
     end
 
     def delete(opts)
