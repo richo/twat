@@ -5,74 +5,29 @@ require 'twitter'
 require 'yaml'
 require 'optparse'
 
-%w[config exceptions].each do |filename|
+%w[config exceptions argparse actions].each do |filename|
   require "#{root}/lib/#{filename}"
 end
 
 module Twat
   class Twat
-    def usage(additional=nil)
-      puts additional if additional
-      puts @optparser
-      exit
-    end
-
-    def options
-      @configthingfucken ||= getopts
-    end
-
-    def config
-      @cf = Config.new
-    end
-
-    def getopts
-      required = [:account]
-      options = Hash.new
-      @optparser = OptionParser.new do |opts|
-        opts.banner = "Usage: #{$0} -a ACCOUNT <tweet>"
-        opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT') do |acct|
-          options[:account] = acct
-        end
-        #opts.on( '-a' '--add ACCOUNT' ) do |acct|
-        #end
-        opts.on('-h', '--help', 'Display this screen') do
-          puts opts
-          exit
-        end
-      end
-      @optparser.parse!
-      required.each do |req|
-        usage unless options[req]
-      end
-      options
-    end
-
-
-    def tweet
-      usage unless ARGV.length > 0
-      ARGV.join(" ")
-    end
-
-    def twat
-      # This is all broken, we should know what options we have before this happend
+    def run
       begin
-        opts = options
-      rescue OptionParser::MissingArgument
-        usage
+        action = Actions.new
+        opts = ArgParse.new
+        action.send(opts.options[:action], opts)
+      rescue Usage
+        opts.usage
+      rescue NoSuchAccount
+        puts "No such account"
+        opts.usage
+     rescue NoMethodError
+       puts "No such command"
+       opts.usage
       end
-      conf = config[options[:account].to_sym] || usage("Invalid account")
-
-      Twitter.configure do |twit|
-        conf.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-      end
-
-      #Twitter.update(tweet)
-      puts tweet
     end
   end
 end
 
 inst = Twat::Twat.new
-inst.twat
+inst.run
