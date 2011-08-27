@@ -22,6 +22,10 @@ module Twat
           options[:account] = acct.to_sym
           options[:action] = :add
         end
+        opts.on('-d', '--delete ACCOUNT', 'Delete ACCOUNT') do |acct|
+          options[:account] = acct.to_sym
+          options[:action] = :delete
+        end
         #opts.on( '-a' '--add ACCOUNT' ) do |acct|
         #end
         opts.on('-h', '--help', 'Display this screen') do

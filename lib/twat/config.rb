@@ -26,6 +26,10 @@ module Twat
       config[key] = value
     end
 
+    def delete(key)
+      config.delete(key)
+    end
+
     def self.consumer_info
       {
         consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",

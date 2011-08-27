@@ -39,6 +39,14 @@ module Twat
       cf.save!
     end
 
+    def delete(opts)
+      if cf.delete(opts[:account])
+        cf.save!
+        puts "Successfully deleted"
+      else
+        puts "No such account"
+      end
+    end
 
     private
 
