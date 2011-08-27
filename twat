@@ -1,83 +1,78 @@
 #!/usr/bin/env ruby
+
+root = File.dirname(__FILE__)
 require 'twitter'
 require 'yaml'
-require 'ostruct'
 require 'optparse'
-#require './config.rb'
-# Certain methods require authentication. To get your Twitter OAuth credentials,
-# register an app at http://dev.twitter.com/apps
-# Twitter.configure do |config|
-#   config.consumer_key =  "[redacted]"
-#   config.consumer_secret =  "[redacted]"
-#   config.oauth_token = "[redacted]"
-#   config.oauth_token_secret = "[redacted]"
-# end
 
-# At some point, ruby this shit up and make it a gem
-# Update your status
-#Twitter.update(ARGV.join(" "))
+%w[config exceptions].each do |filename|
+  require "#{root}/lib/#{filename}"
+end
 
-class Twat
-  def usage(additional=nil)
-    puts additional if additional
-    puts @optparser
-    exit
-  end
+module Twat
+  class Twat
+    def usage(additional=nil)
+      puts additional if additional
+      puts @optparser
+      exit
+    end
 
-  def options
-    @configthingfucken ||= getopts
-  end
+    def options
+      @configthingfucken ||= getopts
+    end
 
-  def getopts
-    required = [:account]
-    options = Hash.new
-    @optparser = OptionParser.new do |opts|
-      opts.banner = "Usage: #{$0} -a ACCOUNT <tweet>"
-      opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT') do |acct|
-        options[:account] = acct
+    def config
+      @cf = Config.new
+    end
+
+    def getopts
+      required = [:account]
+      options = Hash.new
+      @optparser = OptionParser.new do |opts|
+        opts.banner = "Usage: #{$0} -a ACCOUNT <tweet>"
+        opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT') do |acct|
+          options[:account] = acct
+        end
+        #opts.on( '-a' '--add ACCOUNT' ) do |acct|
+        #end
+        opts.on('-h', '--help', 'Display this screen') do
+          puts opts
+          exit
+        end
       end
-      #opts.on( '-a' '--add ACCOUNT' ) do |acct|
-      #end
-      opts.on('-h', '--help', 'Display this screen') do
-        puts opts
-        exit
+      @optparser.parse!
+      required.each do |req|
+        usage unless options[req]
       end
+      options
     end
-    @optparser.parse!
-    required.each do |req|
-      usage unless options[req]
+
+
+    def tweet
+      usage unless ARGV.length > 0
+      ARGV.join(" ")
     end
-    options
-  end
 
-  def config
-    # Hardcoded :/
-    @config ||= YAML.load_file(ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc")
-  end
-
-  def tweet
-    usage unless ARGV.length > 0
-    ARGV.join(" ")
-  end
-
-  def twat
-    begin
-      opts = options
-    rescue OptionParser::MissingArgument
-      usage
-    end
-    conf = config[options[:account].to_sym] || usage("Invalid account")
-
-    Twitter.configure do |twit|
-      conf.each do |key, value|
-        twit.send("#{key}=", value)
+    def twat
+      # This is all broken, we should know what options we have before this happend
+      begin
+        opts = options
+      rescue OptionParser::MissingArgument
+        usage
       end
-    end
+      conf = config[options[:account].to_sym] || usage("Invalid account")
 
-    #Twitter.update(tweet)
-    puts tweet
+      Twitter.configure do |twit|
+        conf.each do |key, value|
+          twit.send("#{key}=", value)
+        end
+      end
+
+      #Twitter.update(tweet)
+      puts tweet
+    end
   end
 end
 
-inst = Twat.new
+inst = Twat::Twat.new
 inst.twat
