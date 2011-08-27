@@ -13,6 +13,7 @@ module Twat
 
     def save!
       File.open(config_path, 'w') do |conf|
+        conf.chmod(0600)
         conf.puts(@config.to_yaml)
       end
     end
