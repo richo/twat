@@ -74,8 +74,7 @@ class Twat
       end
     end
 
-    #Twitter.update(tweet)
-    puts tweet
+    Twitter.update(tweet)
   end
 end
 
