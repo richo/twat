@@ -8,7 +8,11 @@ module Twat
     end
 
     def config
-      @config ||= YAML.load_file(config_path)
+      begin
+        @config ||= YAML.load_file(config_path)
+      rescue Errno::ENOENT
+        raise NoConfigFile
+      end
     end
 
     def save!

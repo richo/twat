@@ -13,7 +13,7 @@ end
 module Twat
   VERSION_MAJOR = 0
   VERSION_MINOR = 2
-  VERSION_PATCH = 3
+  VERSION_PATCH = 4
 
   VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
@@ -27,9 +27,12 @@ module Twat
       rescue NoSuchAccount
         puts "No such account"
         opts.usage
-     rescue NoMethodError
-       puts "No such command"
-       opts.usage
+      rescue NoMethodError
+        puts "No such command"
+        opts.usage
+      rescue NoConfigFile
+        puts "No config file, create one with twat -a [user|nick]"
+        opts.usage
       end
     end
   end
