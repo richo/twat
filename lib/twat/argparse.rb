@@ -14,8 +14,9 @@ module Twat
       options = Hash.new
       @optparser = OptionParser.new do |opts|
         options[:action] = :tweet
-        opts.banner = "Usage: #{$0} -a ACCOUNT <tweet>"
-        opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT') do |acct|
+        options[:account] = :default
+        opts.banner = "Usage: twat <tweet>"
+        opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT (or default)') do |acct|
           options[:account] = acct.to_sym
         end
         opts.on('-a', '--add ACCOUNT', 'Configure and authorise ACCOUNT') do |acct|
