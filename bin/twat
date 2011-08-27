@@ -1,34 +1,6 @@
 #!/usr/bin/env ruby
 
-root = File.dirname(__FILE__)
-require 'twitter'
-require 'yaml'
-require 'optparse'
-require 'oauth'
-
-%w[config exceptions argparse actions].each do |filename|
-  require "#{root}/lib/#{filename}"
-end
-
-module Twat
-  class Twat
-    def run
-      begin
-        action = Actions.new
-        opts = ArgParse.new
-        action.send(opts.options[:action], opts)
-      rescue Usage
-        opts.usage
-      rescue NoSuchAccount
-        puts "No such account"
-        opts.usage
-     rescue NoMethodError
-       puts "No such command"
-       opts.usage
-      end
-    end
-  end
-end
+require 'twat'
 
 inst = Twat::Twat.new
 inst.run
