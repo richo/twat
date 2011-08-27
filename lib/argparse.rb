@@ -1,4 +1,7 @@
 module Twat
+  REQUIRED = [:account]
+  MSG_REQUIRED = [:tweet]
+
   class ArgParse
 
     def usage(additional=nil)
@@ -8,7 +11,6 @@ module Twat
     end
 
     def getopts
-      required = [:account]
       options = Hash.new
       @optparser = OptionParser.new do |opts|
         options[:action] = :tweet
@@ -28,10 +30,12 @@ module Twat
         end
       end
       @optparser.parse!
-      required.each do |req|
+      REQUIRED.each do |req|
         usage unless options[req]
       end
-      options[:msg] = msg
+      if MSG_REQUIRED.include?(options[:action])
+        options[:msg] = msg
+      end
       options
     end
 

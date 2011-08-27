@@ -4,6 +4,7 @@ root = File.dirname(__FILE__)
 require 'twitter'
 require 'yaml'
 require 'optparse'
+require 'oauth'
 
 %w[config exceptions argparse actions].each do |filename|
   require "#{root}/lib/#{filename}"
