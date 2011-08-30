@@ -11,7 +11,7 @@ module Twat
       begin
         @config ||= YAML.load_file(config_path)
       rescue Errno::ENOENT
-        raise NoConfigFile
+        @config = default_config
       end
     end
 
@@ -23,12 +23,20 @@ module Twat
     end
 
     def [](key)
-      raise NoSuchAccount unless config.include?(key)
-      config[key]
+      if key == :default
+        accounts[config[:default]]
+      else
+        raise NoSuchAccount unless accounts.include?(key)
+        accounts[key]
+      end
     end
 
     def []=(key, value)
       config[key] = value
+    end
+
+    def accounts
+      config[:accounts]
     end
 
     def delete(key)
@@ -39,6 +47,13 @@ module Twat
       {
         consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
         consumer_secret: "H6vQOGGn9qVJJa9lWyTd2s8ZZRXG4kh3SMfvZ2uxOXE"
+      }
+    end
+
+    def default_config
+      {
+        accounts: {},
+        default: nil
       }
     end
 
