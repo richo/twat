@@ -43,6 +43,14 @@ module Twat
       end
     end
 
+    def default(opts)
+      if cd[:accounts].include?(opts[:account])
+        cf[:default] = opts[:account]
+      else
+        raise NoSuchAccount
+      end
+    end
+
     def delete(opts)
       if cf.delete(opts[:account])
         cf.save!

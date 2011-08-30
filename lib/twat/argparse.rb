@@ -27,6 +27,10 @@ module Twat
           options[:account] = acct.to_sym
           options[:action] = :delete
         end
+        opts.on('--default ACCOUNT', 'Set ACCOUNT as default') do |acct|
+          options[:account] = acct.to_sym
+          options[:action] = :default
+        end
         #opts.on( '-a' '--add ACCOUNT' ) do |acct|
         #end
         opts.on('-h', '--help', 'Display this screen') do
