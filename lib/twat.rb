@@ -6,8 +6,8 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-%w[config exceptions argparse actions].each do |filename|
-  require "twat/#{filename}"
+Dir.glob("twat/*").each do |filename|
+  require filename
 end
 
 module Twat
