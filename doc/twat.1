@@ -1,0 +1,25 @@
+.TH twat 1 "September 2011" "" ""
+.SH NAME
+twat \- a cli/ruby interface to twitter.
+.SH SYNOPSIS
+.B twat [-n account] <-a|-d|tweet>
+.SH DESCRIPTION
+.B twat
+gives a simple interface to twitter from the command line.
+.SH USAGE
+generally, twat -an accountname will prompt you to authenticate via a given
+URL, and from that point on twat -n accountname "tweet" will post "tweet" to
+your twitter account.
+.SH OPTIONS
+.IP -n account
+Specify which account to connect with. If not specified, twat searches your
+config for an account named default.
+.IP -a
+Tell twat to execute the routines for authenticating itself with OAuth for your
+account.
+.IP -d
+Delete speficied account.
+.SH FILES
+.IP ~/.twatrc
+yaml file containing a mapping of account nicknames to oauth credentials.
+Should always be readable only to you.
