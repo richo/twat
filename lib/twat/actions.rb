@@ -5,16 +5,7 @@ module Twat
 
     def tweet(opts)
       # This is all broken, we should know what options we have before this happend
-      conf = cf[opts[:account]]
-
-      Twitter.configure do |twit|
-        conf.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-        Config.consumer_info.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-      end
+      twitter_auth(opts)
 
       Twitter.update(opts.msg)
       #puts opts.msg
@@ -53,6 +44,7 @@ module Twat
     end
 
     def show(opts)
+      twitter_auth(opts)
       puts "#{opts[:count]} Tweets XD"
     end
 
@@ -64,6 +56,18 @@ module Twat
 
     def cf
       @cf ||= Config.new
+    end
+
+    def twitter_auth(opts)
+      conf = cf[opts[:account]]
+      Twitter.configure do |twit|
+        conf.each do |key, value|
+          twit.send("#{key}=", value)
+        end
+        Config.consumer_info.each do |key, value|
+          twit.send("#{key}=", value)
+        end
+      end
     end
 
   end
