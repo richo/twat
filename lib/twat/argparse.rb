@@ -33,6 +33,9 @@ module Twat
           puts opts
           exit
         end
+        opts.on('-v', '--version', 'Display version info') do
+          options[:action] = :version
+        end
       end
       @optparser.parse!
       REQUIRED.each do |req|

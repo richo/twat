@@ -52,6 +52,10 @@ module Twat
       end
     end
 
+    def version(opts)
+      puts "#{$0}: #{Twat::VERSION_MAJOR}.#{Twat::VERSION_MINOR}.#{Twat::VERSION_PATCH}"
+    end
+
     private
 
     def cf
