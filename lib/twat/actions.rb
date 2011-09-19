@@ -52,6 +52,10 @@ module Twat
       end
     end
 
+    def show(opts)
+      puts "#{opts[:count]} Tweets XD"
+    end
+
     def version(opts)
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
