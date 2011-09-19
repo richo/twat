@@ -19,8 +19,13 @@ module Twat
   class Twat
     def run
       begin
-        action = Actions.new
         opts = ArgParse.new
+        configure do |twat|
+          opts.options.each do |key, value|
+            twat.send(:"#{key}=", value)
+          end
+        end
+        action = Actions.new
         action.send(opts.options[:action], opts)
       rescue Usage
         opts.usage
