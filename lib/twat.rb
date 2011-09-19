@@ -33,6 +33,9 @@ module Twat
       rescue NoConfigFile
         puts "No config file, create one with twat -a [user|nick]"
         opts.usage
+      rescue InvalidCredentials
+        puts "Invalid credentials, try reauthenticating with"
+        puts "twat -a #{opts[:account]}"
       end
     end
   end
