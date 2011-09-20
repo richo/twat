@@ -32,10 +32,10 @@ module Twat
           puts opts
           exit
         end #}}}
-        opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count|
+        opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count| #{{{ --list ACCOUNT
           options[:count] = count || 10
           options[:action] = :show
-        end
+        end #}}}
         opts.on('-v', '--version', 'Display version info') do #{{{ --version
           options[:action] = :version
         end #}}}
