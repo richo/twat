@@ -45,7 +45,11 @@ module Twat
 
     def show(opts)
       twitter_auth(opts)
-      puts "#{opts[:count]} Tweets XD"
+      Twitter.home_timeline.each_with_index do |tweet, idx|
+        puts tweet.text
+
+        break if idx == opts[:count]
+      end
     end
 
     def version(opts)
