@@ -33,6 +33,10 @@ module Twat
           puts opts
           exit
         end
+        opts.on('-u', '--user [USER]', 'Display current status for USER (Defaults to your default account)') do |user|
+          options[:account] = (user || 'default').to_sym
+          action[:user_feed]
+        end
         opts.on('-v', '--version', 'Display version info') do
           options[:action] = :version
         end
