@@ -43,5 +43,18 @@ module Twat
         puts "twat -a #{opts[:account]}"
       end
     end
+
+    # Stuff these off into a seperate piece of code somewhere
+    def configure(&block)
+      yield config
+
+      # If I understand correctly, I can check over what's
+      # happened here?
+    end
+
+    def config
+      @config ||= Config.new
+    end
+
   end
 end
