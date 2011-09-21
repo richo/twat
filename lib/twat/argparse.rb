@@ -63,8 +63,11 @@ module Twat
     def options
       begin
         @configthingfucken ||= getopts
+      # FIXME, actually do something smart, not yell and barf
       rescue OptionParser::InvalidOption
         usage "Unknown option"
+      rescue OptionParser::MissingArgument
+        usage "Missing argument"
       end
     end
 
