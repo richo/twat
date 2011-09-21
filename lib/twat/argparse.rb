@@ -57,7 +57,11 @@ module Twat
     end
 
     def options
-      @configthingfucken ||= getopts
+      begin
+        @configthingfucken ||= getopts
+      rescue OptionParser::InvalidOption
+        usage "Unknown option"
+      end
     end
 
   end
