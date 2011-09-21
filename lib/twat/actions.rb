@@ -3,15 +3,17 @@ module Twat
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
   class Actions
 
-    def tweet(opts)
-      # This is all broken, we should know what options we have before this happend
-      twitter_auth(opts)
+    attr_accessor :config
 
-      Twitter.update(opts.msg)
+    def tweet
+      # This is all broken, we should know what options we have before this happend
+      twitter_auth(config)
+
+      Twitter.update(config.msg)
       #puts opts.msg
     end
 
-    def add(opts)
+    def add
       v = Config.consumer_info.map do |key, value|
         value
       end
@@ -34,7 +36,7 @@ module Twat
       end
     end
 
-    def delete(opts)
+    def delete
       if cf.delete(opts[:account])
         cf.save!
         puts "Successfully deleted"
@@ -43,7 +45,7 @@ module Twat
       end
     end
 
-    def show(opts)
+    def show
       twitter_auth(opts)
       Twitter.home_timeline.each_with_index do |tweet, idx|
         puts "#{tweet.user.screen_name}: #{tweet.text}"
@@ -52,12 +54,13 @@ module Twat
       end
     end
 
-    def version(opts)
+    def version
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
 
     private
 
+    # This is bogus
     def cf
       @cf ||= Config.new
     end

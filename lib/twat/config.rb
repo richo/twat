@@ -1,7 +1,20 @@
 require 'ostruct'
 
 module Twat
-  class Config #< OpenStruct
+  class Twat
+    def configure(&block)
+      yield config
+
+      # If I understand correctly, I can check over what's
+      # happened here?
+    end
+
+    def config
+      @config ||= Config.new
+    end
+  end
+
+  class Config
 
     def config_path
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
@@ -20,6 +33,10 @@ module Twat
         conf.chmod(0600)
         conf.puts(@config.to_yaml)
       end
+    end
+
+    def method_missing(meth)
+      self[meth]
     end
 
     def [](key)

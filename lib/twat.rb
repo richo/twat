@@ -22,11 +22,12 @@ module Twat
         opts = ArgParse.new
         configure do |twat|
           opts.options.each do |key, value|
-            twat.send(:"#{key}=", value)
+            twat[key] = value
           end
         end
-        action = Actions.new
-        action.send(opts.options[:action], opts)
+        actor = Actions.new
+        actor.config = config
+        actor.send(opts.options[:action])
       rescue Usage
         opts.usage
       rescue NoSuchAccount
@@ -43,18 +44,5 @@ module Twat
         puts "twat -a #{opts[:account]}"
       end
     end
-
-    # Stuff these off into a seperate piece of code somewhere
-    def configure(&block)
-      yield config
-
-      # If I understand correctly, I can check over what's
-      # happened here?
-    end
-
-    def config
-      @config ||= Config.new
-    end
-
   end
 end
