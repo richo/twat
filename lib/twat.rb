@@ -6,14 +6,14 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-Dir.glob("twat/*").each do |filename|
-  require filename
+%w[config exceptions argparse actions].each do |filename|
+  require "twat/#{filename}"
 end
 
 module Twat
   VERSION_MAJOR = 0
-  VERSION_MINOR = 2
-  VERSION_PATCH = 5
+  VERSION_MINOR = 3
+  VERSION_PATCH = 0
 
   VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
@@ -38,6 +38,9 @@ module Twat
       rescue NoConfigFile
         puts "No config file, create one with twat -a [user|nick]"
         opts.usage
+      rescue InvalidCredentials
+        puts "Invalid credentials, try reauthenticating with"
+        puts "twat -a #{opts[:account]}"
       end
     end
   end

@@ -5,16 +5,7 @@ module Twat
 
     def tweet(opts)
       # This is all broken, we should know what options we have before this happend
-      conf = cf[opts[:account]]
-
-      Twitter.configure do |twit|
-        conf.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-        Config.consumer_info.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-      end
+      twitter_auth(opts)
 
       Twitter.update(opts.msg)
       #puts opts.msg
@@ -52,10 +43,35 @@ module Twat
       end
     end
 
+    def show(opts)
+      twitter_auth(opts)
+      Twitter.home_timeline.each_with_index do |tweet, idx|
+        puts "#{tweet.user.screen_name}: #{tweet.text}"
+
+        break if idx == opts[:count]
+      end
+    end
+
+    def version(opts)
+      puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
+    end
+
     private
 
     def cf
       @cf ||= Config.new
+    end
+
+    def twitter_auth(opts)
+      conf = cf[opts[:account]]
+      Twitter.configure do |twit|
+        conf.each do |key, value|
+          twit.send("#{key}=", value)
+        end
+        Config.consumer_info.each do |key, value|
+          twit.send("#{key}=", value)
+        end
+      end
     end
 
   end

@@ -16,24 +16,31 @@ module Twat
         options[:action] = :tweet
         options[:account] = :default
         opts.banner = "Usage: twat <tweet>"
-        opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT (or default)') do |acct|
+
+        opts.on('-n', '--account ACCOUNT', 'Use ACCOUNT (or default)') do |acct| #{{{ --account ACCOUNT
           options[:account] = acct.to_sym
-        end
-        opts.on('-a', '--add ACCOUNT', 'Configure and authorise ACCOUNT') do |acct|
+        end # }}}
+        opts.on('-a', '--add ACCOUNT', 'Configure and authorise ACCOUNT') do |acct| #{{{ --add ACCOUNT
           options[:account] = acct.to_sym
           options[:action] = :add
-        end
-        opts.on('-d', '--delete ACCOUNT', 'Delete ACCOUNT') do |acct|
+        end #}}}
+        opts.on('-d', '--delete ACCOUNT', 'Delete ACCOUNT') do |acct| #{{{ --delete ACCOUNT
           options[:account] = acct.to_sym
           options[:action] = :delete
-        end
-        #opts.on( '-a' '--add ACCOUNT' ) do |acct|
-        #end
-        opts.on('-h', '--help', 'Display this screen') do
+        end #}}}
+        opts.on('-h', '--help', 'Display this screen') do #{{{ --help
           puts opts
           exit
-        end
+        end #}}}
+        opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count| #{{{ --list ACCOUNT
+          options[:count] = count || 10
+          options[:action] = :show
+        end #}}}
+        opts.on('-v', '--version', 'Display version info') do #{{{ --version
+          options[:action] = :version
+        end #}}}
       end
+
       @optparser.parse!
       REQUIRED.each do |req|
         usage unless options[req]
@@ -54,7 +61,11 @@ module Twat
     end
 
     def options
-      @configthingfucken ||= getopts
+      begin
+        @configthingfucken ||= getopts
+      rescue OptionParser::InvalidOption
+        usage "Unknown option"
+      end
     end
 
   end
