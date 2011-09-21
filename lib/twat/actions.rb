@@ -3,15 +3,16 @@ module Twat
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
   class Actions
 
-    def tweet(opts)
-      # This is all broken, we should know what options we have before this happend
-      twitter_auth(opts)
+    attr_accessor :config, :opts
+
+    def tweet
+      twitter_auth
 
       Twitter.update(opts.msg)
       #puts opts.msg
     end
 
-    def add(opts)
+    def add
       v = Config.consumer_info.map do |key, value|
         value
       end
@@ -24,27 +25,27 @@ module Twat
       pin = gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
-        cf[opts[:account]] = {
+        config[opts[:account]] = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret
         }
-        cf.save! 
+        config.save!
       rescue OAuth::Unauthorized
         puts "Couldn't authenticate you, did you enter the pin correctly?"
       end
     end
 
-    def delete(opts)
-      if cf.delete(opts[:account])
-        cf.save!
+    def delete
+      if config.delete(opts[:account])
+        config.save!
         puts "Successfully deleted"
       else
         puts "No such account"
       end
     end
 
-    def show(opts)
-      twitter_auth(opts)
+    def show
+      twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
         puts "#{tweet.user.screen_name}: #{tweet.text}"
 
@@ -52,26 +53,25 @@ module Twat
       end
     end
 
-    def version(opts)
+    def version
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
 
     private
 
-    def cf
-      @cf ||= Config.new
-    end
-
-    def twitter_auth(opts)
-      conf = cf[opts[:account]]
+    def twitter_auth
       Twitter.configure do |twit|
-        conf.each do |key, value|
+        account.each do |key, value|
           twit.send("#{key}=", value)
         end
         Config.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
       end
+    end
+
+    def account
+      @account ||= config[opts[:account]]
     end
 
   end

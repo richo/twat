@@ -17,11 +17,13 @@ module Twat
 
   VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
-    def run
+    def cli_run
       begin
-        action = Actions.new
         opts = ArgParse.new
-        action.send(opts.options[:action], opts)
+        actor = Actions.new
+        actor.config = config
+        actor.opts = opts
+        actor.send(opts.options[:action])
       rescue Usage
         opts.usage
       rescue NoSuchAccount
