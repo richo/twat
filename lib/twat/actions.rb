@@ -37,7 +37,7 @@ module Twat
     end
 
     def delete
-      if cf.delete(opts[:account])
+      if delete_account(config[:account])
         cf.save!
         puts "Successfully deleted"
       else
