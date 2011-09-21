@@ -3,3 +3,11 @@ twat -l [count] -> <count entries from newsfeed>
 # Include who tweeted...
 
 catch invalid options and return opts
+
+
+CONFIG FILE
+===========
+
+This really does need to change, but I'm not sure where on the "Can piss off a userbase" scale I am, (ie, do I have one)
+
+For now I'm going to leave it, and if it gets to 1.0 I'll fix it then.
