@@ -25,19 +25,19 @@ module Twat
       pin = gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
-        cf[opts[:account]] = {
+        config[opts[:account]] = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret
         }
-        cf.save! 
+        config.save!
       rescue OAuth::Unauthorized
         puts "Couldn't authenticate you, did you enter the pin correctly?"
       end
     end
 
     def delete
-      if delete_account(config[:account])
-        cf.save!
+      if config.delete(opts[:account])
+        config.save!
         puts "Successfully deleted"
       else
         puts "No such account"
@@ -60,15 +60,18 @@ module Twat
     private
 
     def twitter_auth
-      conf = config[opts[:account]]
       Twitter.configure do |twit|
-        conf.each do |key, value|
+        account.each do |key, value|
           twit.send("#{key}=", value)
         end
         Config.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
       end
+    end
+
+    def account
+      @account ||= config[opts[:account]]
     end
 
   end

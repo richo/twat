@@ -57,11 +57,5 @@ module Twat
       }
     end
 
-    # pretty wrappers
-    #
-    def delete_account(account)
-      config.delete(config[account])
-    end
-
   end
 end
