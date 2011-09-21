@@ -17,7 +17,7 @@ module Twat
         options[:account] = :default
         opts.banner = "Usage: twat <tweet>"
 
-        opts.on('-n', '--account ACCOUNT', 'Tweet from ACCOUNT (or default)') do |acct| #{{{ --account ACCOUNT
+        opts.on('-n', '--account ACCOUNT', 'Use ACCOUNT (or default)') do |acct| #{{{ --account ACCOUNT
           options[:account] = acct.to_sym
         end # }}}
         opts.on('-a', '--add ACCOUNT', 'Configure and authorise ACCOUNT') do |acct| #{{{ --add ACCOUNT
@@ -31,6 +31,10 @@ module Twat
         opts.on('-h', '--help', 'Display this screen') do #{{{ --help
           puts opts
           exit
+        end #}}}
+        opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count| #{{{ --list ACCOUNT
+          options[:count] = count || 10
+          options[:action] = :show
         end #}}}
         opts.on('-v', '--version', 'Display version info') do #{{{ --version
           options[:action] = :version
