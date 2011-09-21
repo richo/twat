@@ -1,2 +1,5 @@
 twat -l -> <newsfeed>
 twat -l [count] -> <count entries from newsfeed>
+# Include who tweeted...
+
+catch invalid options and return opts
