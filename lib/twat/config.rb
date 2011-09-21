@@ -1,5 +1,3 @@
-require 'ostruct'
-
 module Twat
   class Twat
     def configure(&block)

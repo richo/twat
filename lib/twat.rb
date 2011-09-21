@@ -20,13 +20,9 @@ module Twat
     def cli_run
       begin
         opts = ArgParse.new
-        configure do |twat|
-          opts.options.each do |key, value|
-            twat[key] = value
-          end
-        end
         actor = Actions.new
         actor.config = config
+        actor.opts = opts
         actor.send(opts.options[:action])
       rescue Usage
         opts.usage

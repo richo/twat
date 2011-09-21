@@ -3,13 +3,12 @@ module Twat
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
   class Actions
 
-    attr_accessor :config
+    attr_accessor :config, :opts
 
     def tweet
-      # This is all broken, we should know what options we have before this happend
-      twitter_auth(config)
+      twitter_auth
 
-      Twitter.update(config.msg)
+      Twitter.update(opts.msg)
       #puts opts.msg
     end
 
@@ -46,7 +45,7 @@ module Twat
     end
 
     def show
-      twitter_auth(opts)
+      twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
         puts "#{tweet.user.screen_name}: #{tweet.text}"
 
@@ -60,13 +59,8 @@ module Twat
 
     private
 
-    # This is bogus
-    def cf
-      @cf ||= Config.new
-    end
-
-    def twitter_auth(opts)
-      conf = cf[opts[:account]]
+    def twitter_auth
+      conf = config[opts[:account]]
       Twitter.configure do |twit|
         conf.each do |key, value|
           twit.send("#{key}=", value)
