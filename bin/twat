@@ -3,4 +3,4 @@
 require 'twat'
 
 inst = Twat::Twat.new
-inst.run
+inst.cli_run

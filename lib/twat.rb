@@ -17,7 +17,7 @@ module Twat
 
   VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
-    def run
+    def cli_run
       begin
         opts = ArgParse.new
         configure do |twat|
