@@ -39,6 +39,10 @@ module Twat
         opts.on('-v', '--version', 'Display version info') do #{{{ --version
           options[:action] = :version
         end #}}}
+        opts.on("--set-default ACCOUNT", 'Set ACCOUNT as default') do #{{{ --set-default ACCOUNT
+          options[:action] = :setdefault
+          options[:account] = acct.to_sym
+        end #}}}
       end
 
       @optparser.parse!

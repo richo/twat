@@ -44,6 +44,15 @@ module Twat
       end
     end
 
+    def setdefault
+      unless config.accounts.include?opts[:account]
+        raise NoSuchAccount
+      end
+
+      config[:default] = opts[:account]
+      puts "Successfully set #{opts[:account]} as default"
+    end
+
     def show
       twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
