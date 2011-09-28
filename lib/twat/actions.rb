@@ -25,7 +25,7 @@ module Twat
       pin = gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
-        config[opts[:account]] = {
+        config.accounts[opts[:account]] = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret
         }
@@ -36,7 +36,7 @@ module Twat
     end
 
     def delete
-      if config.delete(opts[:account])
+      if config.accounts.delete(opts[:account])
         config.save!
         puts "Successfully deleted"
       else

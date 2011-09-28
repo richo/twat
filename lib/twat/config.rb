@@ -37,24 +37,13 @@ module Twat
       self[meth]
     end
 
-    def [](key)
-      raise NoSuchAccount unless config.include?(key)
-      config[key]
-    end
-
-    def []=(key, value)
-      config[key] = value
-    end
-
-    def delete(key)
-      config.delete(key)
-    end
-
     def accounts
       return config[:accounts]
     end
 
     def default_account
+      raise NoDefaultAccount unless config.include?(:default)
+      raise NoSuchAccount unless config[:accounts].include(config[:default])
       return config[:accounts][config[:default]]
     end
 

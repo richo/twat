@@ -29,6 +29,9 @@ module Twat
       rescue NoSuchAccount
         puts "No such account"
         opts.usage
+      rescue NoDefaultAccount
+        puts "No default account configured."
+        puts "Which is unfortunate, as setting one is not implemented yet"
       rescue NoMethodError
         puts "No such command"
         opts.usage
