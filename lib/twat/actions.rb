@@ -71,7 +71,12 @@ module Twat
     end
 
     def account
-      @account ||= config[opts[:account]]
+      @account ||=
+        if opts.include?(:account)
+          config.accounts[opts[:account]]
+        else
+          config.default_account
+        end
     end
 
   end

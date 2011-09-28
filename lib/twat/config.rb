@@ -50,6 +50,14 @@ module Twat
       config.delete(key)
     end
 
+    def accounts
+      return config[:accounts]
+    end
+
+    def default_account
+      return config[:accounts][config[:default]]
+    end
+
     def self.consumer_info
       {
         consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
