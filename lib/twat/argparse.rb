@@ -43,6 +43,9 @@ module Twat
           options[:action] = :setdefault
           options[:account] = acct.to_sym
         end #}}}
+        opts.on("--update-config", "Update config to latest version") do #{{{ --update-config
+          options[:action] = :updateconfig
+        end #}}}
       end
 
       @optparser.parse!

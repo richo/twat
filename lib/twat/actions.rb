@@ -53,6 +53,10 @@ module Twat
       puts "Successfully set #{opts[:account]} as default"
     end
 
+    def updateconfig
+      puts "Sadly, not implemented"
+    end
+
     def show
       twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
