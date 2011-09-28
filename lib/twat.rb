@@ -40,6 +40,8 @@ module Twat
       rescue InvalidCredentials
         puts "Invalid credentials, try reauthenticating with"
         puts "twat -a #{opts[:account]}"
+      rescue ConfigVersionIncorrect
+        puts "Your config file is out of date. Run with --update-config to rememdy"
       end
     end
   end

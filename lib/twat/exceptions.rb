@@ -4,4 +4,5 @@ module Twat
   class NoConfigFile < Exception; end
   class Usage < Exception; end
   class InvalidCredentials < Exception; end
+  class ConfigVersionIncorrect < Exception; end
 end

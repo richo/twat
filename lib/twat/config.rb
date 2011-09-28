@@ -21,9 +21,16 @@ module Twat
     def config
       begin
         @config ||= YAML.load_file(config_path)
+        unless valid?(@config)
+          raise ConfigVersionIncorrect
+        end
       rescue Errno::ENOENT
         raise NoConfigFile
       end
+    end
+
+    def valid(conf)
+      true # FIXME
     end
 
     def save!
