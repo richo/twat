@@ -18,6 +18,10 @@ class String
   def cyan
     "[36m#{self}[39m"
   end
+
+  def bold
+    "[1m#{self}[22m"
+  end
 end
 
 module Twat
