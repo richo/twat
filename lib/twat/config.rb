@@ -21,16 +21,15 @@ module Twat
     def config
       begin
         @config ||= YAML.load_file(config_path)
-        unless valid?(@config)
-          raise ConfigVersionIncorrect
-        end
+        validate(@config)
       rescue Errno::ENOENT
         raise NoConfigFile
       end
     end
 
-    def valid(conf)
-      true # FIXME
+    def validate(conf)
+      # TODO Proper checks, instead of a series of hackish checks
+      raise ConfigVersionIncorrect unless conf.include?(:accounts)
     end
 
     def save!
