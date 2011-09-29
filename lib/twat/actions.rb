@@ -53,6 +53,12 @@ module Twat
       end
     end
 
+    def user_feed
+      twitter_auth
+      # Fix :default case
+      puts Twitter.user_timeline(opts[:account]).first.text
+    end
+
     def version
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
