@@ -83,6 +83,15 @@ module Twat
       end
     end
 
+    def account_name
+      @account_name ||=
+        if opts.include?(:account)
+          opts[:account]
+        else
+          config[:default]
+        end
+    end
+
     def account
       @account ||=
         if opts.include?(:account)
