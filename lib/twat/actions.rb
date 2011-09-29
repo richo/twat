@@ -57,6 +57,10 @@ module Twat
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
 
+    def method_missing
+      raise NoSuchCommand
+    end
+
     private
 
     def twitter_auth

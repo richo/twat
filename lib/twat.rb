@@ -43,7 +43,7 @@ module Twat
       rescue NoSuchAccount
         puts "No such account"
         opts.usage
-      rescue NoMethodError
+      rescue NoSuchCommand
         puts "No such command"
         opts.usage
       rescue NoConfigFile
