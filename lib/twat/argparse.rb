@@ -40,8 +40,8 @@ module Twat
           options[:action] = :version
         end
         opts.on('-u', '--user [USER]', 'Display current status for USER (Defaults to your default account)') do |user| #{{{ --user USER
-          options[:account] = (user || 'default').to_sym
-          action[:user_feed]
+          options[:user] = (user || :default)
+          options[:action] = :user_feed
         end #}}}
       end
 

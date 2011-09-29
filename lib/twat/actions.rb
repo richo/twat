@@ -56,7 +56,7 @@ module Twat
     def user_feed
       twitter_auth
       # Fix :default case
-      puts Twitter.user_timeline(opts[:account]).first.text
+      puts Twitter.user_timeline(opts[:user]).first.text
     end
 
     def version
