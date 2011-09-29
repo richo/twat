@@ -1,8 +1,25 @@
 = Twat
 
-Twat is a barebones cli interface to twitter, to let me tweet from my shell,
-where I do nearly everything. If it's useful to one person other than me then
-it's far exceeded my expectations.
+Like twitter? Hate GUIs? twat might be for you.
+
+in it's simplest form, twat is a tweeting thing. I wrote it so I could
+tweet from my hacktop at a conference.
+
+twat tweet goes here.
+
+simple. You'll need to hide metacharacters from your shell though. It
+can also do other neat things:
+
+twat -l [count]
+
+will get you 10 (or count) items from your news feed. You can have
+multiple accounts to specify with -n [account]. You can add more (-a).
+You can delete them.
+
+You can even stalk users with twat -u USER. Twat does everything.
+
+(Actually twat doesn't do lots of things, in truth, if one other person
+than me finds it useful, it will have far exceeded my expections)
 
 == Release status
 
