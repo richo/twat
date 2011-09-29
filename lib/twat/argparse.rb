@@ -4,6 +4,8 @@ module Twat
 
   class ArgParse
 
+    # TODO delegate specifically instead of shimming everything?
+
     def usage(additional=nil)
       puts additional if additional
       puts @optparser
@@ -65,6 +67,10 @@ module Twat
 
     def [](key)
       options[key]
+    end
+
+    def include?(key)
+      options.include?(key)
     end
 
     def options
