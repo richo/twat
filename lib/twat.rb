@@ -10,6 +10,20 @@ require 'oauth'
   require "twat/#{filename}"
 end
 
+class String
+  def red
+    "[31m#{self}[39m"
+  end
+
+  def cyan
+    "[36m#{self}[39m"
+  end
+
+  def bold
+    "[1m#{self}[22m"
+  end
+end
+
 module Twat
   VERSION_MAJOR = 0
   VERSION_MINOR = 3
