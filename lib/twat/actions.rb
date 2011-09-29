@@ -56,7 +56,9 @@ module Twat
     def user_feed
       twitter_auth
       # Fix :default case
-      puts Twitter.user_timeline(opts[:user]).first.text
+      Twitter.user_timeline(opts[:user]).first.tap do |tweet|
+        puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
+      end
     end
 
     def version
