@@ -58,6 +58,8 @@ module Twat
     end
 
     def show
+      puts account
+      return
       twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
         puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
@@ -108,7 +110,7 @@ module Twat
         if opts.include?(:account)
           opts[:account]
         else
-          config.default_account
+          config.default_account.to_sym
         end
     end
 
