@@ -60,5 +60,9 @@ module Twat
       }
     end
 
+    def []=(k, v)
+      config[k] = v
+    end
+
   end
 end

@@ -42,7 +42,7 @@ module Twat
           options[:user] = (user || :default)
           options[:action] = :user_feed
         end #}}}
-        opts.on("--set-default ACCOUNT", 'Set ACCOUNT as default') do #{{{ --set-default ACCOUNT
+        opts.on("--set-default ACCOUNT", 'Set ACCOUNT as default') do |acct| #{{{ --set-default ACCOUNT
           options[:action] = :setdefault
           options[:account] = acct.to_sym
         end #}}}

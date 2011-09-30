@@ -45,11 +45,12 @@ module Twat
     end
 
     def setdefault
-      unless config.accounts.include?opts[:account]
+      unless config.accounts.include?(opts[:account])
         raise NoSuchAccount
       end
 
       config[:default] = opts[:account]
+      config.save!
       puts "Successfully set #{opts[:account]} as default"
     end
 
