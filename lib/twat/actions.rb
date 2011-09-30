@@ -55,9 +55,13 @@ module Twat
 
     def user_feed
       twitter_auth
-      # Fix :default case
-      Twitter.user_timeline(opts[:user]).first.tap do |tweet|
-        puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
+
+      begin
+        Twitter.user_timeline(opts[:user]).first.tap do |tweet|
+          puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
+        end
+      rescue Twitter::NotFound
+        puts "#{opts[:user].bold.red} doesn't appear to be a valid user"
       end
     end
 
