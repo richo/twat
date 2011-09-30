@@ -4,6 +4,8 @@ module Twat
 
   class ArgParse
 
+    # TODO delegate specifically instead of shimming everything?
+
     def usage(additional=nil)
       puts additional if additional
       puts @optparser
