@@ -38,6 +38,10 @@ module Twat
         end #}}}
         opts.on('-v', '--version', 'Display version info') do #{{{ --version
           options[:action] = :version
+        end
+        opts.on('-u', '--user [USER]', 'Display current status for USER (Defaults to your default account)') do |user| #{{{ --user USER
+          options[:user] = (user || :default)
+          options[:action] = :user_feed
         end #}}}
         opts.on("--set-default ACCOUNT", 'Set ACCOUNT as default') do #{{{ --set-default ACCOUNT
           options[:action] = :setdefault

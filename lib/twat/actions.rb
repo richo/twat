@@ -60,14 +60,30 @@ module Twat
     def show
       twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
-        puts "#{tweet.user.screen_name}: #{tweet.text}"
+        puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
 
         break if idx == opts[:count]
       end
     end
 
+    def user_feed
+      twitter_auth
+
+      begin
+        Twitter.user_timeline(opts[:user]).first.tap do |tweet|
+          puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
+        end
+      rescue Twitter::NotFound
+        puts "#{opts[:user].bold.red} doesn't appear to be a valid user"
+      end
+    end
+
     def version
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
+    end
+
+    def method_missing
+      raise NoSuchCommand
     end
 
     private

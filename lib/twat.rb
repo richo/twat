@@ -10,10 +10,24 @@ require 'oauth'
   require "twat/#{filename}"
 end
 
+class String
+  def red
+    "[31m#{self}[39m"
+  end
+
+  def cyan
+    "[36m#{self}[39m"
+  end
+
+  def bold
+    "[1m#{self}[22m"
+  end
+end
+
 module Twat
   VERSION_MAJOR = 0
   VERSION_MINOR = 3
-  VERSION_PATCH = 2
+  VERSION_PATCH = 5
 
   VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
@@ -31,7 +45,7 @@ module Twat
         opts.usage
       rescue NoDefaultAccount
         puts "No default account configured."
-      rescue NoMethodError
+      rescue NoSuchCommand
         puts "No such command"
         opts.usage
       rescue NoConfigFile
