@@ -1,5 +1,5 @@
 module Twat
-  REQUIRED = [:account]
+  REQUIRED = []
   MSG_REQUIRED = [:tweet]
 
   class ArgParse
@@ -14,7 +14,6 @@ module Twat
       options = Hash.new
       @optparser = OptionParser.new do |opts|
         options[:action] = :tweet
-        options[:account] = :default
         opts.banner = "Usage: twat <tweet>"
 
         opts.on('-n', '--account ACCOUNT', 'Use ACCOUNT (or default)') do |acct| #{{{ --account ACCOUNT

@@ -50,8 +50,7 @@ module Twat
 
     def default_account
       raise NoDefaultAccount unless config.include?(:default)
-      raise NoSuchAccount unless config[:accounts].include(config[:default])
-      return config[:accounts][config[:default]]
+      return config[:default].to_sym
     end
 
     def self.consumer_info
