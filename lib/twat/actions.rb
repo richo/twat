@@ -55,7 +55,7 @@ module Twat
     end
 
     def updateconfig
-      puts "Sadly, not implemented"
+      config.update!
     end
 
     def show

@@ -64,5 +64,13 @@ module Twat
       config[k] = v
     end
 
+    # update! migrates an old config file to the current API
+    # it does this by calling a sequence of migration functions in order
+    # which rebuild the config in stages, saving and leaving it in a
+    # consistent step at each point
+    def update!
+      Migrate.new.migrate!(config_path)
+    end
+
   end
 end
