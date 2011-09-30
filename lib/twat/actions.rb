@@ -61,7 +61,7 @@ module Twat
     def show
       twitter_auth
       Twitter.home_timeline.each_with_index do |tweet, idx|
-        puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
+        format(tweet)
 
         break if idx == opts[:count]
       end
@@ -88,6 +88,16 @@ module Twat
     end
 
     private
+
+    # Format a tweet all pretty like
+    def format(twt)
+      # if config.color
+      if twt.user.screen_name == account_name.to_s
+        puts "#{twt.user.screen_name.bold.blue}: #{twt.text}"
+      else
+        puts "#{twt.user.screen_name.bold.cyan}: #{twt.text}"
+      end
+    end
 
     def twitter_auth
       Twitter.configure do |twit|
