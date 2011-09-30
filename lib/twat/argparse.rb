@@ -71,6 +71,10 @@ module Twat
       options[key]
     end
 
+    def include?(key)
+      options.include?(key)
+    end
+
     def options
       begin
         @configthingfucken ||= getopts
