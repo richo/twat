@@ -44,9 +44,9 @@ module Twat
           options[:user] = (user || :default)
           options[:action] = :user_feed
         end #}}}
-        opts.on("--set-default ACCOUNT", 'Set ACCOUNT as default') do |acct| #{{{ --set-default ACCOUNT
-          options[:action] = :setdefault
-          options[:account] = acct.to_sym
+        opts.on("--set OPTION=VALUE", 'Set OPTION to VALUE') do |optval| #{{{ --set OPTION=VALUE
+          options[:action] = :setoption
+          options[:optval] = optval
         end #}}}
         opts.on("--update-config", "Update config to latest version") do #{{{ --update-config
           options[:action] = :updateconfig
