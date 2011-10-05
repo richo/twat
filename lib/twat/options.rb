@@ -3,7 +3,7 @@ module Twat
 
     # A set of wrappers around the global config object to set given attributes
     # Catching failures is convenient because of the method_missing? hook
-    def method_missing
+    def method_missing(sym, *args, &block)
       raise InvalidSetOpt
     end
 
@@ -15,11 +15,12 @@ module Twat
     # withing the method_missing method, but that will just lead to nastiness
     # later when I implement colors, for example.
     def default=(value)
-      unless config.accounts.include?(opts[:account])
+      val = value.to_sym
+      unless config.accounts.include?(val)
         raise NoSuchAccount
       end
 
-      config[:default] = value
+      config[:default] = val
       config.save!
     end
 

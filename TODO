@@ -18,3 +18,8 @@ COLORS!
 twat -l should dump colors to terminal (This should be configurable tho)
 
 Refactor tweet printing code, unify throughout
+
+MIGRATIONS
+==========
+
+Shouldn't run if config is up to date

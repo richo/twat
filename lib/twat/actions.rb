@@ -44,7 +44,7 @@ module Twat
       end
     end
 
-    def setopt
+    def setoption
       k, v = opts[:optval].split("=")
       raise RequiresOptVal unless v
       options = Options.new
@@ -82,7 +82,7 @@ module Twat
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
 
-    def method_missing
+    def method_missing(sym, *args, &block)
       raise NoSuchCommand
     end
 

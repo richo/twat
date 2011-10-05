@@ -63,6 +63,11 @@ module Twat
       rescue NoConfigFile
         puts "No config file, create one with twat -a [user|nick]"
         opts.usage
+      rescue InvalidSetOpt
+        puts "There is no such configurable option"
+        opts.usage
+      rescue RequiresOptVal
+        puts "--set must take an option=value pair as arguments"
       rescue InvalidCredentials
         puts "Invalid credentials, try reauthenticating with"
         puts "twat -a #{opts[:account]}"
