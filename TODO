@@ -18,3 +18,11 @@ COLORS!
 twat -l should dump colors to terminal (This should be configurable tho)
 
 Refactor tweet printing code, unify throughout
+
+TODO
+====
+
+Finish the config stuff (change --set-default <acct> to --set
+DEFAULT=<acct>)
+implement twat -f that just ticks by (have some option to ring a bell or
+some shit)
