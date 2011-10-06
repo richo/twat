@@ -2,7 +2,18 @@ module Twat
   class Migrate
     def migrate!(filename)
       @file = filename
-      migration_1
+      @ran = []
+      migration_1 if migration_1?
+      if @ran.any?
+        puts "Successfully ran migrations: #{@ran.join(", ")}"
+      else
+        puts "Already up to date"
+      end
+    end
+
+    def migration_1?
+      current = YAML.load_file(@file)
+      return !current.include?(:accounts)
     end
 
     def migration_1
@@ -26,6 +37,7 @@ module Twat
       end
 
       save(new)
+      @ran << "1"
     end
 
     def save(cf)

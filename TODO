@@ -23,3 +23,11 @@ MIGRATIONS
 ==========
 
 Shouldn't run if config is up to date
+
+TODO
+====
+
+Finish the config stuff (change --set-default <acct> to --set
+DEFAULT=<acct>)
+implement twat -f that just ticks by (have some option to ring a bell or
+some shit)
