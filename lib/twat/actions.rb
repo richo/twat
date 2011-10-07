@@ -100,7 +100,6 @@ module Twat
           # Disregard that, once per 60 seconds is plenty
           sleep 60
           tweets = Twitter.home_timeline(:since_id => last_id)
-          puts Twitter.rate_limit_status.remaining_hits.to_s + " Twitter API request(s) remaining this hour"
         end
       rescue Interrupt
       end
