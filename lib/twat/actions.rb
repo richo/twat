@@ -71,6 +71,7 @@ module Twat
 
     # @return last_id
     def process_followed(tweets)
+      last_id = nil
       tweets.reverse.each do |tweet|
         format(tweet)
         last_id = tweet.id
@@ -89,11 +90,19 @@ module Twat
 
       # Get 5 tweets
       tweets = Twitter.home_timeline(:count => 5)
-      while true do
-        last_id = process(tweets)
-        # FIXME
-        sleep 15
-        tweets = Twitter.home_timeline(:since => last_id)
+      begin
+        while true do
+          last_id = process_followed(tweets) if tweets.any?
+          # Sleep 15 seconds between requests
+          # If left running at all times, that's 240 requests per hour, well
+          # under the limit
+          # sleep 15
+          # Disregard that, once per 60 seconds is plenty
+          sleep 60
+          tweets = Twitter.home_timeline(:since_id => last_id)
+          puts Twitter.rate_limit_status.remaining_hits.to_s + " Twitter API request(s) remaining this hour"
+        end
+      rescue Interrupt
       end
     end
 
