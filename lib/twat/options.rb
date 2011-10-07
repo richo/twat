@@ -46,5 +46,12 @@ module Twat
       config.save!
     end
 
+    def beep=(value)
+      val = value.to_sym
+      raise InvalidBool unless Options.bool_valid?(val)
+      config[:beep] = val
+      config.save!
+    end
+
   end
 end

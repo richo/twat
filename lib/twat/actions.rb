@@ -72,6 +72,7 @@ module Twat
     def process_followed(tweets)
       last_id = nil
       tweets.reverse.each do |tweet|
+        beep if config.beep? && tweet.text.mentions?(account_name)
         format(tweet)
         last_id = tweet.id
       end
@@ -173,6 +174,10 @@ module Twat
         else
           config.default_account
         end
+    end
+
+    def beep
+      print "\a"
     end
 
   end

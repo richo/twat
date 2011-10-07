@@ -53,6 +53,11 @@ module Twat
       Options.bool_true?(colors)
     end
 
+    def beep?
+      beep = config[:beep] || "false"
+      Options.bool_true?(beep)
+    end
+
     def default_account
       raise NoDefaultAccount unless config.include?(:default)
       return config[:default].to_sym
