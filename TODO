@@ -1,33 +1,17 @@
-twat -l -> <newsfeed>
-twat -l [count] -> <count entries from newsfeed>
-# Include who tweeted...
-
 catch invalid options and return opts
-
-
-CONFIG FILE
-===========
-
-This really does need to change, but I'm not sure where on the "Can piss off a userbase" scale I am, (ie, do I have one)
-
-For now I'm going to leave it, and if it gets to 1.0 I'll fix it then.
 
 COLORS!
 =======
 
-twat -l should dump colors to terminal (This should be configurable tho)
-
 Refactor tweet printing code, unify throughout
 
-MIGRATIONS
-==========
-
-Shouldn't run if config is up to date
 
 TODO
 ====
 
-Finish the config stuff (change --set-default <acct> to --set
-DEFAULT=<acct>)
-implement twat -f that just ticks by (have some option to ring a bell or
-some shit)
+Configurable polling interval
+(which carries with it warnings if it's too short.. which means a warn
+method.. which means abstracting it's output..)
+
+On the upside, it'll make unit testing similar.  
+(Add unit tests)
