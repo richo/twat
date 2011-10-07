@@ -25,9 +25,13 @@ Display a short summary of twat's options.
 .IP -u USER
 Retrieve a list of USER's recent tweets. Note this will retrieve all of their
 tweets as opposed to just what would have appeared in your feed.
-.IP --set
-Options are configured with --set. At time of writing the only configurable
-options is default, the account to use if none is specified with -n
+.SH CONFIGURATION
+Options are configured with --set OPTION=VALUE.
+Options include
+.IP default=account
+Sets account as the default
+.IP colors=<true|false>
+Turns colors on or off in the output from twat.
 .IP --update-config
 Twat is a rolling release and as such, sometimes it is necessary to change the
 format of it's internal config file. Rather than making changes without user
