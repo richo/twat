@@ -11,6 +11,8 @@ require 'oauth'
 end
 
 class String
+  # TODO - It'd be nice to implement the colors support here, maybe even only
+  # mix this in if it's enabled?
   def red
     "[31m#{self}[39m"
   end
@@ -33,6 +35,10 @@ class String
 
   def bold
     "[1m#{self}[22m"
+  end
+
+  def mentions?(name)
+    return self.downcase.include?(name.to_s.downcase)
   end
 end
 

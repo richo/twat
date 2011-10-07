@@ -132,6 +132,8 @@ module Twat
       if config.colors?
         if twt.user.screen_name == account_name.to_s
           puts "#{twt.user.screen_name.bold.blue}: #{twt.text}"
+        elsif twt.text.mentions?(account_name)
+          puts "#{twt.user.screen_name.bold.red}: #{twt.text}"
         else
           puts "#{twt.user.screen_name.bold.cyan}: #{twt.text}"
         end
