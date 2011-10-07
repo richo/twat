@@ -66,12 +66,51 @@ module Twat
       end
     end
 
+    private
+
+    # @return last_id
+    def process_followed(tweets)
+      last_id = nil
+      tweets.reverse.each do |tweet|
+        format(tweet)
+        last_id = tweet.id
+      end
+
+      return last_id
+    end
+
+    public
+
+    def follow
+      # I can't see any way to poll the server for updates, so in the meantime
+      # we will have to retrieve a few tweets from the timeline, and then poll
+      # occasionally :/
+      twitter_auth
+
+      # Get 5 tweets
+      tweets = Twitter.home_timeline(:count => 5)
+      begin
+        while true do
+          last_id = process_followed(tweets) if tweets.any?
+          # Sleep 15 seconds between requests
+          # If left running at all times, that's 240 requests per hour, well
+          # under the limit
+          # sleep 15
+          # Disregard that, once per 60 seconds is plenty
+          sleep 60
+          tweets = Twitter.home_timeline(:since_id => last_id)
+        end
+      rescue Interrupt
+      end
+    end
+
     def user_feed
       twitter_auth
 
       begin
-        Twitter.user_timeline(opts[:user]).first.tap do |tweet|
+        Twitter.user_timeline(opts[:user]).each_with_index do |tweet, idx|
           puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
+          break if idx == opts[:count]
         end
       rescue Twitter::NotFound
         puts "#{opts[:user].bold.red} doesn't appear to be a valid user"

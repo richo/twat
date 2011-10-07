@@ -14,8 +14,9 @@ module Twat
 
     def getopts
       options = Hash.new
+      options[:action] = :tweet
+      options[:count] = 1
       @optparser = OptionParser.new do |opts|
-        options[:action] = :tweet
         opts.banner = "Usage: twat <tweet>"
 
         opts.on('-n', '--account ACCOUNT', 'Use ACCOUNT (or default)') do |acct| #{{{ --account ACCOUNT
@@ -36,6 +37,9 @@ module Twat
         opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count| #{{{ --list ACCOUNT
           options[:count] = count || 10
           options[:action] = :show
+        end #}}}
+        opts.on('-f', '--follow', 'Display tweets from your newsfeed indefinitely') do #{{{ --follow
+          options[:action] = :follow
         end #}}}
         opts.on('-v', '--version', 'Display version info') do #{{{ --version
           options[:action] = :version
