@@ -3,6 +3,10 @@ module Twat
     BOOL_TRUE=["yes", "true", "1", "on"]
     BOOL_FALSE=["no", "false", "0", "off"]
     BOOL_VALS = BOOL_TRUE + BOOL_FALSE
+
+    # TODO - Some meta programming to just define boolean values ala
+    # attr_accessor
+
     def self.bool_true?(val)
       BOOL_TRUE.include?(val.to_s.downcase)
     end
