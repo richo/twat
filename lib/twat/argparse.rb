@@ -36,6 +36,9 @@ module Twat
           options[:count] = count || 10
           options[:action] = :show
         end #}}}
+        opts.on('-f', '--follow', 'Display tweets from your newsfeed indefinitely') do #{{{ --follow
+          options[:action] = :follow
+        end #}}}
         opts.on('-v', '--version', 'Display version info') do #{{{ --version
           options[:action] = :version
         end #}}}

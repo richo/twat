@@ -67,6 +67,36 @@ module Twat
       end
     end
 
+    private
+
+    # @return last_id
+    def process_followed(tweets)
+      tweets.reverse.each do |tweet|
+        format(tweet)
+        last_id = tweet.id
+      end
+
+      return last_id
+    end
+
+    public
+
+    def follow
+      # I can't see any way to poll the server for updates, so in the meantime
+      # we will have to retrieve a few tweets from the timeline, and then poll
+      # occasionally :/
+      twitter_auth
+
+      # Get 5 tweets
+      tweets = Twitter.home_timeline(:count => 5)
+      while true do
+        last_id = process(tweets)
+        # FIXME
+        sleep 15
+        tweets = Twitter.home_timeline(:since => last_id)
+      end
+    end
+
     def user_feed
       twitter_auth
 
