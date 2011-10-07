@@ -130,17 +130,25 @@ module Twat
 
     # Format a tweet all pretty like
     def format(twt)
+      text = deentitize(twt.text)
       if config.colors?
         if twt.user.screen_name == account_name.to_s
-          puts "#{twt.user.screen_name.bold.blue}: #{twt.text}"
-        elsif twt.text.mentions?(account_name)
-          puts "#{twt.user.screen_name.bold.red}: #{twt.text}"
+          puts "#{twt.user.screen_name.bold.blue}: #{text}"
+        elsif text.mentions?(account_name)
+          puts "#{twt.user.screen_name.bold.red}: #{text}"
         else
-          puts "#{twt.user.screen_name.bold.cyan}: #{twt.text}"
+          puts "#{twt.user.screen_name.bold.cyan}: #{text}"
         end
       else
-        puts "#{twt.user.screen_name}: #{twt.text}"
+        puts "#{twt.user.screen_name}: #{text}"
       end
+    end
+
+    def deentitize(text)
+      {"&lt;" => "<", "&gt;" => ">" }.each do |k,v|
+        text.gsub!(k, v)
+      end
+      text
     end
 
     def twitter_auth
