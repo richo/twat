@@ -48,6 +48,11 @@ module Twat
       return config[:accounts]
     end
 
+    def colors?
+      colors = config[:colors] || "true"
+      Options.bool_true?(colors)
+    end
+
     def default_account
       raise NoDefaultAccount unless config.include?(:default)
       return config[:default].to_sym

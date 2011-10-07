@@ -8,4 +8,5 @@ module Twat
   class InvalidCredentials < Exception; end
   class ConfigVersionIncorrect < Exception; end
   class InvalidSetOpt < Exception; end
+  class InvalidBool < Exception; end
 end

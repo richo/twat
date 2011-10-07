@@ -73,6 +73,8 @@ module Twat
         puts "twat -a #{opts[:account]}"
       rescue ConfigVersionIncorrect
         puts "Your config file is out of date. Run with --update-config to rememdy"
+      rescue InvalidBool
+        puts "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
       end
     end
   end

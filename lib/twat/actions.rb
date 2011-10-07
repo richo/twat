@@ -90,11 +90,14 @@ module Twat
 
     # Format a tweet all pretty like
     def format(twt)
-      # if config.color
-      if twt.user.screen_name == account_name.to_s
-        puts "#{twt.user.screen_name.bold.blue}: #{twt.text}"
+      if config.colors?
+        if twt.user.screen_name == account_name.to_s
+          puts "#{twt.user.screen_name.bold.blue}: #{twt.text}"
+        else
+          puts "#{twt.user.screen_name.bold.cyan}: #{twt.text}"
+        end
       else
-        puts "#{twt.user.screen_name.bold.cyan}: #{twt.text}"
+        puts "#{twt.user.screen_name}: #{twt.text}"
       end
     end
 
