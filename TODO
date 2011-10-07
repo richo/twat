@@ -15,5 +15,3 @@ method.. which means abstracting it's output..)
 
 On the upside, it'll make unit testing similar.  
 (Add unit tests)
-
-Add an option to beep when you're mentioned.
