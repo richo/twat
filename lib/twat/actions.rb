@@ -59,7 +59,7 @@ module Twat
 
     def show
       twitter_auth
-      Twitter.home_timeline(:count => opts[:count]).each_with_index do |tweet, idx|
+      Twitter.home_timeline(:count => opts[:count]).each do |tweet|
         format(tweet)
       end
     end
