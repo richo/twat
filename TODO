@@ -15,3 +15,5 @@ method.. which means abstracting it's output..)
 
 On the upside, it'll make unit testing similar.  
 (Add unit tests)
+
+Split config and options out into submodules
