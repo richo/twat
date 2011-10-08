@@ -59,10 +59,8 @@ module Twat
 
     def show
       twitter_auth
-      Twitter.home_timeline.each_with_index do |tweet, idx|
+      Twitter.home_timeline(:count => opts[:count]).each_with_index do |tweet, idx|
         format(tweet)
-
-        break if idx == opts[:count]
       end
     end
 
