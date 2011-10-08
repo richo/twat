@@ -9,7 +9,6 @@ Refactor tweet printing code, unify throughout
 TODO
 ====
 
-Configurable polling interval
 (which carries with it warnings if it's too short.. which means a warn
 method.. which means abstracting it's output..)
 
