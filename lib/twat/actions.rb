@@ -107,9 +107,8 @@ module Twat
       twitter_auth
 
       begin
-        Twitter.user_timeline(opts[:user]).each_with_index do |tweet, idx|
-          puts "#{tweet.user.screen_name.bold.cyan}: #{tweet.text}"
-          break if idx == opts[:count]
+        Twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
+          format(tweet)
         end
       rescue Twitter::NotFound
         puts "#{opts[:user].bold.red} doesn't appear to be a valid user"

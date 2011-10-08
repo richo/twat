@@ -36,7 +36,7 @@ module Twat
         end #}}}
         opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count| #{{{ --list ACCOUNT
           options[:count] = count || 10
-          options[:action] = :show
+          options[:action] ||= :show
         end #}}}
         opts.on('-f', '--follow', 'Display tweets from your newsfeed indefinitely') do #{{{ --follow
           options[:action] = :follow
