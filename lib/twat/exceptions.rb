@@ -9,4 +9,5 @@ module Twat
   class ConfigVersionIncorrect < Exception; end
   class InvalidSetOpt < Exception; end
   class InvalidBool < Exception; end
+  class InvalidInt < Exception; end
 end

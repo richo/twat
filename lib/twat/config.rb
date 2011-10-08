@@ -58,6 +58,10 @@ module Twat
       Options.bool_true?(beep)
     end
 
+    def polling_interval
+      config[:polling_interval] || 60
+    end
+
     def default_account
       raise NoDefaultAccount unless config.include?(:default)
       return config[:default].to_sym

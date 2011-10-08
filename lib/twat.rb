@@ -81,6 +81,8 @@ module Twat
         puts "Your config file is out of date. Run with --update-config to rememdy"
       rescue InvalidBool
         puts "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
+      rescue InvalidInt
+        puts "Invalid value, must be an integer"
       end
     end
   end

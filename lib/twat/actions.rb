@@ -91,12 +91,7 @@ module Twat
       begin
         while true do
           last_id = process_followed(tweets) if tweets.any?
-          # Sleep 15 seconds between requests
-          # If left running at all times, that's 240 requests per hour, well
-          # under the limit
-          # sleep 15
-          # Disregard that, once per 60 seconds is plenty
-          sleep 60
+          sleep config.polling_interval
           tweets = Twitter.home_timeline(:since_id => last_id)
         end
       rescue Interrupt

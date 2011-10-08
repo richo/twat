@@ -19,6 +19,10 @@ module Twat
       BOOL_VALS.include?(val.to_s.downcase)
     end
 
+    def self.int_valid?(val)
+      !!/^[0-9]+$/.match(val)
+    end
+
     # A set of wrappers around the global config object to set given attributes
     # Catching failures is convenient because of the method_missing? hook
     def method_missing(sym, *args, &block)
@@ -55,6 +59,18 @@ module Twat
       raise InvalidBool unless Options.bool_valid?(val)
       config[:beep] = val
       config.save!
+    end
+
+    def polling_interval=(value)
+      raise InvalidInt unless Options.int_valid?(value)
+      val = value.to_i
+      if val < 15 then
+        puts "Polling intervals of < 15secs will exceed your daily API requests"
+        exit
+      else
+        config[:polling_interval] = val
+        config.save!
+      end
     end
 
   end
