@@ -8,7 +8,6 @@ module Twat
                 reverse: 4
     }
 
-
     # Valid invocations
     # Out.green.bold "text here"
     #
@@ -28,15 +27,14 @@ module Twat
 
     def new(*args, &block)
       # Define where the output should go, workout the IO protocol
-      @opts = Hash.new
-      @opts[:color] = "normal"
-      @opts[:state] = 0
+      opts[:color] = "normal"
+      opts[:state] = 0
     end
 
     def method_missing(sym, *args, &block)
-      if COLORS.include?sym.to_s
-        @opts[:color] = sym.to_s
-      end
+     if COLORS.include?sym.to_s
+       opts[:color] = sym.to_s
+     end
 
       if args.any?
         put args
@@ -47,8 +45,17 @@ module Twat
       end
     end
 
-    def put
+    def call(data)
+      put data
+    end
+
+    def put(data)
       puts "Spitting out #{@opts[:color]} in #{@opts[:state]}"
+    end
+    alias :call :put 
+
+    def opts
+      @opts ||= {}
     end
 
   end
