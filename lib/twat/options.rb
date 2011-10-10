@@ -26,7 +26,6 @@ module Twat
     # A set of wrappers around the global config object to set given attributes
     # Catching failures is convenient because of the method_missing? hook
     def method_missing(sym, *args, &block)
-      puts sym
       raise InvalidSetOpt
     end
 
