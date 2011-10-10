@@ -38,7 +38,6 @@ module Twat
         put format(color?(sym), args[0])
       elsif block_given?
         @color = color?(sym)
-        puts @color
         yield self
         @color = nil
       else
