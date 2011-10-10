@@ -83,6 +83,8 @@ module Twat
         puts "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
       rescue InvalidInt
         puts "Invalid value, must be an integer"
+      rescue Errno::ECONNRESET
+        puts "Connection was reset by third party."
       end
     end
   end
