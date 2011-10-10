@@ -5,9 +5,9 @@ module Twat
       @ran = []
       migration_1 if migration_1?
       if @ran.any?
-        puts "Successfully ran migrations: #{@ran.join(", ")}"
+        Out.put "Successfully ran migrations: #{@ran.join(", ")}"
       else
-        puts "Already up to date"
+        Out.put "Already up to date"
       end
     end
 

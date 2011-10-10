@@ -64,7 +64,7 @@ module Twat
       raise InvalidInt unless Options.int_valid?(value)
       val = value.to_i
       if val < 15 then
-        puts "Polling intervals of < 15secs will exceed your daily API requests"
+        Out.put "Polling intervals of < 15secs will exceed your daily API requests"
         exit
       else
         config[:polling_interval] = val

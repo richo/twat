@@ -9,7 +9,7 @@ module Twat
       twitter_auth
 
       Twitter.update(opts.msg)
-      #puts opts.msg
+      #Out.put opts.msg
     end
 
     def add
@@ -21,7 +21,7 @@ module Twat
       oauth = OAuth::Consumer.new( v[0], v[1],
               { site: "http://twitter.com" })
       token_request = oauth.get_request_token()
-      puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
+      Out.put "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
@@ -31,16 +31,16 @@ module Twat
         }
         config.save!
       rescue OAuth::Unauthorized
-        puts "Couldn't authenticate you, did you enter the pin correctly?"
+        Out.put "Couldn't authenticate you, did you enter the pin correctly?"
       end
     end
 
     def delete
       if config.accounts.delete(opts[:account])
         config.save!
-        puts "Successfully deleted"
+        Out.put "Successfully deleted"
       else
-        puts "No such account"
+        Out.put "No such account"
       end
     end
 
@@ -50,7 +50,7 @@ module Twat
       options = Options.new
       options.send(:"#{k}=", v)
 
-      puts "Successfully set #{k} as #{v}"
+      Out.put "Successfully set #{k} as #{v}"
     end
 
     def updateconfig
@@ -106,12 +106,12 @@ module Twat
           format(tweet)
         end
       rescue Twitter::NotFound
-        puts "#{opts[:user].bold.red} doesn't appear to be a valid user"
+        Out.put "#{opts[:user].bold.red} doesn't appear to be a valid user"
       end
     end
 
     def version
-      puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
+      Out.put "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
 
     def method_missing(sym, *args, &block)
@@ -132,7 +132,7 @@ module Twat
           puts "#{twt.user.screen_name.bold.cyan}: #{text}"
         end
       else
-        puts "#{twt.user.screen_name}: #{text}"
+        Out.put "#{twt.user.screen_name}: #{text}"
       end
     end
 

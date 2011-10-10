@@ -7,8 +7,8 @@ module Twat
     # TODO delegate specifically instead of shimming everything?
 
     def usage(additional=nil)
-      puts additional if additional
-      puts @optparser
+      Out.put additional if additional
+      Out.put @optparser
       exit
     end
 
@@ -31,7 +31,7 @@ module Twat
           options[:action] = :delete
         end #}}}
         opts.on('-h', '--help', 'Display this screen') do #{{{ --help
-          puts opts
+          Out.put opts
           exit
         end #}}}
         opts.on('-l', '--list [COUNT]', 'Display [count] tweets from your newsfeed') do |count| #{{{ --list ACCOUNT

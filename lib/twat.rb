@@ -63,30 +63,30 @@ module Twat
       rescue Usage
         opts.usage
       rescue NoSuchAccount
-        puts "No such account"
+        Out.put "No such account"
         opts.usage
       rescue NoDefaultAccount
-        puts "No default account configured."
+        Out.put "No default account configured."
       rescue NoSuchCommand
-        puts "No such command"
+        Out.put "No such command"
         opts.usage
       rescue NoConfigFile
-        puts "No config file, create one with twat -a [user|nick]"
+        Out.put "No config file, create one with twat -a [user|nick]"
         opts.usage
       rescue InvalidSetOpt
-        puts "There is no such configurable option"
+        Out.put "There is no such configurable option"
         opts.usage
       rescue RequiresOptVal
-        puts "--set must take an option=value pair as arguments"
+        Out.put "--set must take an option=value pair as arguments"
       rescue InvalidCredentials
-        puts "Invalid credentials, try reauthenticating with"
-        puts "twat -a #{opts[:account]}"
+        Out.put "Invalid credentials, try reauthenticating with"
+        Out.put "twat -a #{opts[:account]}"
       rescue ConfigVersionIncorrect
-        puts "Your config file is out of date. Run with --update-config to rememdy"
+        Out.put "Your config file is out of date. Run with --update-config to rememdy"
       rescue InvalidBool
-        puts "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
+        Out.put "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
       rescue InvalidInt
-        puts "Invalid value, must be an integer"
+        Out.put "Invalid value, must be an integer"
       end
     end
   end
