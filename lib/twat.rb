@@ -29,6 +29,10 @@ class String
     "[34m#{self}[39m"
   end
 
+  def magenta
+    "[35m#{self}[39m"
+  end
+
   def cyan
     "[36m#{self}[39m"
   end
