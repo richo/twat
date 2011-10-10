@@ -36,11 +36,13 @@ module Twat
     def method_missing(sym, *args, &block)
       if args.any?
         put format(color?(sym), args[0])
+        @color = nil
       elsif block_given?
         @color = color?(sym)
         yield self
         @color = nil
       else
+        @color = @color ? format(@color, color?(args[0])) : color?(args[0])
         self
       end
     end
@@ -48,6 +50,11 @@ module Twat
     def put(data)
       data = format(@color, data) if @color
       @@dest.puts data
+    end
+
+    def print(data)
+      data = format(@color, data) if @color
+      @@dest.print data
     end
 
     def dest=(dest)

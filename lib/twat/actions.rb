@@ -118,23 +118,26 @@ module Twat
       raise NoSuchCommand
     end
 
-    private
 
     # Format a tweet all pretty like
     def format(twt)
       text = deentitize(twt.text)
-      if config.colors?
-        if twt.user.screen_name == account_name.to_s
-          puts "#{twt.user.screen_name.bold.blue}: #{text}"
-        elsif text.mentions?(account_name)
-          puts "#{twt.user.screen_name.bold.red}: #{text}"
-        else
-          puts "#{twt.user.screen_name.bold.cyan}: #{text}"
-        end
+      if twt.user.screen_name == account_name.to_s
+        color = :blue
+      elsif text.mentions?(account_name)
+        color = :red
       else
-        Out.put "#{twt.user.screen_name}: #{text}"
+        color = :cyan
       end
+
+      Out.send(color) do |out|
+        out.bold "asdf"
+        out.print_cyan twt.user.screen_name
+      end
+
+      Out.puts ": #{text}"
     end
+    private
 
     def deentitize(text)
       {"&lt;" => "<", "&gt;" => ">" }.each do |k,v|
