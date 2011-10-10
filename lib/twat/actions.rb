@@ -131,8 +131,7 @@ module Twat
       end
 
       Out.send(color) do |out|
-        out.bold "asdf"
-        out.print_cyan twt.user.screen_name
+        out.bold.cyan.print twt.user.screen_name
       end
 
       Out.puts ": #{text}"

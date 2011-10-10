@@ -27,4 +27,4 @@ Twat::Out.red "lol"
 
 p = Twat::Out.new
 p.cyan.print "Nick"
-p.print ": rest of tweet"
+p.put ": rest of tweet"
