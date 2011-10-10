@@ -62,10 +62,16 @@ module Twat
 
     def color?(sym)
       begin
-        COLORS[sym]
+        return config.colors? ? COLORS[sym] : "%s"
       rescue TypeError
         raise InvalidColor
+      rescue NoConfigFile
+        COLORS[sym]
       end
+    end
+
+    def config
+      @config ||= Config.new
     end
 
   end
