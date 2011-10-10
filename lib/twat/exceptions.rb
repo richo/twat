@@ -10,4 +10,5 @@ module Twat
   class InvalidSetOpt < Exception; end
   class InvalidBool < Exception; end
   class InvalidInt < Exception; end
+  class InvalidColor < Exception; end
 end
