@@ -96,6 +96,7 @@ module Twat
           tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
+          break
         rescue Errno::ECONNRESET
           if failcount > 2
             puts "3 consecutive failures, giving up"
