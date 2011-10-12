@@ -16,3 +16,12 @@ On the upside, it'll make unit testing similar.
 (Add unit tests)
 
 Split config and options out into submodules
+
+Wrap all of the exception handling into a submodule, ie
+with_handled_exceptions do
+    <perform actions assuming everything went well>
+end
+
+(With handled exceptions contains the logic for yelling at the user for
+being stupid, etc)
+

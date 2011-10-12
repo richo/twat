@@ -85,6 +85,8 @@ module Twat
         puts "Invalid value, must be an integer"
       rescue Errno::ECONNRESET
         puts "Connection was reset by third party."
+      rescue TweetTooLong
+        puts "Twitter enforces a maximum status length of 140 characters"
       end
     end
   end
