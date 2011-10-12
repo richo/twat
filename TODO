@@ -9,6 +9,9 @@ Refactor tweet printing code, unify throughout
 TODO
 ====
 
+Output needs to live in it's own gem (since evidently more of these
+tools will be written soon)
+
 (which carries with it warnings if it's too short.. which means a warn
 method.. which means abstracting it's output..)
 
