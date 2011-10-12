@@ -16,28 +16,3 @@ On the upside, it'll make unit testing similar.
 (Add unit tests)
 
 Split config and options out into submodules
-
-BUGS
-====
-
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:678:in
-`connect': Connection rese t by peer - SSL_connect (Errno::ECONNRESET)
-from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:678:in
-`block in con nect' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/timeout.rb:44:in
-`timeout' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/timeout.rb:89:in
-`timeout' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:678:in
-`connect' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:637:in
-`do_start' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:626:in
-`start' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:1168:in
-`request' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:888:in
-`get'
-
-
