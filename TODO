@@ -9,22 +9,8 @@ Refactor tweet printing code, unify throughout
 TODO
 ====
 
-Output needs to live in it's own gem (since evidently more of these
-tools will be written soon)
+Refactor the calls to Twitter to hook my own object, which in turn hooks
+the current_account to work out which service it uses.
 
-(which carries with it warnings if it's too short.. which means a warn
-method.. which means abstracting it's output..)
-
-On the upside, it'll make unit testing similar.  
-(Add unit tests)
-
-Split config and options out into submodules
-
-Wrap all of the exception handling into a submodule, ie
-with_handled_exceptions do
-    <perform actions assuming everything went well>
-end
-
-(With handled exceptions contains the logic for yelling at the user for
-being stupid, etc)
-
+(Bonus points for adding a hook which can also use an arbitrary user
+specified url)
