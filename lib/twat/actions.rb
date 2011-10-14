@@ -148,7 +148,7 @@ module Twat
     end
 
     def deentitize(text)
-      {"&lt;" => "<", "&gt;" => ">" }.each do |k,v|
+      {"&lt;" => "<", "&gt;" => ">", "&amp;" => "&", "&quot;" => '"' }.each do |k,v|
         text.gsub!(k, v)
       end
       text
