@@ -10,7 +10,7 @@ module Twat
 
       raise TweetTooLong if opts.msg.length > 140
 
-      TwitterProxy.update(opts.msg)
+      twitter.update(opts.msg)
       #puts opts.msg
     end
 
@@ -61,7 +61,7 @@ module Twat
 
     def show
       twitter_auth
-      TwitterProxy.home_timeline(:count => opts[:count]).each do |tweet|
+      twitter.home_timeline(:count => opts[:count]).each do |tweet|
         format(tweet)
       end
     end
@@ -90,12 +90,12 @@ module Twat
       failcount = 0
 
       # Get 5 tweets
-      tweets = TwitterProxy.home_timeline(:count => 5)
+      tweets = twitter.home_timeline(:count => 5)
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
           sleep config.polling_interval
-          tweets = TwitterProxy.home_timeline(:since_id => last_id)
+          tweets = twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
@@ -113,10 +113,10 @@ module Twat
       twitter_auth
 
       begin
-        TwitterProxy.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
+        twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
           format(tweet)
         end
-      rescue TwitterProxy::NotFound
+      rescue Twitter::NotFound
         puts "#{opts[:user].bold.red} doesn't appear to be a valid user"
       end
     end
@@ -155,7 +155,7 @@ module Twat
     end
 
     def twitter_auth
-      TwitterProxy.configure do |twit|
+      Twitter.configure do |twit|
         account.each do |key, value|
           twit.send("#{key}=", value)
         end
@@ -189,6 +189,14 @@ module Twat
 
     def beep
       print "\a"
+    end
+
+    def twitter
+      @twitter = if account[:endpoint]
+          Twitter.new( endpoint: account[:endpoint] )
+        else
+          Twitter.new
+        end
     end
 
   end
