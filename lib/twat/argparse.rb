@@ -14,7 +14,6 @@ module Twat
 
     def getopts
       options = Hash.new
-      options[:action] = :tweet
       options[:count] = 1
       @optparser = OptionParser.new do |opts|
         opts.banner = "Usage: twat <tweet>"
@@ -56,8 +55,8 @@ module Twat
           options[:action] = :updateconfig
         end #}}}
       end
-
       @optparser.parse!
+      options[:action] ||= :tweet
       REQUIRED.each do |req|
         usage unless options[req]
       end
