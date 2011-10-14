@@ -194,11 +194,12 @@ module Twat
     end
 
     def twitter
-      @twitter = if account[:endpoint]
-          Twitter.new( endpoint: account[:endpoint] )
-        else
-          Twitter.new
-        end
+      twit_opts = {}
+      if config.endpoint?
+        twit_opts[:endpoint] = config.endpoint
+      end
+
+      @twitter ||= Twitter.new(twit_opts)
     end
 
   end
