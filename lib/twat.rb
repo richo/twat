@@ -6,7 +6,7 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-%w[config exceptions argparse actions migration options twitterproxy].each do |filename|
+%w[config exceptions argparse actions migration options].each do |filename|
   require "twat/#{filename}"
 end
 

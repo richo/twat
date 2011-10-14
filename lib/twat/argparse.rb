@@ -25,6 +25,9 @@ module Twat
           options[:account] = acct.to_sym
           options[:action] = :add
         end #}}}
+        opts.on('--endpoint ENDPOINT', 'Specify a different endpoint for use with --add') do |endpoint| #{{{ --add ACCOUNT
+          options[:endpoint] = endpoint
+        end #}}}
         opts.on('-d', '--delete ACCOUNT', 'Delete ACCOUNT') do |acct| #{{{ --delete ACCOUNT
           options[:account] = acct.to_sym
           options[:action] = :delete
@@ -56,13 +59,18 @@ module Twat
         end #}}}
       end
       @optparser.parse!
+      # --- Validation ---
       options[:action] ||= :tweet
+      if options[:endpoint]
+        usage unless options[:action] == :add
+      end
       REQUIRED.each do |req|
         usage unless options[req]
       end
       if MSG_REQUIRED.include?(options[:action])
         options[:msg] = msg
       end
+      # --- Validation End ---
       options
     end
 
