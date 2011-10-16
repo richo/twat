@@ -30,3 +30,10 @@ being stupid, etc)
 
 Allow upload of media files with the tweet via some kind of --attach
 (Has implications for other endpoints because we need that data from the user or to infer it somehow)
+
+PENDING
+=======
+
+Add some commands to retweet/favourite etc
+
+Consider allowing to -f multiple accounts at once
