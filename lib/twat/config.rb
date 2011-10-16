@@ -64,8 +64,12 @@ module Twat
 
     def self.consumer_info
       {
-        consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
-        consumer_secret: "H6vQOGGn9qVJJa9lWyTd2s8ZZRXG4kh3SMfvZ2uxOXE"
+        :twitter =>
+          consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
+          consumer_secret: "H6vQOGGn9qVJJa9lWyTd2s8ZZRXG4kh3SMfvZ2uxOXE"
+        :"identi.ca" => # FIXME
+          consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
+          consumer_secret: "H6vQOGGn9qVJJa9lWyTd2s8ZZRXG4kh3SMfvZ2uxOXE"
       }
     end
 
@@ -106,6 +110,17 @@ module Twat
 
     def account
       accounts[account_name]
+    end
+
+    def endpoint
+      @endpoint ||= Config.endpoints[config[:endpoint] || :twitter]
+    end
+
+    def self.endpoints
+      {
+        :twitter => "http://twitter.com",
+        :"identi.ca" => "http://identi.ca/api"
+      }
     end
 
   end

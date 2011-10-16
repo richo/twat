@@ -16,12 +16,12 @@ module Twat
     end
 
     def add
-      site = opts[:endpoint] || "http://twitter.com"
-      v = Config.consumer_info.map do |key, value|
+      site = opts[:endpoint]
+      v = Config.consumer_info[site].map do |key, value|
         value
       end
       oauth = OAuth::Consumer.new( v[0], v[1],
-              { site: site})
+              { site: Config.endpoints[site]})
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = gets.chomp
@@ -30,8 +30,8 @@ module Twat
         account_settings = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret
+          endpoint: site
         }
-        account_settings[:endpoint] = opts[:endpoint] if opts[:endpoint]
         config.accounts[opts[:account]] = account_settings
         config.save!
       rescue OAuth::Unauthorized
@@ -172,10 +172,7 @@ module Twat
     end
 
     def twitter
-      twit_opts = {}
-      if config.endpoint?
-        twit_opts[:endpoint] = config.endpoint
-      end
+      twit_opts = { endpoint: config.endpoint }
 
       @twitter ||= Twitter.new(twit_opts)
     end
