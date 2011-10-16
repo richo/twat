@@ -53,6 +53,11 @@ module Twat
       begin
         opts = ArgParse.new
         actor = Actions.new
+
+        if opts[:account]
+          config.account = opts[:account]
+        end
+
         actor.config = config
         actor.opts = opts
         actor.send(opts.options[:action])

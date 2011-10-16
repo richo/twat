@@ -137,9 +137,9 @@ module Twat
     def format(twt)
       text = deentitize(twt.text)
       if config.colors?
-        if twt.user.screen_name == account_name.to_s
+        if twt.user.screen_name == config.account_name.to_s
           puts "#{twt.user.screen_name.bold.blue}: #{text}"
-        elsif text.mentions?(account_name)
+        elsif text.mentions?(config.account_name)
           puts "#{twt.user.screen_name.bold.red}: #{text}"
         else
           puts "#{twt.user.screen_name.bold.cyan}: #{text}"
@@ -158,35 +158,13 @@ module Twat
 
     def twitter_auth
       Twitter.configure do |twit|
-        account.each do |key, value|
+        config.account.each do |key, value|
           twit.send("#{key}=", value)
         end
         Config.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
       end
-    end
-
-    def account_name
-      @account_name ||=
-        if opts.include?(:account)
-          opts[:account]
-        else
-          config[:default]
-        end
-    end
-
-    def account
-      @account = config.accounts[account_name]
-    end
-
-    def account_name
-      @account_name ||=
-        if opts.include?(:account)
-          opts[:account]
-        else
-          config.default_account
-        end
     end
 
     def beep
