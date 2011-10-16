@@ -77,6 +77,10 @@ module Twat
       }
     end
 
+    def consumer_info
+      Config.consumer_info[endpoint_name]
+    end
+
     def []=(k, v)
       config[k] = v
     end
@@ -116,8 +120,12 @@ module Twat
       accounts[account_name]
     end
 
+    def endpoint_name
+      account[:endpoint] || :twitter
+    end
+
     def endpoint
-      @endpoint ||= Config.endpoints[config[:endpoint] || :twitter]
+      @endpoint ||= Config.endpoints[endpoint_name]
     end
 
     def self.endpoints

@@ -161,7 +161,7 @@ module Twat
         config.account.each do |key, value|
           twit.send("#{key}=", value)
         end
-        Config.consumer_info.each do |key, value|
+        config.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
       end
