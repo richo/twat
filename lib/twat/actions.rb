@@ -29,7 +29,7 @@ module Twat
         access_token = token_request.get_access_token(oauth_verifier: pin)
         account_settings = {
           oauth_token: access_token.token,
-          oauth_token_secret: access_token.secret
+          oauth_token_secret: access_token.secret,
           endpoint: site
         }
         config.accounts[opts[:account]] = account_settings
