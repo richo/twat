@@ -176,7 +176,12 @@ module Twat
     end
 
     def account
-      @account = config.accounts[account_name]
+      @account ||= config.accounts[account_name]
+      unless @account
+        raise NoSuchAccount
+      else
+        return @account
+      end
     end
 
     def account_name
