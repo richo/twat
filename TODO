@@ -29,3 +29,9 @@ PENDING
 Add some commands to retweet/favourite etc
 
 Consider allowing to -f multiple accounts at once
+
+Refactor the calls to Twitter to hook my own object, which in turn hooks
+the current_account to work out which service it uses.
+
+(Bonus points for adding a hook which can also use an arbitrary user
+specified url)

@@ -1,4 +1,4 @@
-.TH twat 1 "September 2011" "" ""
+.TH twat 1 "October 2011" "Rich Healey" ""
 .SH NAME
 twat \- a cli/ruby interface to twitter.
 .SH SYNOPSIS
@@ -18,6 +18,9 @@ config for an account named default.
 .IP -a
 Tell twat to execute the routines for authenticating itself with OAuth for your
 account.
+.IP --endpoint
+With -a to add an account specify a different endpoint than the twitter default.
+At present, twitter and identi.ca are supported.
 .IP -d
 Delete speficied account.
 .IP -h
@@ -28,6 +31,13 @@ Watch your newsfeed in a similar manner to tail -f, updating as your feed does
 .IP -u USER
 Retrieve a list of USER's recent tweets. Note this will retrieve all of their
 tweets as opposed to just what would have appeared in your feed.
+.SH OTHER ENDPOINTS
+As of twat 0.5.0 endpoints other than twitter are supported. At present,
+twitter and identi.ca are supported, you may specify which one you intend to
+use at account creation time like
+.B twat -a accountname --endpoint identi.ca
+Other endpoints will be added in due course, as well as support for HTTP basic
+authentication.
 .SH CONFIGURATION
 Options are configured with --set OPTION=VALUE.
 Options include

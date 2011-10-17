@@ -56,6 +56,11 @@ module Twat
       # FIXME Handing in the opts like this feels dirty
       with_handled_exceptions(ArgParse.new) do |opts|
         actor = Actions.new
+
+        if opts[:account]
+          config.account = opts[:account]
+        end
+
         actor.config = config
         actor.opts = opts
         actor.send(opts.options[:action])

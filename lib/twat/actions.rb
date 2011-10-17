@@ -1,6 +1,7 @@
 module Twat
   OAUTH_TOKENS = [ :oauth_token, :oauth_token_secret ]
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
+
   class Actions
 
     attr_accessor :config, :opts, :failcount
@@ -10,27 +11,28 @@ module Twat
 
       raise TweetTooLong if opts.msg.length > 140
 
-      Twitter.update(opts.msg)
+      twitter.update(opts.msg)
       #puts opts.msg
     end
 
     def add
-      v = Config.consumer_info.map do |key, value|
+      site = opts[:endpoint]
+      v = Config.consumer_info[site].map do |key, value|
         value
       end
-      # FIXME probably allow something other than 
-      # twitter
       oauth = OAuth::Consumer.new( v[0], v[1],
-              { site: "http://twitter.com" })
+              { site: Config.endpoints[site]})
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
-        config.accounts[opts[:account]] = {
+        account_settings = {
           oauth_token: access_token.token,
-          oauth_token_secret: access_token.secret
+          oauth_token_secret: access_token.secret,
+          endpoint: site
         }
+        config.accounts[opts[:account]] = account_settings
         config.save!
       rescue OAuth::Unauthorized
         puts "Couldn't authenticate you, did you enter the pin correctly?"
@@ -90,12 +92,12 @@ module Twat
       failcount = 0
 
       # Get 5 tweets
-      tweets = Twitter.home_timeline(:count => 5)
+      tweets = twitter.home_timeline(:count => 5)
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
           sleep config.polling_interval
-          tweets = Twitter.home_timeline(:since_id => last_id)
+          tweets = twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
@@ -114,7 +116,7 @@ module Twat
       twitter_auth
 
       begin
-        Twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
+        twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
           format(tweet)
         end
       rescue Twitter::NotFound
@@ -136,9 +138,9 @@ module Twat
     def format(twt)
       text = deentitize(twt.text)
       if config.colors?
-        if twt.user.screen_name == account_name.to_s
+        if twt.user.screen_name == config.account_name.to_s
           puts "#{twt.user.screen_name.bold.blue}: #{text}"
-        elsif text.mentions?(account_name)
+        elsif text.mentions?(config.account_name)
           puts "#{twt.user.screen_name.bold.red}: #{text}"
         else
           puts "#{twt.user.screen_name.bold.cyan}: #{text}"
@@ -157,10 +159,10 @@ module Twat
 
     def twitter_auth
       Twitter.configure do |twit|
-        account.each do |key, value|
+        config.account.each do |key, value|
           twit.send("#{key}=", value)
         end
-        Config.consumer_info.each do |key, value|
+        config.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
       end
@@ -184,17 +186,14 @@ module Twat
       end
     end
 
-    def account_name
-      @account_name ||=
-        if opts.include?(:account)
-          opts[:account]
-        else
-          config.default_account
-        end
-    end
-
     def beep
       print "\a"
+    end
+
+    def twitter
+      twit_opts = { endpoint: config.endpoint }
+
+      @twitter ||= Twitter.new(twit_opts)
     end
 
   end

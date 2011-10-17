@@ -25,6 +25,9 @@ module Twat
           options[:account] = acct.to_sym
           options[:action] = :add
         end #}}}
+        opts.on('--endpoint ENDPOINT', 'Specify a different endpoint for use with --add') do |endpoint| #{{{ --add ACCOUNT
+          options[:endpoint] = endpoint.to_sym
+        end #}}}
         opts.on('-d', '--delete ACCOUNT', 'Delete ACCOUNT') do |acct| #{{{ --delete ACCOUNT
           options[:account] = acct.to_sym
           options[:action] = :delete
@@ -56,13 +59,26 @@ module Twat
         end #}}}
       end
       @optparser.parse!
+      # {{{ Validation ---
+      # Default action is to send a tweet
       options[:action] ||= :tweet
+
+      # Only specify an endpoint when adding accounts
+      if options[:endpoint]
+        usage unless options[:action] == :add
+      end
+      # Similarly, default endpoint to twitter when we do add
+      if options[:action] == :add
+        options[:endpoints] ||= :twitter
+      end
+
       REQUIRED.each do |req|
         usage unless options[req]
       end
       if MSG_REQUIRED.include?(options[:action])
         options[:msg] = msg
       end
+      # }}} Validation End ---
       options
     end
 
