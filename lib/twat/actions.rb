@@ -3,10 +3,12 @@ module Twat
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
   class Actions
 
-    attr_accessor :config, :opts
+    attr_accessor :config, :opts, :failcount
 
     def tweet
       twitter_auth
+
+      raise TweetTooLong if opts.msg.length > 140
 
       Twitter.update(opts.msg)
       #Out.put opts.msg
@@ -85,16 +87,26 @@ module Twat
       # we will have to retrieve a few tweets from the timeline, and then poll
       # occasionally :/
       twitter_auth
+      failcount = 0
 
       # Get 5 tweets
       tweets = Twitter.home_timeline(:count => 5)
-      begin
-        while true do
+      while true do
+        begin
           last_id = process_followed(tweets) if tweets.any?
           sleep config.polling_interval
           tweets = Twitter.home_timeline(:since_id => last_id)
+          failcount = 0
+        rescue Interrupt
+          break
+        rescue Errno::ECONNRESET
+        rescue Errno::ETIMEDOUT
+          if failcount > 2
+            puts "3 consecutive failures, giving up"
+          else
+            failcount += 1
+          end
         end
-      rescue Interrupt
       end
     end
 
@@ -139,7 +151,7 @@ module Twat
     private
 
     def deentitize(text)
-      {"&lt;" => "<", "&gt;" => ">" }.each do |k,v|
+      {"&lt;" => "<", "&gt;" => ">", "&amp;" => "&", "&quot;" => '"' }.each do |k,v|
         text.gsub!(k, v)
       end
       text
@@ -166,7 +178,12 @@ module Twat
     end
 
     def account
-      @account = config.accounts[account_name]
+      @account ||= config.accounts[account_name]
+      unless @account
+        raise NoSuchAccount
+      else
+        return @account
+      end
     end
 
     def account_name

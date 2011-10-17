@@ -9,6 +9,9 @@ Refactor tweet printing code, unify throughout
 TODO
 ====
 
+Output needs to live in it's own gem (since evidently more of these
+tools will be written soon)
+
 (which carries with it warnings if it's too short.. which means a warn
 method.. which means abstracting it's output..)
 
@@ -17,27 +20,12 @@ On the upside, it'll make unit testing similar.
 
 Split config and options out into submodules
 
-BUGS
-====
+Allow upload of media files with the tweet via some kind of --attach
+(Has implications for other endpoints because we need that data from the user or to infer it somehow)
 
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:678:in
-`connect': Connection rese t by peer - SSL_connect (Errno::ECONNRESET)
-from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:678:in
-`block in con nect' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/timeout.rb:44:in
-`timeout' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/timeout.rb:89:in
-`timeout' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:678:in
-`connect' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:637:in
-`do_start' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:626:in
-`start' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:1168:in
-`request' from
-/home/richo/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/net/http.rb:888:in
-`get'
+PENDING
+=======
 
+Add some commands to retweet/favourite etc
 
+Consider allowing to -f multiple accounts at once
