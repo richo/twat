@@ -69,7 +69,7 @@ module Twat
       end
       # Similarly, default endpoint to twitter when we do add
       if options[:action] == :add
-        options[:endpoints] ||= :twitter
+        options[:endpoint] ||= :twitter
       end
 
       REQUIRED.each do |req|
