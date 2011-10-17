@@ -24,7 +24,7 @@ module Twat
               { site: Config.endpoints[site]})
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
-      pin = gets.chomp
+      pin = STDIN.gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
         account_settings = {

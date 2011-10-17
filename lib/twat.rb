@@ -57,7 +57,7 @@ module Twat
       with_handled_exceptions(ArgParse.new) do |opts|
         actor = Actions.new
 
-        if opts[:account]
+        if opts[:account] && opts[:action] != :add
           config.account = opts[:account]
         end
 
