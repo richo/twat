@@ -100,6 +100,7 @@ module Twat
         rescue Interrupt
           break
         rescue Errno::ECONNRESET
+        rescue Errno::ETIMEDOUT
           if failcount > 2
             puts "3 consecutive failures, giving up"
           else
