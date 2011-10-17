@@ -61,7 +61,7 @@ module Twat
 
     def show
       twitter_auth
-      Twitter.home_timeline(:count => opts[:count]).each do |tweet|
+      Twitter.home_timeline(:count => opts[:count]).reverse.each do |tweet|
         format(tweet)
       end
     end
