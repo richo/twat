@@ -16,7 +16,7 @@ module Twat
     end
 
     def add
-      endpoint = TwitterEndpoints.new(opts[:endpoint])
+      endpoint = Endpoints.new(opts[:endpoint])
       v = Config.consumer_info[site].map do |key, value|
         value
       end
@@ -85,6 +85,8 @@ module Twat
     public
 
     def follow
+      puts Endpoint.new(:twitter).test
+      exit
       # I can't see any way to poll the server for updates, so in the meantime
       # we will have to retrieve a few tweets from the timeline, and then poll
       # occasionally :/
