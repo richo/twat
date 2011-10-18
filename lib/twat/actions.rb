@@ -16,7 +16,7 @@ module Twat
     end
 
     def add
-      site = opts[:endpoint]
+      endpoint = TwitterEndpoints.new(opts[:endpoint])
       v = Config.consumer_info[site].map do |key, value|
         value
       end
