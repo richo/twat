@@ -62,25 +62,6 @@ module Twat
       config[:polling_interval] || 60
     end
 
-    def self.consumer_info
-      {
-        :twitter =>
-        {
-          consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
-          consumer_secret: "H6vQOGGn9qVJJa9lWyTd2s8ZZRXG4kh3SMfvZ2uxOXE"
-        },
-        :"identi.ca" => # FIXME
-        {
-          consumer_key: "jtI2q3Z4NIJAehBG4ntPIQ",
-          consumer_secret: "H6vQOGGn9qVJJa9lWyTd2s8ZZRXG4kh3SMfvZ2uxOXE"
-        }
-      }
-    end
-
-    def consumer_info
-      Config.consumer_info[endpoint_name]
-    end
-
     def []=(k, v)
       config[k] = v
     end
@@ -125,14 +106,7 @@ module Twat
     end
 
     def endpoint
-      @endpoint ||= Config.endpoints[endpoint_name]
-    end
-
-    def self.endpoints
-      {
-        :twitter => "http://twitter.com",
-        :"identi.ca" => "http://identi.ca/api"
-      }
+      @endpoint ||= Endpoint.new[endpoint_name]
     end
 
   end

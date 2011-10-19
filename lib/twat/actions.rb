@@ -15,9 +15,12 @@ module Twat
       #puts opts.msg
     end
 
+    # Add is somewhat of a special case, everything else hangs off config for
+    # it's magic, However we're forced to do it manually here- config doesn't
+    # know anything about it yet
     def add
       endpoint = Endpoint.new(opts[:endpoint])
-      v = Config.consumer_info[site].map do |key, value|
+      v = Endpoint.consumer_info[site].map do |key, value|
         value
       end
       oauth = OAuth::Consumer.new( v[0], v[1],
@@ -163,7 +166,7 @@ module Twat
         config.account.each do |key, value|
           twit.send("#{key}=", value)
         end
-        config.consumer_info.each do |key, value|
+        config.endpoint.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
       end
@@ -178,6 +181,7 @@ module Twat
 
       @twitter ||= Twitter.new(twit_opts)
     end
+
 
   end
 end
