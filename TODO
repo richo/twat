@@ -39,3 +39,12 @@ specified url)
 Allow -f #hashtag to follow that hashtag instead of your newsfeed
 
 Seriously consider moving to subcommands
+
+MOAR BACKENDS
+=============
+
+Abstract all the logic for the various operations (add, follow, post,
+etc etc)
+
+into a wrapper for each service so that twat can natively support
+facebook, g+ etc etc as I get around to writing the new modules.
