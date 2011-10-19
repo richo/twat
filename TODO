@@ -35,3 +35,7 @@ the current_account to work out which service it uses.
 
 (Bonus points for adding a hook which can also use an arbitrary user
 specified url)
+
+Allow -f #hashtag to follow that hashtag instead of your newsfeed
+
+Seriously consider moving to subcommands
