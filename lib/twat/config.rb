@@ -106,7 +106,7 @@ module Twat
     end
 
     def endpoint
-      @endpoint ||= Endpoint.new[endpoint_name]
+      @endpoint ||= Endpoint.new(endpoint_name)
     end
 
   end

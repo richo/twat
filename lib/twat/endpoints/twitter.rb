@@ -2,7 +2,7 @@ module Twat::Endpoints
   class Twitter
 
     def url
-      "https://twitter.com/"
+      "https://api.twitter.com/"
     end
 
     def consumer_info

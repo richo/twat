@@ -23,8 +23,7 @@ module Twat
       v = Endpoint.consumer_info[site].map do |key, value|
         value
       end
-      oauth = OAuth::Consumer.new( v[0], v[1],
-                    { site: endpoint.url)
+      oauth = OAuth::Consumer.new( v[0], v[1], :site => endpoint.url )
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = gets.chomp
@@ -77,7 +76,7 @@ module Twat
     def process_followed(tweets)
       last_id = nil
       tweets.reverse.each do |tweet|
-        beep if config.beep? && tweet.text.mentions?(account_name)
+        beep if config.beep? && tweet.text.mentions?(config.account_name)
         format(tweet)
         last_id = tweet.id
       end
@@ -88,8 +87,6 @@ module Twat
     public
 
     def follow
-      puts Endpoint.new(:twitter).test
-      exit
       # I can't see any way to poll the server for updates, so in the meantime
       # we will have to retrieve a few tweets from the timeline, and then poll
       # occasionally :/
@@ -177,7 +174,7 @@ module Twat
     end
 
     def twitter
-      twit_opts = { endpoint: config.endpoint }
+      twit_opts = { endpoint: config.endpoint.url }
 
       @twitter ||= Twitter.new(twit_opts)
     end
