@@ -54,7 +54,7 @@ module Twat
         opts = ArgParse.new
         actor = Actions.new
 
-        if opts[:account]
+        if opts[:account] && opts[:action] != :add
           config.account = opts[:account]
         end
 
