@@ -20,7 +20,7 @@ module Twat
     # know anything about it yet
     def add
       endpoint = Endpoint.new(opts[:endpoint])
-      v = Endpoint.consumer_info[site].map do |key, value|
+      v = endpoint.consumer_info.map do |key, value|
         value
       end
       oauth = OAuth::Consumer.new( v[0], v[1], :site => endpoint.url )
@@ -32,7 +32,7 @@ module Twat
         account_settings = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret,
-          endpoint: site
+          endpoint: opts[:endpoint]
         }
         config.accounts[opts[:account]] = account_settings
         config.save!

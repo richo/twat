@@ -2,7 +2,7 @@ module Twat::Endpoints
   class Identica
 
     def url
-      "https://identi.ca/"
+      "https://identi.ca/api"
     end
 
     def consumer_info
