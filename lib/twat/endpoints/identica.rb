@@ -12,5 +12,13 @@ module Twat::Endpoints
       }
     end
 
+    def oauth_options
+      {
+        request_token_url: "https://identi.ca/api/oauth/request_token",
+        access_token_url: "https://identi.ca/api/oauth/access_token",
+        authorize_url: "https://identi.ca/api/oauth/authorize"
+      }
+    end
+
   end
 end

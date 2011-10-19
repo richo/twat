@@ -23,7 +23,11 @@ module Twat
       v = endpoint.consumer_info.map do |key, value|
         value
       end
-      oauth = OAuth::Consumer.new( v[0], v[1], :site => endpoint.url )
+
+      oauth_options = { :site => endpoint.url }
+      oauth_options.merge!(endpoint.oauth_options)
+
+      oauth = OAuth::Consumer.new( v[0], v[1], oauth_options )
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = gets.chomp

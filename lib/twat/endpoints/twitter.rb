@@ -12,6 +12,10 @@ module Twat::Endpoints
       }
     end
 
+    def oauth_options
+      {}
+    end
+
   end
 end
 
