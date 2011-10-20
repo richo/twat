@@ -11,17 +11,23 @@ module Twat
 
       raise TweetTooLong if opts.msg.length > 140
 
-      twitter.update(opts.msg)
+      Twitter.update(opts.msg)
       #puts opts.msg
     end
 
+    # Add is somewhat of a special case, everything else hangs off config for
+    # it's magic, However we're forced to do it manually here- config doesn't
+    # know anything about it yet
     def add
-      site = opts[:endpoint]
-      v = Config.consumer_info[site].map do |key, value|
+      endpoint = Endpoint.new(opts[:endpoint])
+      v = endpoint.consumer_info.map do |key, value|
         value
       end
-      oauth = OAuth::Consumer.new( v[0], v[1],
-              { site: Config.endpoints[site]})
+
+      oauth_options = { :site => endpoint.url }
+      oauth_options.merge!(endpoint.oauth_options)
+
+      oauth = OAuth::Consumer.new( v[0], v[1], oauth_options )
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = STDIN.gets.chomp
@@ -30,7 +36,7 @@ module Twat
         account_settings = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret,
-          endpoint: site
+          endpoint: opts[:endpoint]
         }
         config.accounts[opts[:account]] = account_settings
         config.save!
@@ -74,7 +80,7 @@ module Twat
     def process_followed(tweets)
       last_id = nil
       tweets.reverse.each do |tweet|
-        beep if config.beep? && tweet.text.mentions?(account_name)
+        beep if config.beep? && tweet.text.mentions?(config.account_name)
         format(tweet)
         last_id = tweet.id
       end
@@ -92,12 +98,12 @@ module Twat
       failcount = 0
 
       # Get 5 tweets
-      tweets = twitter.home_timeline(:count => 5)
+      tweets = Twitter.home_timeline(:count => 5)
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
           sleep config.polling_interval
-          tweets = twitter.home_timeline(:since_id => last_id)
+          tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
@@ -116,7 +122,7 @@ module Twat
       twitter_auth
 
       begin
-        twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
+        Twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
           format(tweet)
         end
       rescue Twitter::NotFound
@@ -162,9 +168,10 @@ module Twat
         config.account.each do |key, value|
           twit.send("#{key}=", value)
         end
-        config.consumer_info.each do |key, value|
+        config.endpoint.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
+        twit.endpoint = config.endpoint.url
       end
     end
 
@@ -188,12 +195,6 @@ module Twat
 
     def beep
       print "\a"
-    end
-
-    def twitter
-      twit_opts = { endpoint: config.endpoint }
-
-      @twitter ||= Twitter.new(twit_opts)
     end
 
   end
