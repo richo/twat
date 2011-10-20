@@ -11,7 +11,7 @@ module Twat
 
       raise TweetTooLong if opts.msg.length > 140
 
-      twitter.update(opts.msg)
+      Twitter.update(opts.msg)
       #puts opts.msg
     end
 
@@ -69,7 +69,7 @@ module Twat
 
     def show
       twitter_auth
-      twitter.home_timeline(:count => opts[:count]).each do |tweet|
+      Twitter.home_timeline(:count => opts[:count]).each do |tweet|
         format(tweet)
       end
     end
@@ -98,12 +98,12 @@ module Twat
       failcount = 0
 
       # Get 5 tweets
-      tweets = twitter.home_timeline(:count => 5)
+      tweets = Twitter.home_timeline(:count => 5)
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
           sleep config.polling_interval
-          tweets = twitter.home_timeline(:since_id => last_id)
+          tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
@@ -121,7 +121,7 @@ module Twat
       twitter_auth
 
       begin
-        twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
+        Twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
           format(tweet)
         end
       rescue Twitter::NotFound
@@ -170,19 +170,13 @@ module Twat
         config.endpoint.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
+        twit.endpoint = config.endpoint.url
       end
     end
 
     def beep
       print "\a"
     end
-
-    def twitter
-      twit_opts = { endpoint: config.endpoint.url }
-
-      @twitter ||= Twitter.new(twit_opts)
-    end
-
 
   end
 end
