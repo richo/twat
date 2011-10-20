@@ -3,24 +3,18 @@ module Twat::Endpoints
 
     def initialize
       ::Twitter::Request.module_eval do
+        alias :_request :request
         def request(method, path, params, options)
-          # Needs original method body, seems to be impossible to call original
-          # implementation
-          # FIXME subclass the whole show?
           path.gsub!(%r|^1/|, '')
-          response = connection(options).send(method) do |request|
-            case method.to_sym
-            when :get, :delete
-              request.url(formatted_path(path, options), params)
-            when :post, :put
-              request.path = formatted_path(path, options)
-              request.body = params unless params.empty?
-            end
-          end
-          options[:raw] ? response : response.body
+          _request(method, path, params, options)
         end
       end
     end
+
+    # this bails with /home/richo/code/ext/twat/lib/twat/endpoints/identica.rb:6:in `block in initialize': uninitialized constant Twat::Endpoints::Identica::Request (NameError)
+    # So I figured it's still relative to This module, so I tried
+    #
+    # ::Twitter.module_eval...
 
     def url
       "https://identi.ca/api"
