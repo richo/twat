@@ -10,32 +10,6 @@ module Twat
     # Add is somewhat of a special case, everything else hangs off config for
     # it's magic, However we're forced to do it manually here- config doesn't
     # know anything about it yet
-    def add
-      endpoint = Endpoint.new(opts[:endpoint])
-      v = endpoint.consumer_info.map do |key, value|
-        value
-      end
-
-      oauth_options = { :site => endpoint.url }
-      oauth_options.merge!(endpoint.oauth_options)
-
-      oauth = OAuth::Consumer.new( v[0], v[1], oauth_options )
-      token_request = oauth.get_request_token()
-      puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
-      pin = STDIN.gets.chomp
-      begin
-        access_token = token_request.get_access_token(oauth_verifier: pin)
-        account_settings = {
-          oauth_token: access_token.token,
-          oauth_token_secret: access_token.secret,
-          endpoint: opts[:endpoint]
-        }
-        config.accounts[opts[:account]] = account_settings
-        config.save!
-      rescue OAuth::Unauthorized
-        puts "Couldn't authenticate you, did you enter the pin correctly?"
-      end
-    end
 
     def delete
       if config.accounts.delete(opts[:account])
@@ -59,12 +33,6 @@ module Twat
       config.update!
     end
 
-    def show
-      twitter_auth
-      Twitter.home_timeline(:count => opts[:count]).reverse.each do |tweet|
-        format(tweet)
-      end
-    end
 
     private
 
@@ -132,28 +100,6 @@ module Twat
 
     private
 
-    # Format a tweet all pretty like
-    def format(twt)
-      text = deentitize(twt.text)
-      if config.colors?
-        if twt.user.screen_name == config.account_name.to_s
-          puts "#{twt.user.screen_name.bold.blue}: #{text}"
-        elsif text.mentions?(config.account_name)
-          puts "#{twt.user.screen_name.bold.red}: #{text}"
-        else
-          puts "#{twt.user.screen_name.bold.cyan}: #{text}"
-        end
-      else
-        puts "#{twt.user.screen_name}: #{text}"
-      end
-    end
-
-    def deentitize(text)
-      {"&lt;" => "<", "&gt;" => ">", "&amp;" => "&", "&quot;" => '"' }.each do |k,v|
-        text.gsub!(k, v)
-      end
-      text
-    end
 
 
     def account_name
@@ -174,9 +120,6 @@ module Twat
       end
     end
 
-    def beep
-      print "\a"
-    end
 
   end
 end

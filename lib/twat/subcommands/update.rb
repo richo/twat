@@ -12,6 +12,7 @@ module Twat::Subcommands
       Twitter.update(opts.msg)
       #puts opts.msg
     end
+
   end
   COMMANDS['update'] = Add
 end
