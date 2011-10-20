@@ -6,7 +6,7 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-%w[config exceptions argparse actions migration options endpoint].each do |filename|
+%w[config exceptions argparse actions migration options endpoint subcommand].each do |filename|
   require "twat/#{filename}"
 end
 
@@ -53,7 +53,6 @@ module Twat
     include HandledExceptions
 
     def cli_run
-      # FIXME Handing in the opts like this feels dirty
       with_handled_exceptions(ArgParse.new) do |opts|
         actor = Actions.new
 

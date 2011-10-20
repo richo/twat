@@ -163,17 +163,6 @@ module Twat
       text
     end
 
-    def twitter_auth
-      Twitter.configure do |twit|
-        config.account.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-        config.endpoint.consumer_info.each do |key, value|
-          twit.send("#{key}=", value)
-        end
-        twit.endpoint = config.endpoint.url
-      end
-    end
 
     def account_name
       @account_name ||=
