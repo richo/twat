@@ -1,6 +1,27 @@
 module Twat::Endpoints
   class Identica
 
+    def initialize
+      ::Twitter::Request.module_eval do
+        def request(method, path, params, options)
+          # Needs original method body, seems to be impossible to call original
+          # implementation
+          # FIXME subclass the whole show?
+          path.gsub!(%r|^1/|, '')
+          response = connection(options).send(method) do |request|
+            case method.to_sym
+            when :get, :delete
+              request.url(formatted_path(path, options), params)
+            when :post, :put
+              request.path = formatted_path(path, options)
+              request.body = params unless params.empty?
+            end
+          end
+          options[:raw] ? response : response.body
+        end
+      end
+    end
+
     def url
       "https://identi.ca/api"
     end
