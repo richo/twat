@@ -122,7 +122,7 @@ module Twat
       twitter_auth
 
       begin
-        Twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
+        Twitter.user_timeline(opts[:user], :count => opts[:count]).reverse.each do |tweet|
           format(tweet)
         end
       rescue Twitter::NotFound
