@@ -13,7 +13,12 @@ module Twat
         argv.insert(1, "update")
       end
 
-      COMMANDs[argv[1]].new(argv)
+      # There is really no reason why this needs to be explicitly mention
+      # in this layout, we could just as easily look for a class in
+      # Subcommands:: that matches by name, however this avoids some ugly
+      # metaprogramming with minimal overhead, and also leaves the door
+      # open for aliasing etc
+      COMMANDS[argv[1]].new(argv).run
     end
 
   end

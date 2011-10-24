@@ -2,7 +2,7 @@ module Twat::Subcommands
   class Base
 
     def initialize(argv)
-      # Logic to parse argv goes here
+      @argv=argv
     end
 
     def twitter_auth

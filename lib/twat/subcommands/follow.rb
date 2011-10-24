@@ -1,5 +1,5 @@
 module Twat::Subcommands
-  class Follow
+  class Follow < Base
 
     def run
       # I can't see any way to poll the server for updates, so in the meantime
