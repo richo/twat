@@ -53,17 +53,8 @@ module Twat
     include HandledExceptions
 
     def cli_run
-      with_handled_exceptions(ArgParse.new) do |opts|
-        actor = Actions.new
-
-        if opts[:account] && opts[:action] != :add
-          config.account = opts[:account]
-        end
-
-        actor.config = config
-        actor.opts = opts
-        actor.send(opts.options[:action])
-      end
+      # FIXME exception handling is gone for now
+      Subcommand.run(ARGV)
     end
   end
 end
