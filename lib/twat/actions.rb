@@ -8,13 +8,27 @@ module Twat
 
     def tweet
       twitter_auth
+      if opts.msg.length > 140 and offer_devowelify?
+        devowelify(opts.msg)
+      end
 
       raise TweetTooLong if opts.msg.length > 140
-
       Twitter.update(opts.msg)
       #puts opts.msg
     end
 
+    private
+    def offer_devowelify?
+      print "Your tweet is too long, dump all the vowels? [yN] "
+      return STDIN.gets[0].downcase == "y"
+    end
+
+    def devowelify(str)
+      str.gsub!(/[aeiou]/i, "")
+      str.gsub!(/  +/, " ")
+    end
+
+    public
     # Add is somewhat of a special case, everything else hangs off config for
     # it's magic, However we're forced to do it manually here- config doesn't
     # know anything about it yet
