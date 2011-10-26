@@ -2,11 +2,14 @@ module Twat::Endpoints
   class Identica
 
     def initialize
-      ::Twitter::Request.module_eval do
-        alias :_request :request
-        def request(method, path, params, options)
-          path.gsub!(%r|^1/|, '')
-          _request(method, path, params, options)
+      unless @@endpoint_set
+        @@endpoint_set = true
+        ::Twitter::Request.module_eval do
+          alias :_request :request
+          def request(method, path, params, options)
+            path.gsub!(%r|^1/|, '')
+            _request(method, path, params, options)
+          end
         end
       end
     end
