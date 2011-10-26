@@ -6,11 +6,6 @@ module Twat
 
     attr_accessor :config, :opts, :failcount
 
-
-    # Add is somewhat of a special case, everything else hangs off config for
-    # it's magic, However we're forced to do it manually here- config doesn't
-    # know anything about it yet
-
     def delete
       if config.accounts.delete(opts[:account])
         config.save!
@@ -23,8 +18,6 @@ module Twat
     def updateconfig
       config.update!
     end
-
-
 
     public
 
@@ -40,15 +33,11 @@ module Twat
       end
     end
 
-
     def method_missing(sym, *args, &block)
       raise NoSuchCommand
     end
 
     private
-
-
-
     def account_name
       @account_name ||=
         if opts.include?(:account)
