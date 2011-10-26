@@ -9,8 +9,8 @@ module Twat
     end
 
     def new(argv)
-      unless COMMANDS.include?(argv[1])
-        argv.insert(1, "update")
+      unless COMMANDS.include?(argv[0])
+        argv.insert(0, "update")
       end
 
       # There is really no reason why this needs to be explicitly mention
@@ -18,7 +18,7 @@ module Twat
       # Subcommands:: that matches by name, however this avoids some ugly
       # metaprogramming with minimal overhead, and also leaves the door
       # open for aliasing etc
-      COMMANDS[argv[1]].new(argv).run
+      COMMANDS[argv[0]].new(argv).run
     end
 
   end
