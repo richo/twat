@@ -1,15 +1,14 @@
+%w(base add delete follow list set update user version).each do |filename|
+  require File.join(File.expand_path("../subcommands/#{filename}", __FILE__))
+end
+
 module Twat
-  COMMANDS = {}
   class Subcommand
 
     # A proxy class to represend all of the possible actions that a
     # command may take
-    Dir['subcommands/*'].each do |filename|
-      require File.join(File.expand_path("../endpoints", __FILE__), File.basename(filename))
-    end
-
-    def new(argv)
-      unless COMMANDS.include?(argv[0])
+    def self.run(argv)
+      unless Subcommands::COMMANDS.include?(argv[0])
         argv.insert(0, "update")
       end
 
@@ -18,7 +17,7 @@ module Twat
       # Subcommands:: that matches by name, however this avoids some ugly
       # metaprogramming with minimal overhead, and also leaves the door
       # open for aliasing etc
-      COMMANDS[argv[0]].new(argv).run
+      Subcommands::COMMANDS[argv[0]].new(argv).run
     end
 
   end

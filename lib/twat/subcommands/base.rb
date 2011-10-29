@@ -1,4 +1,5 @@
 module Twat::Subcommands
+  COMMANDS = {}
   class Base
 
     def initialize(argv)
