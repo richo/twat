@@ -1,8 +1,5 @@
 module Twat::Subcommands
-  class Add < Base
-
-    def initialize
-    end
+  class Update < Base
 
     def run
       twitter_auth
@@ -14,5 +11,5 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['update'] = Add
+  COMMANDS['update'] = Update
 end
