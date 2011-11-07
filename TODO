@@ -15,13 +15,18 @@ tools will be written soon)
 (which carries with it warnings if it's too short.. which means a warn
 method.. which means abstracting it's output..)
 
-On the upside, it'll make unit testing similar.  
+On the upside, it'll make unit testing similar.
 (Add unit tests)
 
 Split config and options out into submodules
 
 Allow upload of media files with the tweet via some kind of --attach
 (Has implications for other endpoints because we need that data from the user or to infer it somehow)
+
+Mentions from non-followed accounts don't show up in -f
+
+The handler to work out if a tweet is from you relies on the account
+name being the same as the username, which is a dodgy assumption.
 
 PENDING
 =======
