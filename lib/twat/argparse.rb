@@ -25,6 +25,10 @@ module Twat
           options[:account] = acct.to_sym
           options[:action] = :add
         end #}}}
+        opts.on('--follow-user USER', 'Follow USER on twitter') do |user| #{{{ --follow-user USER
+          options[:action] = :follow_user
+          options[:user] = user
+        end #}}}
         opts.on('--endpoint ENDPOINT', 'Specify a different endpoint for use with --add') do |endpoint| #{{{ --add ACCOUNT
           options[:endpoint] = endpoint.to_sym
         end #}}}
