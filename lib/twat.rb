@@ -6,7 +6,7 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-%w[config exceptions argparse actions migration options endpoint].each do |filename|
+%w[config exceptions argparse actions migration options endpoint subcommand version].each do |filename|
   require "twat/#{filename}"
 end
 
@@ -43,28 +43,13 @@ class String
 end
 
 module Twat
-  VERSION_MAJOR = 0
-  VERSION_MINOR = 5
-  VERSION_PATCH = 2
-
-  VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
 
     include HandledExceptions
 
     def cli_run
-      # FIXME Handing in the opts like this feels dirty
-      with_handled_exceptions(ArgParse.new) do |opts|
-        actor = Actions.new
-
-        if opts[:account] && opts[:action] != :add
-          config.account = opts[:account]
-        end
-
-        actor.config = config
-        actor.opts = opts
-        actor.send(opts.options[:action])
-      end
+      # FIXME exception handling is gone for now
+      Subcommand.run(ARGV)
     end
   end
 end
