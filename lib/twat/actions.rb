@@ -2,6 +2,8 @@ module Twat
   OAUTH_TOKENS = [ :oauth_token, :oauth_token_secret ]
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
 
+  class NoSuchTweet < Exception; end
+
   class TweetStack
     # A circularly linked list representing all of the tweets printed thus far,
     # for the purposes of retrieving them after being printed
@@ -16,6 +18,10 @@ module Twat
 
     def << v
       @stack[nxt] = v
+    end
+
+    def include? k
+      @stack.keys.include?(k)
     end
 
     def last
@@ -132,6 +138,22 @@ module Twat
       return last_id
     end
 
+    def handle_input(inp)
+      case inp
+      when /[rR][tT] ([0-9]{1,2})/
+        begin
+          retweet($1.to_i)
+        rescue NoSuchTweet
+          puts "No such tweet".red
+        end
+      end
+    end
+
+    def retweet(idx)
+      raise NoSuchTweet unless @tweetstack.include?(idx)
+      Twitter.retweet(@tweetstack[idx].id)
+    end
+
     public
 
     def follow
@@ -148,6 +170,7 @@ module Twat
         begin
           last_id = process_followed(tweets) if tweets.any?
           config.polling_interval.times do
+            handle_input(STDIN.read_nonblock(128).chop) rescue nil
             sleep 1
           end
           tweets = Twitter.home_timeline(:since_id => last_id)
