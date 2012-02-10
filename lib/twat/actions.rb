@@ -146,6 +146,11 @@ module Twat
         rescue NoSuchTweet
           puts "No such tweet".red
         end
+      else
+        # Assume they want to tweet something
+        raise TweetTooLong if inp.length > 140
+
+        Twitter.update(inp.msg)
       end
     end
 
@@ -170,7 +175,13 @@ module Twat
         begin
           last_id = process_followed(tweets) if tweets.any?
           config.polling_interval.times do
-            handle_input(STDIN.read_nonblock(128).chop) rescue nil
+            begin
+              handle_input(STDIN.read_nonblock(128).chop)
+            rescue Errno::EAGAIN
+              nil
+            rescue TweetTooLong
+              puts "Too long".red
+            end
             sleep 1
           end
           tweets = Twitter.home_timeline(:since_id => last_id)
