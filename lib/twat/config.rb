@@ -1,14 +1,16 @@
 module Twat
   class Twat
-    def configure(&block)
-      yield config
+    class << self
+      def configure(&block)
+        yield config
 
-      # If I understand correctly, I can check over what's
-      # happened here?
-    end
+        # If I understand correctly, I can check over what's
+        # happened here?
+      end
 
-    def config
-      @config ||= Config.new
+      def config
+        @config ||= Config.new
+      end
     end
   end
 

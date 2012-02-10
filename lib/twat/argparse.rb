@@ -1,6 +1,15 @@
 module Twat
   REQUIRED = []
   MSG_REQUIRED = [:tweet]
+  class ArgWrapper
+    def initialize(data)
+      @data = data
+    end
+
+    def method_missing(sym)
+      @data[sym]
+    end
+  end
 
   class ArgParse
 
@@ -83,7 +92,7 @@ module Twat
         options[:msg] = msg
       end
       # }}} Validation End ---
-      options
+      ArgWrapper.new(options)
     end
 
     def msg

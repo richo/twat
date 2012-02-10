@@ -2,8 +2,11 @@ module Twat::Subcommands
   COMMANDS = {}
   class Base
 
+    attr_reader :opts
+
     def initialize(argv)
       @argv=argv
+      @opts = ::Twat::ArgParse.new.getopts
     end
 
     def twitter_auth
@@ -43,6 +46,10 @@ module Twat::Subcommands
         text.gsub!(k, v)
       end
       text
+    end
+
+    def config
+      ::Twat::Twat.config
     end
 
   end
