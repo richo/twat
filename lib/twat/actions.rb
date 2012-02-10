@@ -108,7 +108,9 @@ module Twat
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
-          sleep config.polling_interval
+          config.polling_interval.times do
+            sleep 1
+          end
           tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
