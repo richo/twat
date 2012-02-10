@@ -33,7 +33,7 @@ module Twat
 
     def nxt
       if @_next == 99
-        @_next = 0
+        @_next = 1
       else
         @_next += 1
       end
