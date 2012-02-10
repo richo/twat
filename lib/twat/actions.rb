@@ -2,6 +2,39 @@ module Twat
   OAUTH_TOKENS = [ :oauth_token, :oauth_token_secret ]
   CONSUMER_TOKENS = [ :consumer_key, :consumer_secret ]
 
+  class TweetStack
+    # A circularly linked list representing all of the tweets printed thus far,
+    # for the purposes of retrieving them after being printed
+    def initialize
+      @stack = {}
+      @_next = 0
+    end
+
+    def [] k
+      @stack[k]
+    end
+
+    def << v
+      @stack[nxt] = v
+    end
+
+    def last
+      # I see the irony
+      @_next
+    end
+
+    private
+
+    def nxt
+      if @_next == 99
+        @_next = 0
+      else
+        @_next += 1
+      end
+    end
+
+  end
+
   class Actions
 
     attr_accessor :config, :opts, :failcount
@@ -82,12 +115,17 @@ module Twat
 
     private
 
+    # The handling of the shared variable in the follow code makes a shitton
+    # more sense in the context of a class (ala the subcommands branch).  For
+    # now the kludginess must be tolerated
+
     # @return last_id
     def process_followed(tweets)
       last_id = nil
       tweets.reverse.each do |tweet|
+        id = @tweetstack << tweet
         beep if config.beep? && tweet.text.mentions?(config.account_name)
-        format(tweet)
+        format(tweet, @tweetstack.last)
         last_id = tweet.id
       end
 
@@ -102,6 +140,7 @@ module Twat
       # occasionally :/
       twitter_auth
       failcount = 0
+      @tweetstack = TweetStack.new
 
       # Get 5 tweets
       tweets = Twitter.home_timeline(:count => 5)
@@ -158,10 +197,16 @@ module Twat
 
     private
 
+    def pad(n)
+      "%02d" % n
+    end
+
     # Format a tweet all pretty like
-    def format(twt)
+    def format(twt, idx = nil)
+      idx = pad(idx) if idx
       text = deentitize(twt.text)
       if config.colors?
+        print "#{idx.cyan}:" if idx
         if twt.user.screen_name == config.account_name.to_s
           puts "#{twt.user.screen_name.bold.blue}: #{text}"
         elsif text.mentions?(config.account_name)
@@ -170,6 +215,7 @@ module Twat
           puts "#{twt.user.screen_name.bold.cyan}: #{text}"
         end
       else
+        print "#{idx}:" if idx
         puts "#{twt.user.screen_name}: #{text}"
       end
     end
