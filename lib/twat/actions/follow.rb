@@ -45,6 +45,15 @@ module Twat
 
     def initialize
       @reader = ReadlineNG::Reader.new
+
+      def @reader.filter
+        case @buf.length
+        when 140
+          _print "[31m"
+        when 139
+          _print "[39m"
+        end
+      end
     end
 
     def follow
