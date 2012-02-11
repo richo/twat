@@ -1,4 +1,5 @@
 module Twat
+  POLLING_RESOLUTION = 20
 
   class NoSuchTweet < Exception; end
 
@@ -42,6 +43,10 @@ module Twat
 
   class Actions
 
+    def initialize
+      @buf = ""
+    end
+
     def follow
       if defined?(Curses)
         Curses.noecho
@@ -49,7 +54,6 @@ module Twat
       else
         $stty_saved = `stty -g`
         `stty -echo raw`
-        STDIN.sync = true
       end
 
       twitter_auth
@@ -61,30 +65,40 @@ module Twat
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
-          config.polling_interval.times do
+          (config.polling_interval * POLLING_RESOLUTION).times do
             begin
-              handle_input(STDIN.read_nonblock(128).chop)
+              this = STDIN.read_nonblock(128)
+              # print this.inspect
+              print_char(this)
+              @buf += this
+              # Bails here if no input
+              exit if @buf.include?("\x03")
+              ary = @buf.split("\r")
+
+              # Work out if we got a complete command
+              @buf = @buf[-1] == "\r" ? "" : ary.pop
+              ary.each { |inp| handle_input(inp) }
             rescue Errno::EAGAIN
               nil
             rescue TweetTooLong
               puts "Too long".red
             end
-            sleep 1
+            sleep 1.0/POLLING_RESOLUTION
           end
           tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
-        rescue Twitter::ServiceUnavailable
-          if failcount > 2
-            puts "3 consecutive failures, giving up"
-          else
-            sleeptime = 60 * (failcount + 1)
-            print "(__-){".red
-            puts ": the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
-            sleep sleeptime
-            failcount += 1
-          end
+        # rescue Twitter::ServiceUnavailable
+        #   if failcount > 2
+        #     puts "3 consecutive failures, giving up"
+        #   else
+        #     sleeptime = 60 * (failcount + 1)
+        #     print "(__-){".red
+        #     puts ": the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
+        #     sleep sleeptime
+        #     failcount += 1
+        #   end
         rescue Errno::ECONNRESET
         rescue Errno::ETIMEDOUT
           if failcount > 2
@@ -103,6 +117,15 @@ module Twat
     end
 
     private
+
+    def print_char(c)
+      case c
+      when "\x7F"
+        print "\x0b"
+      else
+        print c
+      end
+    end
 
     # The handling of the shared variable in the follow code makes a shitton
     # more sense in the context of a class (ala the subcommands branch).  For
@@ -127,8 +150,9 @@ module Twat
         begin
           retweet($1.to_i)
         rescue NoSuchTweet
-          puts "No such tweet".red
+          print "No such tweet\n".red
         end
+      when /test/
       else
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140
