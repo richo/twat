@@ -16,10 +16,6 @@ module Twat
       puts "Successfully set #{k} as #{v}"
     end
 
-    def updateconfig
-      config.update!
-    end
-
     def show
       twitter_auth
       Twitter.home_timeline(:count => opts[:count]).reverse.each do |tweet|
