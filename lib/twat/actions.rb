@@ -150,7 +150,7 @@ module Twat
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140
 
-        Twitter.update(inp.msg)
+        Twitter.update(inp)
       end
     end
 
