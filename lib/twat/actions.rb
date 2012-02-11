@@ -20,9 +20,12 @@ module Twat
     def output(twt, idx = nil)
       out = format(twt, idx)
       if defined?(Curses)
+        Curses.setpos(Curses.lines-1, 0)
         Curses.addstr(out)
+        Curses.refresh
       else
-        puts(out)
+        print(out)
+        puts "\r"
       end
     end
 

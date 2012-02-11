@@ -46,6 +46,10 @@ module Twat
       if defined?(Curses)
         Curses.noecho
         Curses.init_screen
+      else
+        $stty_saved = `stty -g`
+        `stty -echo raw`
+        STDIN.sync = true
       end
 
       twitter_auth
@@ -93,6 +97,8 @@ module Twat
     ensure
       if defined?(Curses)
         Curses.echo
+      else
+        `stty #{$stty_saved}`
       end
     end
 
