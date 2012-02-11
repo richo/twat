@@ -7,12 +7,6 @@ module Twat
 
     attr_accessor :config, :opts, :failcount
 
-    def follow_user
-      twitter_auth
-
-      Twitter.follow(opts[:user])
-    end
-
     def setoption
       k, v = opts[:optval].split("=")
       raise RequiresOptVal unless v
