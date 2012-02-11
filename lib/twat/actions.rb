@@ -7,13 +7,6 @@ module Twat
 
     attr_accessor :config, :opts, :failcount
 
-    def show
-      twitter_auth
-      Twitter.home_timeline(:count => opts[:count]).reverse.each do |tweet|
-        format(tweet)
-      end
-    end
-
     def user_feed
       twitter_auth
 
