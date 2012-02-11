@@ -102,7 +102,7 @@ module Twat
       tweets.reverse.each do |tweet|
         id = @tweetstack << tweet
         beep if config.beep? && tweet.text.mentions?(config.account_name)
-        format(tweet, @tweetstack.last)
+        output(tweet, @tweetstack.last)
         last_id = tweet.id
       end
 

@@ -17,6 +17,15 @@ module Twat
       "%02d" % n
     end
 
+    def output(twt, idx = nil)
+      out = format(twt, idx)
+      if defined?(Curses)
+        Curses.addstr(out)
+      else
+        puts(out)
+      end
+    end
+
     # Format a tweet all pretty like
     def format(twt, idx = nil)
       idx = pad(idx) if idx
@@ -24,15 +33,15 @@ module Twat
       if config.colors?
         print "#{idx.cyan}:" if idx
         if twt.user.screen_name == config.account_name.to_s
-          puts "#{twt.user.screen_name.bold.blue}: #{text}"
+          "#{twt.user.screen_name.bold.blue}: #{text}"
         elsif text.mentions?(config.account_name)
-          puts "#{twt.user.screen_name.bold.red}: #{text}"
+          "#{twt.user.screen_name.bold.red}: #{text}"
         else
-          puts "#{twt.user.screen_name.bold.cyan}: #{text}"
+          "#{twt.user.screen_name.bold.cyan}: #{text}"
         end
       else
-        print "#{idx}:" if idx
-        puts "#{twt.user.screen_name}: #{text}"
+        buf = "#{twt.user.screen_name}: #{text}"
+        buf = "#{idx}:" + buf if idx
       end
     end
 
