@@ -40,8 +40,8 @@ module Twat
           "#{twt.user.screen_name.bold.cyan}: #{text}"
         end
       else
-        buf = "#{twt.user.screen_name}: #{text}"
-        buf = "#{idx}:" + buf if idx
+        buf = idx ? "#{idx}: " : ""
+        buf += "#{twt.user.screen_name}: #{text}"
       end
     end
 
