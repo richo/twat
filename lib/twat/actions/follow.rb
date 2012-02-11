@@ -57,10 +57,6 @@ module Twat
     end
 
     def follow
-      # Probably belongs to readline-ng
-      $stty_saved = `stty -g`
-      `stty -echo raw`
-
       twitter_auth
       failcount = 0
       @tweetstack = TweetStack.new
@@ -102,8 +98,6 @@ module Twat
           end
         end
       end
-    ensure
-      `stty #{$stty_saved}`
     end
 
     private
