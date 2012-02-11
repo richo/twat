@@ -1,4 +1,5 @@
 module Twat
+  POLLING_RESOLUTION = 20
 
   class NoSuchTweet < Exception; end
 
@@ -42,10 +43,24 @@ module Twat
 
   class Actions
 
+    def initialize
+      @reader = ReadlineNG::Reader.new
+
+      def @reader.filter
+        case @buf.length
+        when 140
+          _print "[31m"
+        when 139
+          _print "[39m"
+        end
+      end
+    end
+
     def follow
-      # I can't see any way to poll the server for updates, so in the meantime
-      # we will have to retrieve a few tweets from the timeline, and then poll
-      # occasionally :/
+      # Probably belongs to readline-ng
+      $stty_saved = `stty -g`
+      `stty -echo raw`
+
       twitter_auth
       failcount = 0
       @tweetstack = TweetStack.new
@@ -55,30 +70,29 @@ module Twat
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
-          config.polling_interval.times do
+          (config.polling_interval * POLLING_RESOLUTION).times do
             begin
-              handle_input(STDIN.read_nonblock(128).chop)
-            rescue Errno::EAGAIN
-              nil
+              @reader.tick
+              @reader.each_line { |inp| handle_input(inp) }
             rescue TweetTooLong
               puts "Too long".red
             end
-            sleep 1
+            sleep 1.0/POLLING_RESOLUTION
           end
           tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
-        rescue Twitter::ServiceUnavailable
-          if failcount > 2
-            puts "3 consecutive failures, giving up"
-          else
-            sleeptime = 60 * (failcount + 1)
-            print "(__-){".red
-            puts ": the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
-            sleep sleeptime
-            failcount += 1
-          end
+        # rescue Twitter::ServiceUnavailable
+        #   if failcount > 2
+        #     puts "3 consecutive failures, giving up"
+        #   else
+        #     sleeptime = 60 * (failcount + 1)
+        #     print "(__-){".red
+        #     puts ": the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
+        #     sleep sleeptime
+        #     failcount += 1
+        #   end
         rescue Errno::ECONNRESET
         rescue Errno::ETIMEDOUT
           if failcount > 2
@@ -88,6 +102,8 @@ module Twat
           end
         end
       end
+    ensure
+      `stty #{$stty_saved}`
     end
 
     private
@@ -102,7 +118,7 @@ module Twat
       tweets.reverse.each do |tweet|
         id = @tweetstack << tweet
         beep if config.beep? && tweet.text.mentions?(config.account_name)
-        format(tweet, @tweetstack.last)
+        @reader.puts_above format(tweet, @tweetstack.last)
         last_id = tweet.id
       end
 
@@ -115,8 +131,12 @@ module Twat
         begin
           retweet($1.to_i)
         rescue NoSuchTweet
-          puts "No such tweet".red
+          print "No such tweet\n".red
         end
+      when /follow (.*)/
+        follow_user($1)
+      when /test/
+        @reader.puts_above "Testline!"
       else
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140

@@ -6,6 +6,8 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
+require 'readline-ng'
+
 %w[config exceptions argparse actions migration options endpoint].each do |filename|
   require "twat/#{filename}"
 end

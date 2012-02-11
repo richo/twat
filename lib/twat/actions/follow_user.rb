@@ -1,10 +1,10 @@
 module Twat
   class Actions
 
-    def follow_user
+    def follow_user(user = nil)
       twitter_auth
 
-      Twitter.follow(opts[:user])
+      Twitter.follow(user || opts[:user])
     end
 
   end
