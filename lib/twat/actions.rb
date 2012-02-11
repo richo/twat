@@ -7,18 +7,6 @@ module Twat
 
     attr_accessor :config, :opts, :failcount
 
-    def user_feed
-      twitter_auth
-
-      begin
-        Twitter.user_timeline(opts[:user], :count => opts[:count]).each do |tweet|
-          format(tweet)
-        end
-      rescue Twitter::NotFound
-        puts "#{opts[:user].bold.red} doesn't appear to be a valid user"
-      end
-    end
-
     def version
       puts "twat: #{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
     end
