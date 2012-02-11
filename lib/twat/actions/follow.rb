@@ -152,6 +152,8 @@ module Twat
         rescue NoSuchTweet
           print "No such tweet\n".red
         end
+      when /follow (.*)/
+        follow_user($1)
       when /test/
       else
         # Assume they want to tweet something
