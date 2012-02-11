@@ -31,13 +31,13 @@ module Twat
       idx = pad(idx) if idx
       text = deentitize(twt.text)
       if config.colors?
-        print "#{idx.cyan}:" if idx
+        buf = idx ? "#{idx.cyan}:" : ""
         if twt.user.screen_name == config.account_name.to_s
-          "#{twt.user.screen_name.bold.blue}: #{text}"
+          buf += "#{twt.user.screen_name.bold.blue}: #{text}"
         elsif text.mentions?(config.account_name)
-          "#{twt.user.screen_name.bold.red}: #{text}"
+          buf += "#{twt.user.screen_name.bold.red}: #{text}"
         else
-          "#{twt.user.screen_name.bold.cyan}: #{text}"
+          buf += "#{twt.user.screen_name.bold.cyan}: #{text}"
         end
       else
         buf = idx ? "#{idx}: " : ""
