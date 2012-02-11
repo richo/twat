@@ -44,6 +44,7 @@ module Twat
   class Actions
 
     def initialize
+      @failcount = 0
       @reader = ReadlineNG::Reader.new
 
       def @reader.filter
@@ -53,6 +54,15 @@ module Twat
         when 139
           _print "[39m"
         end
+      end
+    end
+
+    def fail_or_bail
+      if @failcount > 2
+        puts "3 consecutive failures, giving up"
+      else
+        @failcount += 1
+        return true
       end
     end
 
@@ -80,21 +90,12 @@ module Twat
         rescue Interrupt
           break
         rescue Twitter::Error::ServiceUnavailable
-          if failcount > 2
-            puts "3 consecutive failures, giving up"
-          else
-            sleeptime = 60 * (failcount + 1)
-            @reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
-            sleep sleeptime
-            failcount += 1
-          end
-        rescue Errno::ECONNRESET
-        rescue Errno::ETIMEDOUT
-          if failcount > 2
-            puts "3 consecutive failures, giving up"
-          else
-            failcount += 1
-          end
+          break unless fail_or_bail
+          sleeptime = 60 * (@failcount + 1)
+          @reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
+          sleep sleeptime
+        rescue Errno::ECONNRESET, Errno::ETIMEDOUT, SocketError
+          break unless fail_or_bail
         end
       end
     end
