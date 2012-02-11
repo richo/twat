@@ -7,15 +7,6 @@ module Twat
 
     attr_accessor :config, :opts, :failcount
 
-    def delete
-      if config.accounts.delete(opts[:account])
-        config.save!
-        puts "Successfully deleted"
-      else
-        puts "No such account"
-      end
-    end
-
     def follow_user
       twitter_auth
 

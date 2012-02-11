@@ -10,7 +10,7 @@ require 'oauth'
   require "twat/#{filename}"
 end
 
-%w[follow tweet add].each do |filename|
+%w[follow tweet add delete].each do |filename|
   require "twat/actions/#{filename}"
 end
 
