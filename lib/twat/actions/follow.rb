@@ -79,16 +79,15 @@ module Twat
           failcount = 0
         rescue Interrupt
           break
-        # rescue Twitter::ServiceUnavailable
-        #   if failcount > 2
-        #     puts "3 consecutive failures, giving up"
-        #   else
-        #     sleeptime = 60 * (failcount + 1)
-        #     print "(__-){".red
-        #     puts ": the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
-        #     sleep sleeptime
-        #     failcount += 1
-        #   end
+        rescue Twitter::Error::ServiceUnavailable
+          if failcount > 2
+            puts "3 consecutive failures, giving up"
+          else
+            sleeptime = 60 * (failcount + 1)
+            @reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
+            sleep sleeptime
+            failcount += 1
+          end
         rescue Errno::ECONNRESET
         rescue Errno::ETIMEDOUT
           if failcount > 2
