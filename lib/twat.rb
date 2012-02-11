@@ -10,6 +10,10 @@ require 'oauth'
   require "twat/#{filename}"
 end
 
+%w[follow].each do |filename|
+  require "twat/actions/#{filename}"
+end
+
 class String
   # TODO - It'd be nice to implement the colors support here, maybe even only
   # mix this in if it's enabled?
