@@ -43,9 +43,11 @@ module Twat
   class Actions
 
     def follow
-      # I can't see any way to poll the server for updates, so in the meantime
-      # we will have to retrieve a few tweets from the timeline, and then poll
-      # occasionally :/
+      if defined?(Curses)
+        Curses.noecho
+        Curses.init_screen
+      end
+
       twitter_auth
       failcount = 0
       @tweetstack = TweetStack.new
@@ -87,6 +89,10 @@ module Twat
             failcount += 1
           end
         end
+      end
+    ensure
+      if defined?(Curses)
+        Curses.echo
       end
     end
 
