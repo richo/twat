@@ -17,18 +17,6 @@ module Twat
       "%02d" % n
     end
 
-    def output(twt, idx = nil)
-      out = format(twt, idx)
-      if defined?(Curses)
-        Curses.setpos(Curses.lines-1, 0)
-        Curses.addstr(out)
-        Curses.refresh
-      else
-        print(out)
-        puts "\r"
-      end
-    end
-
     # Format a tweet all pretty like
     def format(twt, idx = nil)
       idx = pad(idx) if idx

@@ -44,17 +44,13 @@ module Twat
   class Actions
 
     def initialize
-      @buf = ""
+      @reader = ReadlineNG::Reader.new
     end
 
     def follow
-      if defined?(Curses)
-        Curses.noecho
-        Curses.init_screen
-      else
-        $stty_saved = `stty -g`
-        `stty -echo raw`
-      end
+      # Probably belongs to readline-ng
+      $stty_saved = `stty -g`
+      `stty -echo raw`
 
       twitter_auth
       failcount = 0
@@ -67,19 +63,8 @@ module Twat
           last_id = process_followed(tweets) if tweets.any?
           (config.polling_interval * POLLING_RESOLUTION).times do
             begin
-              this = STDIN.read_nonblock(128)
-              # print this.inspect
-              print_char(this)
-              @buf += this
-              # Bails here if no input
-              exit if @buf.include?("\x03")
-              ary = @buf.split("\r")
-
-              # Work out if we got a complete command
-              @buf = @buf[-1] == "\r" ? "" : ary.pop
-              ary.each { |inp| handle_input(inp) }
-            rescue Errno::EAGAIN
-              nil
+              @reader.tick
+              @reader.each_line { |inp| handle_input(inp) }
             rescue TweetTooLong
               puts "Too long".red
             end
@@ -109,23 +94,10 @@ module Twat
         end
       end
     ensure
-      if defined?(Curses)
-        Curses.echo
-      else
-        `stty #{$stty_saved}`
-      end
+      `stty #{$stty_saved}`
     end
 
     private
-
-    def print_char(c)
-      case c
-      when "\x7F"
-        print "\x0b"
-      else
-        print c
-      end
-    end
 
     # The handling of the shared variable in the follow code makes a shitton
     # more sense in the context of a class (ala the subcommands branch).  For
@@ -137,7 +109,7 @@ module Twat
       tweets.reverse.each do |tweet|
         id = @tweetstack << tweet
         beep if config.beep? && tweet.text.mentions?(config.account_name)
-        output(tweet, @tweetstack.last)
+        @reader.puts_above format(tweet, @tweetstack.last)
         last_id = tweet.id
       end
 
@@ -155,6 +127,7 @@ module Twat
       when /follow (.*)/
         follow_user($1)
       when /test/
+        @reader.puts_above "Testline!"
       else
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140
