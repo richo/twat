@@ -7,15 +7,6 @@ module Twat
 
     attr_accessor :config, :opts, :failcount
 
-    def tweet
-      twitter_auth
-
-      raise TweetTooLong if opts.msg.length > 140
-
-      Twitter.update(opts.msg)
-      #puts opts.msg
-    end
-
     # Add is somewhat of a special case, everything else hangs off config for
     # it's magic, However we're forced to do it manually here- config doesn't
     # know anything about it yet
