@@ -60,6 +60,14 @@ module Twat
       Twitter.follow(opts[:user])
     end
 
+    def list_followers
+      twitter_auth
+
+      Twitter.followers.each do |follower|
+        puts follower
+      end
+    end
+
     def setoption
       k, v = opts[:optval].split("=")
       raise RequiresOptVal unless v
@@ -111,9 +119,8 @@ module Twat
           sleep config.polling_interval
           tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
-        rescue Interrupt
-          break
         rescue Twitter::ServiceUnavailable
+        rescue Interrupt
           if failcount > 2
             puts "3 consecutive failures, giving up"
           else

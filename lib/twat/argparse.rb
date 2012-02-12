@@ -29,6 +29,9 @@ module Twat
           options[:action] = :follow_user
           options[:user] = user
         end #}}}
+        opts.on('--list-followers', 'List your followers') do #{{{ --list-followers
+          options[:action] = :list_followers
+        end #}}}
         opts.on('--endpoint ENDPOINT', 'Specify a different endpoint for use with --add') do |endpoint| #{{{ --add ACCOUNT
           options[:endpoint] = endpoint.to_sym
         end #}}}

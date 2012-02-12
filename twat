@@ -2,6 +2,7 @@
 
 $:.push File.expand_path("../lib", __FILE__)
 require 'twat'
+require 'pry'
 
 inst = Twat::Twat.new
 inst.cli_run
