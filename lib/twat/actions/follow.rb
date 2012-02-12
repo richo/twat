@@ -45,9 +45,8 @@ module Twat
 
     def initialize
       @failcount = 0
-      @reader = ReadlineNG::Reader.new
 
-      def @reader.filter
+      def reader.filter
         case @buf.length
         when 140
           _print "[31m"
@@ -78,8 +77,8 @@ module Twat
           last_id = process_followed(tweets) if tweets.any?
           (config.polling_interval * POLLING_RESOLUTION).times do
             begin
-              @reader.tick
-              @reader.each_line { |inp| handle_input(inp) }
+              reader.tick
+              reader.each_line { |inp| handle_input(inp) }
             rescue TweetTooLong
               puts "Too long".red
             end
@@ -92,7 +91,7 @@ module Twat
         rescue Twitter::Error::ServiceUnavailable
           break unless fail_or_bail
           sleeptime = 60 * (@failcount + 1)
-          @reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
+          reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
           sleep sleeptime
         rescue Errno::ECONNRESET, Errno::ETIMEDOUT, SocketError
           break unless fail_or_bail
@@ -112,7 +111,7 @@ module Twat
       tweets.reverse.each do |tweet|
         id = @tweetstack << tweet
         beep if config.beep? && tweet.text.mentions?(config.account_name)
-        @reader.puts_above format(tweet, @tweetstack.last)
+        reader.puts_above format(tweet, @tweetstack.last)
         last_id = tweet.id
       end
 
@@ -130,7 +129,7 @@ module Twat
       when /follow (.*)/
         follow_user($1)
       when /test/
-        @reader.puts_above "Testline!"
+        reader.puts_above "Testline!"
       else
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140

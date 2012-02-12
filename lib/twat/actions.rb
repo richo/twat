@@ -17,6 +17,10 @@ module Twat
       "%02d" % n
     end
 
+    def reader
+      @reader ||= ReadlineNG::Reader.new
+    end
+
     # Format a tweet all pretty like
     def format(twt, idx = nil)
       idx = pad(idx) if idx
