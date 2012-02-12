@@ -24,6 +24,7 @@ module Twat
           oauth_token_secret: access_token.secret,
           endpoint: opts[:endpoint]
         }
+        config.create_unless_exists!
         config.accounts[opts[:account]] = account_settings
         config.save!
       rescue OAuth::Unauthorized
