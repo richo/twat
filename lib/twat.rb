@@ -6,8 +6,6 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-require 'readline-ng'
-
 %w[config exceptions argparse actions migration options endpoint].each do |filename|
   require "twat/#{filename}"
 end
@@ -61,11 +59,13 @@ module Twat
     def cli_run
       # FIXME Handing in the opts like this feels dirty
       with_handled_exceptions(ArgParse.new) do |opts|
-        actor = Actions.new
-
         if opts[:account] && opts[:action] != :add
           config.account = opts[:account]
         end
+
+        require 'readline-ng'
+        actor = Actions.new
+
 
         actor.config = config
         actor.opts = opts
