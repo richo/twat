@@ -15,8 +15,8 @@ module Twat
 
       oauth = OAuth::Consumer.new( v[0], v[1], oauth_options )
       token_request = oauth.get_request_token()
-      puts "Please authenticate the application at #{token_request.authorize_url} , then enter pin"
-      pin = STDIN.gets.chomp
+      reader.puts_above "Please authenticate the application at #{token_request.authorize_url} , then enter pin"
+      pin = reader.get_line
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
         account_settings = {
@@ -28,7 +28,7 @@ module Twat
         config.accounts[opts[:account]] = account_settings
         config.save!
       rescue OAuth::Unauthorized
-        puts "Couldn't authenticate you, did you enter the pin correctly?"
+        reader.puts_above "Couldn't authenticate you, did you enter the pin correctly?"
       end
     end
 
