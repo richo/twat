@@ -15,7 +15,7 @@ module Twat
 
       oauth = OAuth::Consumer.new( v[0], v[1], oauth_options )
       token_request = oauth.get_request_token()
-      puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
+      puts "Please authenticate the application at #{token_request.authorize_url} , then enter pin"
       pin = STDIN.gets.chomp
       begin
         access_token = token_request.get_access_token(oauth_verifier: pin)
