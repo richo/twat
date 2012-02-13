@@ -2,4 +2,4 @@ source :rubygems
 
 gem "twitter"
 gem "oauth"
-gem "rack", '1.3.3'
+gem "readline-ng", ">= 0.0.3"
