@@ -128,6 +128,10 @@ module Twat
         end
       when /follow (.*)/
         follow_user($1)
+      when /favou?rite ([0-9]{1,2})/
+        favourite($1)
+      when /delete ([0-9]{1,2})/
+        delete($1)
       when /test/
         reader.puts_above "Testline!"
       else
@@ -141,6 +145,17 @@ module Twat
     def retweet(idx)
       raise NoSuchTweet unless @tweetstack.include?(idx)
       Twitter.retweet(@tweetstack[idx].id)
+    end
+
+    def delete(idx)
+      raise NoSuchTweet unless @tweetstack.include?(idx)
+      # raise NotYourTweet unless ours
+      Twitter.delete(@tweetstack[idx].id)
+    end
+
+    def favourite(idx)
+      raise NoSuchTweet unless @tweetstack.include?(idx)
+      Twitter.favourite(@tweetstack[idx].id)
     end
 
   end
