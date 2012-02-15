@@ -45,6 +45,10 @@ Allow -f #hashtag to follow that hashtag instead of your newsfeed
 
 Seriously consider moving to subcommands
 
+Still needs argv parsing for account etc
+
+twat config to create the first account from scratch
+
 MOAR BACKENDS
 =============
 
