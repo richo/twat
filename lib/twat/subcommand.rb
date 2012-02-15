@@ -8,7 +8,9 @@ module Twat
     # A proxy class to represend all of the possible actions that a
     # command may take
     def self.run(argv)
-      unless Subcommands::COMMANDS.include?(argv[0])
+      if argv.empty?
+        argv.insert(0, "follow_stream")
+      elsif !Subcommands::COMMANDS.include?(argv[0])
         argv.insert(0, "update")
       end
 

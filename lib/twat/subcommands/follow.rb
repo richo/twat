@@ -44,5 +44,5 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['follow'] = Follow
+  COMMANDS['follow_stream'] = Follow
 end
