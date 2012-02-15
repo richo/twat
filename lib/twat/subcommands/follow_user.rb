@@ -8,5 +8,6 @@ module Twat::Subcommands
     end
 
   end
+  COMMANDS['follow'] = FollowUser
 end
 
