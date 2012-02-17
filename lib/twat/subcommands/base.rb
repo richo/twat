@@ -6,7 +6,6 @@ module Twat::Subcommands
 
     def initialize(argv)
       @argv=argv
-      @opts = ::Twat::ArgParse.new.getopts
     end
 
     def twitter_auth
@@ -49,7 +48,17 @@ module Twat::Subcommands
     end
 
     def config
-      ::Twat::Twat.config
+      @config ||= ::Twat::Config.new(args)
+    end
+
+    def opts
+      @opts ||= ::Twat::Options.new
+    end
+
+    def args
+      # This is dangerous, but realistically I don't see how else to parse the
+      # args before creating an instance of a subclass
+      @args ||= $args
     end
 
   end

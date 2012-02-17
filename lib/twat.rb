@@ -49,7 +49,7 @@ module Twat
 
     def cli_run
       # FIXME exception handling is gone for now
-      Subcommand.run(ARGV)
+      Subcommand.run
     end
   end
 end

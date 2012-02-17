@@ -5,10 +5,12 @@ end
 module Twat
   class Subcommand
 
-    def self.run(argv)
+    def self.run
+      # This is evilbadscary, but seems like the best approach
+      $args = ::Twat::Args.new
       # First, without commands dump user into follow mode
-      if argv.empty?
-        argv.insert(0, "follow_stream")
+      if ARGV.empty?
+        ARGV.insert(0, "follow_stream")
 
       # Failing that, in the case of invalid commands, assume they want to
       # tweet something.
@@ -16,8 +18,8 @@ module Twat
       # they're close to an actual command
       # FIXME Potentially the absense of a space would suggest that it's just a
       # fucked effort at typing
-      elsif !Subcommands::COMMANDS.include?(argv[0])
-        argv.insert(0, "update")
+      elsif !Subcommands::COMMANDS.include?(ARGV[0])
+        ARGV.insert(0, "update")
       end
 
       # There is really no reason why this needs to be explicitly mention
@@ -25,7 +27,7 @@ module Twat
       # Subcommands:: that matches by name, however this avoids some ugly
       # metaprogramming with minimal overhead, and also leaves the door
       # open for aliasing etc
-      Subcommands::COMMANDS[argv[0]].new(argv).run
+      Subcommands::COMMANDS[ARGV[0]].new(ARGV).run
     end
 
   end

@@ -1,20 +1,11 @@
 module Twat
-  class Twat
-    class << self
-      def configure(&block)
-        yield config
-
-        # If I understand correctly, I can check over what's
-        # happened here?
-      end
-
-      def config
-        @config ||= Config.new
-      end
-    end
-  end
-
   class Config
+
+    attr_reader :args
+
+    def initialize(args)
+      @args = args
+    end
 
     def config_path
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
@@ -87,7 +78,7 @@ module Twat
     end
 
     def account_set?
-      !!@account
+      !!args.account
     end
 
     def account_name
