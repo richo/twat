@@ -16,11 +16,11 @@ module Twat
     class TweetTooLong < Exception; end
     class NoSuchTweet < Exception; end
 
-    def with_handled_exceptions(opts)
+    def with_handled_exceptions(opts=nil)
       begin
         yield
       rescue Usage
-        opts.usage
+        opts.usage if opts
       rescue AlreadyConfigured
         puts "Already configured, use add to add more accounts"
       rescue ArgumentRequired
