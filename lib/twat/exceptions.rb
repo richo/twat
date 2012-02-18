@@ -13,13 +13,10 @@ module Twat
     class InvalidBool < Exception; end
     class InvalidInt < Exception; end
     class TweetTooLong < Exception; end
-  end
 
-  module HandledExceptions
     def with_handled_exceptions(opts)
       begin
-        # FIXME
-        yield opts
+        yield
       rescue Usage
         opts.usage
       rescue NoSuchAccount

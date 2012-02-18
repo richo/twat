@@ -10,6 +10,12 @@ module Twat::Subcommands
       @argv=argv
     end
 
+    def run!
+      with_handled_exceptions(args) do
+        run
+      end
+    end
+
     def twitter_auth
       Twitter.configure do |twit|
         config.account.each do |key, value|

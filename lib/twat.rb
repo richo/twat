@@ -45,8 +45,6 @@ end
 module Twat
   class Twat
 
-    include HandledExceptions
-
     def cli_run
       # FIXME exception handling is gone for now
       Subcommand.run
