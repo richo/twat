@@ -6,7 +6,7 @@ module Twat::Endpoints
     def authorize_account(name)
       oauth_conf = oauth_options.merge ({ :site => url })
 
-      oauth = OAuth::Consumer.new( *[*consumer_info.values, oauth_conf] )
+      oauth = OAuth::Consumer.new(consumer_info[:consumer_key], consumer_info[:consumer_secret] oauth_conf])
       token_request = oauth.get_request_token()
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = STDIN.gets.chomp
