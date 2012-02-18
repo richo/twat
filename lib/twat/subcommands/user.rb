@@ -3,7 +3,7 @@ module Twat::Subcommands
 
     def run
       raise ArgumentRequired if @argv.length == 0
-      twitter_auth
+      auth!
 
       begin
         Twitter.user_timeline(@argv[0], :count => @argv[1] || 1).each do |tweet|

@@ -5,8 +5,7 @@ module Twat::Subcommands
       msg = @argv.join(" ")
       raise TweetTooLong if msg.length > 140
 
-      twitter_auth
-
+      auth!
 
       Twitter.update(msg)
       #puts msg

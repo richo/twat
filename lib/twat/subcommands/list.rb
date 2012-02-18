@@ -2,7 +2,7 @@ module Twat::Subcommands
   class List < Base
 
     def run
-      twitter_auth
+      auth!
       Twitter.home_timeline(:count => @argv[0] || 5).reverse.each do |tweet|
         format(tweet)
       end

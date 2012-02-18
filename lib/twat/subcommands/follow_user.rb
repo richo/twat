@@ -3,7 +3,7 @@ module Twat::Subcommands
 
     def run
       needs_arguments(1)
-      twitter_auth
+      auth!
 
       Twitter.follow(@argv[0])
     end

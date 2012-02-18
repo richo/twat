@@ -23,7 +23,7 @@ module Twat::Subcommands
       end
     end
 
-    def twitter_auth
+    def auth!
       Twitter.configure do |twit|
         config.account.each do |key, value|
           twit.send("#{key}=", value)
