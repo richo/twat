@@ -66,6 +66,8 @@ module Twat::Subcommands
         rescue NoSuchTweet
           print "No such tweet\n".red
         end
+      when /follow (.*)/
+        Twitter.follow($1)
       else
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140
