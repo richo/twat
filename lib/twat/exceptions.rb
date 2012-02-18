@@ -5,6 +5,7 @@ module Twat
     class NoSuchAccount < Exception; end
     class NoDefaultAccount < Exception; end
     class NoSuchCommand < Exception; end
+    class NoSuchEndpoint < Exception; end
     class NoConfigFile < Exception; end
     class RequiresOptVal < Exception; end
     class Usage < Exception; end
@@ -50,6 +51,8 @@ module Twat
         puts "Connection was reset by third party."
       rescue TweetTooLong
         puts "Twitter enforces a maximum status length of 140 characters"
+      rescue NoSuchEndpoint
+        puts "Available endpoints are #{ENDPOINTS.join(", ")}"
       end
     end
   end
