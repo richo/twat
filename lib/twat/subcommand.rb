@@ -1,4 +1,4 @@
-%w(base add config delete follow follow_user list set update update_config user version).each do |filename|
+%w(base add config delete follow_tag follow_user list set update update_config user version).each do |filename|
   require File.join(File.expand_path("../subcommands/#{filename}", __FILE__))
 end
 
@@ -10,7 +10,7 @@ module Twat
       $args = ::Twat::Args.new
       # First, without commands dump user into follow mode
       if ARGV.empty?
-        ARGV.insert(0, "follow_stream")
+        ARGV.insert(0, "follow_tag")
 
       # Failing that, in the case of invalid commands, assume they want to
       # tweet something.

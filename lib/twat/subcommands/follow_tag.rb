@@ -83,5 +83,5 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['follow_stream'] = Follow
+  COMMANDS['follow_tag'] = Follow
 end
