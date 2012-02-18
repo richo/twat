@@ -5,6 +5,7 @@ require 'twitter'
 require 'yaml'
 require 'optparse'
 require 'oauth'
+require 'readline-ng'
 
 %w[config exceptions argparse migration options endpoint subcommand version].each do |filename|
   require "twat/#{filename}"
