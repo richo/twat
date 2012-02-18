@@ -17,7 +17,7 @@ module Twat::Subcommands
           (config.polling_interval * POLLING_RESOLUTION).times do
             begin
               reader.tick
-              reader.each_line { |i| } # handle_input(i) }
+              reader.each_line { |i| handle_input(i) }
             rescue TweetTooLong
               reader.puts_above "Too long".red
             end
@@ -56,6 +56,23 @@ module Twat::Subcommands
       end
 
       return last_id
+    end
+
+    def handle_input(inp)
+      case inp
+      when /[rR][tT] ([0-9]{1,2})/
+        puts "Retweet not yet implemented"
+        # begin
+        #   retweet($1.to_i)
+        # rescue NoSuchTweet
+        #   print "No such tweet\n".red
+        # end
+      else
+        # Assume they want to tweet something
+        raise TweetTooLong if inp.length > 140
+
+        Twitter.update(inp)
+      end
     end
 
   end
