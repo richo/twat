@@ -1,6 +1,4 @@
 module Twat
-  REQUIRED = []
-  MSG_REQUIRED = [:tweet]
   class ArgWrapper
     def initialize(data)
       @data = data
