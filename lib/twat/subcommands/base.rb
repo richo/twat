@@ -2,6 +2,8 @@ module Twat::Subcommands
   COMMANDS = {}
   class Base
 
+    include ::Twat::Exceptions
+
     attr_reader :opts
 
     def initialize(argv)
