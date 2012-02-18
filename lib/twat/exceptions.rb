@@ -1,5 +1,6 @@
 module Twat
   module Exceptions
+    class AlreadyConfigured < Exception; end
     class ArgumentRequired < Exception; end
     class NoSuchAccount < Exception; end
     class NoDefaultAccount < Exception; end
