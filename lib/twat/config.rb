@@ -11,6 +11,15 @@ module Twat
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
     end
 
+    def exists?
+      File.exist?(config_path)
+    end
+
+    def create!
+      @config = { accounts: {} }
+      save!
+    end
+
     def config
       begin
         @config ||= YAML.load_file(config_path)
