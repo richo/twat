@@ -20,25 +20,25 @@ module Twat
         yield
       rescue Usage
         opts.usage
+      rescue AlreadyConfigured
+        puts "Already configured, use add to add more accounts"
+      rescue ArgumentRequired
+        puts "This command requires an argument"
       rescue NoSuchAccount
         puts "No such account"
-        opts.usage
       rescue NoDefaultAccount
         puts "No default account configured."
       rescue NoSuchCommand
         puts "No such command"
-        opts.usage
       rescue NoConfigFile
         puts "No config file, create one with twat -a [user|nick]"
-        opts.usage
       rescue InvalidSetOpt
         puts "There is no such configurable option"
-        opts.usage
       rescue RequiresOptVal
         puts "--set must take an option=value pair as arguments"
       rescue InvalidCredentials
         puts "Invalid credentials, try reauthenticating with"
-        puts "twat -a #{opts[:account]}"
+        puts "twat -a ACCOUNT"
       rescue ConfigVersionIncorrect
         puts "Your config file is out of date. Run with --update-config to rememdy"
       rescue InvalidBool
