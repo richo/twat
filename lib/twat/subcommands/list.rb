@@ -3,9 +3,13 @@ module Twat::Subcommands
 
     def run
       twitter_auth
-      Twitter.home_timeline(:count => opts[:count]).reverse.each do |tweet|
+      Twitter.home_timeline(:count => @argv[0] || 5).reverse.each do |tweet|
         format(tweet)
       end
+    end
+
+    def usage
+      puts "Usage: twat list [count]"
     end
 
   end

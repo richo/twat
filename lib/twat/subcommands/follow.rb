@@ -29,6 +29,11 @@ module Twat::Subcommands
       end
     end
 
+    def usage
+      puts "Usage: twat"
+      puts "Usage: twat follow_stream #hashtag"
+    end
+
     private
 
     # @return last_id

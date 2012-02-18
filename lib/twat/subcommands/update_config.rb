@@ -7,6 +7,10 @@ module Twat::Subcommands
 
     end
 
+    def usage
+      puts "Usage: twat update_config"
+    end
+
   end
   COMMANDS['update_config'] = UpdateConfig
 end

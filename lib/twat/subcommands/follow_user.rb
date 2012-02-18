@@ -8,6 +8,10 @@ module Twat::Subcommands
       Twitter.follow(@argv[0])
     end
 
+    def usage
+      puts "Usage: twat follow USERNAME"
+    end
+
   end
   COMMANDS['follow'] = FollowUser
 end

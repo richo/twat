@@ -17,7 +17,10 @@ module Twat::Subcommands
     end
 
     def needs_arguments(n)
-      raise ArgumentRequired unless @argv.length == n
+      unless @argv.length == n
+        usage
+        exit
+      end
     end
 
     def twitter_auth

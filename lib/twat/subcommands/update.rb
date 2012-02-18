@@ -12,6 +12,10 @@ module Twat::Subcommands
       #puts msg
     end
 
+    def usage
+      puts "Usage: twat update tweet goes here"
+    end
+
   end
   COMMANDS['update'] = Update
 end

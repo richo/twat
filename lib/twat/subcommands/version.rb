@@ -5,6 +5,10 @@ module Twat::Subcommands
       puts "twat: #{Twat::VERSION}"
     end
 
+    def usage
+      puts "Usage: twat version"
+    end
+
   end
   COMMANDS['version'] = Version
 end

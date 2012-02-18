@@ -11,6 +11,10 @@ module Twat::Subcommands
       end
     end
 
+    def usage
+      puts "Usage: twat delete ACCOUNTNAME"
+    end
+
     def updateconfig
       config.update!
     end

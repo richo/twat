@@ -14,6 +14,10 @@ module Twat::Subcommands
       end
     end
 
+    def usage
+      puts "Usage: twat finger USERNAME [count]"
+    end
+
   end
   COMMANDS['finger'] = User
 end

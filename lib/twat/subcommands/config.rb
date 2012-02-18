@@ -6,6 +6,10 @@ module Twat::Subcommands
       config.create!
     end
 
+    def usage
+      puts "Usage: twat config"
+    end
+
   end
   COMMANDS['config'] = Config
 end
