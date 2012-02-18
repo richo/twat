@@ -15,5 +15,5 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['user'] = User
+  COMMANDS['finger'] = User
 end
