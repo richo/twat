@@ -76,5 +76,13 @@ module Twat::Subcommands
       @args ||= $args
     end
 
+    def enable_readline!
+      @reader = ReadlineNG::Reader.new
+    end
+
+    def reader
+      @reader
+    end
+
   end
 end
