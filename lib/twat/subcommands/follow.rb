@@ -61,7 +61,7 @@ module Twat::Subcommands
     def handle_input(inp)
       case inp
       when /[rR][tT] ([0-9]{1,2})/
-        puts "Retweet not yet implemented"
+        reader.puts_above "Retweet not yet implemented"
         # begin
         #   retweet($1.to_i)
         # rescue NoSuchTweet
