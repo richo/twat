@@ -16,6 +16,10 @@ module Twat::Subcommands
       end
     end
 
+    def needs_arguments(n)
+      raise ArgumentRequired unless @argv.length == n
+    end
+
     def twitter_auth
       Twitter.configure do |twit|
         config.account.each do |key, value|

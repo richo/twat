@@ -2,13 +2,10 @@ module Twat::Subcommands
   class Add < Base
 
     def run
-      raise ArgumentRequired unless ARGV.length == 2
-
-      # Remove the "add" from the stack
-      ARGV.shift
+      needs_arguments(1)
 
       endpoint = ::Twat::Endpoint.new(args.endpoint)
-      endpoint.authorize_account(args[0])
+      endpoint.authorize_account(@argv[0])
     end
 
   end

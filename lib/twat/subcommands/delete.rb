@@ -2,7 +2,8 @@ module Twat::Subcommands
   class Delete < Base
 
     def run
-      if config.accounts.delete(opts[:account])
+      needs_arguments(1)
+      if config.accounts.delete(@argv[0])
         config.save!
         puts "Successfully deleted"
       else

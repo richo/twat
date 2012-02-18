@@ -27,7 +27,7 @@ module Twat
       # Subcommands:: that matches by name, however this avoids some ugly
       # metaprogramming with minimal overhead, and also leaves the door
       # open for aliasing etc
-      Subcommands::COMMANDS[ARGV[0]].new(ARGV).run!
+      Subcommands::COMMANDS[ARGV[0]].new(ARGV[1..-1]).run!
     end
 
   end

@@ -1,10 +1,9 @@
 module Twat::Subcommands
   class Set < Base
     def run
-      k, v = opts[:optval].split("=")
-      raise RequiresOptVal unless v
-      options = Options.new
-      options.send(:"#{k}=", v)
+      needs_arguments(2)
+      k, v = @argv[0..1]
+      opts.send(:"#{k}=", v)
 
       puts "Successfully set #{k} as #{v}"
     end
