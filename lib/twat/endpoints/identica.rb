@@ -1,5 +1,5 @@
 module Twat::Endpoints
-  class Identica
+  class Identica < Base
 
     def initialize
       unless @@endpoint_set

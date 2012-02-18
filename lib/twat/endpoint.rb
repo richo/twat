@@ -1,6 +1,6 @@
 module Twat
 
-  %w[twitter identica].each do |filename|
+  %w[base twitter identica].each do |filename|
     require File.join(File.expand_path("../endpoints", __FILE__), filename)
   end
 

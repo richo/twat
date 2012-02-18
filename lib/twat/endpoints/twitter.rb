@@ -1,5 +1,5 @@
 module Twat::Endpoints
-  class Twitter
+  class Twitter < Base
 
     def url
       "https://api.twitter.com/"
