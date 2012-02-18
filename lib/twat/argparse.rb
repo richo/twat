@@ -63,10 +63,9 @@ module Twat
         end #}}}
       end
       @optparser.parse!
-      # Do set a default
-      if options[:action] == :add
-        options[:endpoint] ||= :twitter
-      end
+
+      # Only makes sense for add, but doesn't hurt anything else
+      options[:endpoint] ||= :twitter
 
       @options = options
     end
