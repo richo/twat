@@ -6,7 +6,7 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 
-%w[config exceptions argparse actions migration options endpoint subcommand version].each do |filename|
+%w[config exceptions argparse migration options endpoint subcommand version].each do |filename|
   require "twat/#{filename}"
 end
 
