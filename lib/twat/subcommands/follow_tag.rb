@@ -1,6 +1,6 @@
 module Twat::Subcommands
   POLLING_RESOLUTION = 20 # Readline scan time in hz
-  class Follow < Base
+  class FollowTag < Base
 
     def run
       auth!
@@ -83,5 +83,5 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['follow_tag'] = Follow
+  COMMANDS['follow_tag'] = FollowTag
 end

@@ -1,5 +1,5 @@
 module Twat::Subcommands
-  class FollowUser < Base
+  class Follow < Base
 
     def run
       needs_arguments(1)
@@ -13,6 +13,6 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['follow'] = FollowUser
+  COMMANDS['follow'] = Follow
 end
 
