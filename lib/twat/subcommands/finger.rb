@@ -1,5 +1,5 @@
 module Twat::Subcommands
-  class User < Base
+  class Finger < Base
 
     def run
       raise ArgumentRequired if @argv.length == 0
@@ -19,5 +19,5 @@ module Twat::Subcommands
     end
 
   end
-  COMMANDS['finger'] = User
+  COMMANDS['finger'] = Finger
 end
