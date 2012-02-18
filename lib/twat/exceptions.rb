@@ -14,6 +14,7 @@ module Twat
     class InvalidBool < Exception; end
     class InvalidInt < Exception; end
     class TweetTooLong < Exception; end
+    class NoSuchTweet < Exception; end
 
     def with_handled_exceptions(opts)
       begin

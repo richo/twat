@@ -55,6 +55,30 @@ module Twat::Subcommands
       end
     end
 
+    def pad(n)
+      "%02d" % n
+    end
+
+    # Format a tweet all pretty like
+    def readline_format(twt, idx = nil)
+      idx = pad(idx) if idx
+      text = deentitize(twt.text)
+      if config.colors?
+        buf = idx ? "#{idx.cyan}:" : ""
+        if twt.user.screen_name == config.account_name.to_s
+          buf += "#{twt.user.screen_name.bold.blue}: #{text}"
+        elsif text.mentions?(config.account_name)
+          buf += "#{twt.user.screen_name.bold.red}: #{text}"
+        else
+          buf += "#{twt.user.screen_name.bold.cyan}: #{text}"
+        end
+      else
+        buf = idx ? "#{idx}: " : ""
+        buf += "#{twt.user.screen_name}: #{text}"
+      end
+    end
+
+
     def deentitize(text)
       {"&lt;" => "<", "&gt;" => ">", "&amp;" => "&", "&quot;" => '"' }.each do |k,v|
         text.gsub!(k, v)

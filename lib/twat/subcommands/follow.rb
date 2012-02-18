@@ -1,11 +1,12 @@
 module Twat::Subcommands
+  POLLING_RESOLUTION = 20 # Readline scan time in hz
   class Follow < Base
 
     def run
-      # I can't see any way to poll the server for updates, so in the meantime
-      # we will have to retrieve a few tweets from the timeline, and then poll
-      # occasionally :/
       twitter_auth
+      enable_readline!
+      @tweetstack = ::Twat::TweetStack.new
+
       failcount = 0
 
       # Get 5 tweets
@@ -13,7 +14,15 @@ module Twat::Subcommands
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
-          sleep config.polling_interval
+          (config.polling_interval * POLLING_RESOLUTION).times do
+            begin
+              reader.tick
+              reader.each_line { |i| } # handle_input(i) }
+            rescue TweetTooLong
+              reader.puts_above "Too long".red
+            end
+            sleep 1.0/POLLING_RESOLUTION
+          end
           tweets = Twitter.home_timeline(:since_id => last_id)
           failcount = 0
         rescue Interrupt
@@ -40,8 +49,9 @@ module Twat::Subcommands
     def process_followed(tweets)
       last_id = nil
       tweets.reverse.each do |tweet|
+        id = @tweetstack << tweet
         beep if config.beep? && tweet.text.mentions?(config.account_name)
-        format(tweet)
+        reader.puts_above readline_format(tweet, @tweetstack.last)
         last_id = tweet.id
       end
 
