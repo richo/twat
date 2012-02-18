@@ -61,18 +61,23 @@ module Twat::Subcommands
     def handle_input(inp)
       case inp
       when /[rR][tT] ([0-9]{1,2})/
-        reader.puts_above "Retweet not yet implemented"
-        # begin
-        #   retweet($1.to_i)
-        # rescue NoSuchTweet
-        #   print "No such tweet\n".red
-        # end
+        begin
+          retweet($1.to_i)
+        rescue NoSuchTweet
+          print "No such tweet\n".red
+        end
       else
         # Assume they want to tweet something
         raise TweetTooLong if inp.length > 140
 
         Twitter.update(inp)
       end
+    end
+
+    # Wrapper methods from the tweetstack implementation
+    def retweet(idx)
+      raise NoSuchTweet unless @tweetstack.include?(idx)
+      Twitter.retweet(@tweetstack[idx].id)
     end
 
   end
