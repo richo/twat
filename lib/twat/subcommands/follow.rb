@@ -5,7 +5,7 @@ module Twat::Subcommands
       # I can't see any way to poll the server for updates, so in the meantime
       # we will have to retrieve a few tweets from the timeline, and then poll
       # occasionally :/
-      twitter_auth
+      client = twitter_auth
       failcount = 0
 
       # Get 5 tweets

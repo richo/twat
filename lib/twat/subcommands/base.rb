@@ -14,11 +14,14 @@ module Twat::Subcommands
         config.account.each do |key, value|
           twit.send("#{key}=", value)
         end
+      end
+      Twitter.client.new do |twit|
         config.endpoint.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
         twit.endpoint = config.endpoint.url
       end
+      twit
     end
 
     def beep
