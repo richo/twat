@@ -10,7 +10,7 @@ module Twat::Subcommands
       failcount = 0
 
       # Get 5 tweets
-      tweets = Twitter.home_timeline(:count => 5)
+      tweets = new_tweets(:count => 5)
       while true do
         begin
           last_id = process_followed(tweets) if tweets.any?
@@ -23,7 +23,7 @@ module Twat::Subcommands
             end
             sleep 1.0/POLLING_RESOLUTION
           end
-          tweets = Twitter.home_timeline(:since_id => last_id)
+          tweets = new_tweets(:since_id => last_id)
           failcount = 0
         rescue Interrupt
           break
@@ -35,6 +35,14 @@ module Twat::Subcommands
             failcount += 1
           end
         end
+      end
+    end
+
+    def new_tweets(opts)
+      unless @argv.empty?
+        Twitter.search(@argv.join(" "), opts)
+      else
+        Twitter.home_timeline(opts)
       end
     end
 
