@@ -7,7 +7,7 @@ module Twat::Subcommands
       enable_readline!
       @tweetstack = ::Twat::TweetStack.new
 
-      failcount = 0
+      @failcount = 0
 
       # Get 5 tweets
       tweets = new_tweets(:count => 5)
@@ -24,16 +24,16 @@ module Twat::Subcommands
             sleep 1.0/POLLING_RESOLUTION
           end
           tweets = new_tweets(:since_id => last_id)
-          failcount = 0
+          @failcount = 0
         rescue Interrupt
           break
-        rescue Errno::ECONNRESET
-        rescue Errno::ETIMEDOUT
-          if failcount > 2
-            puts "3 consecutive failures, giving up"
-          else
-            failcount += 1
-          end
+        rescue Twitter::Error::ServiceUnavailable
+          break unless fail_or_bail
+          sleeptime = 60 * (@failcount + 1)
+          reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
+          sleep sleeptime
+        rescue Errno::ECONNRESET, Errno::ETIMEDOUT, SocketError
+          break unless fail_or_bail
         end
       end
     end
@@ -88,6 +88,15 @@ module Twat::Subcommands
     def retweet(idx)
       raise NoSuchTweet unless @tweetstack.include?(idx)
       Twitter.retweet(@tweetstack[idx].id)
+    end
+
+    def fail_or_bail
+      if @failcount > 2
+        puts "3 consecutive failures, giving up"
+      else
+        @failcount += 1
+        return true
+      end
     end
 
   end
