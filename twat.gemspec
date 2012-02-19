@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "twitter"
   s.add_dependency "oauth"
-  s.add_dependency "readline-ng", ">= 0.0.3"
+  s.add_dependency "readline-ng", ">= 0.0.4"
 
   s.files         = `git ls-files`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
