@@ -2,7 +2,7 @@ module Twat::Subcommands
   class Finger < Base
 
     def run
-      raise ArgumentRequired if @argv.length == 0
+      needs_arguments(1)
       auth!
 
       begin
