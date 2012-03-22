@@ -9,4 +9,15 @@ describe Twat do
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
   end
 
+  it "Should create a config file if one does not already exist" do #{{{
+    FileUtils.mktemp do |dir|
+      set_env('TWAT_CONFIG' => "#{dir}/twatrc") do
+        puts ENV.inspect
+        set_argv ["add", "rich0H"]
+
+        Twat::Twat.new.cli_run
+      end
+    end
+  end
+
 end
