@@ -1,5 +1,5 @@
 module Twat::Subcommands
-  class Version
+  class Version < Base
 
     def run
       puts "twat: #{Twat::VERSION}"
