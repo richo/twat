@@ -95,4 +95,11 @@ describe Twat do
     set_argv ["version"]
     Twat::Twat.new.cli_run
   end #}}}
+
+  it "Should call update when no other command matches" do #{{{
+    Twat::Subcommands::Update.any_instance.expects(:run).returns(nil)
+
+    set_argv ["this", "is", "a", "tweet"]
+    Twat::Twat.new.cli_run
+  end #}}}
 end
