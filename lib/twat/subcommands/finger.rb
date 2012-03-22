@@ -14,8 +14,8 @@ module Twat::Subcommands
       end
     end
 
-    def usage
-      puts "Usage: twat finger USERNAME [count]"
+    def self.usage
+      "Usage: twat finger USERNAME [count]"
     end
 
   end

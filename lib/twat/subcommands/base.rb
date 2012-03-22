@@ -108,5 +108,9 @@ module Twat::Subcommands
       @reader
     end
 
+    def usage
+      puts self.class.usage
+    end
+
   end
 end

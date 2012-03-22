@@ -6,8 +6,8 @@ module Twat::Subcommands
       config.create!
     end
 
-    def usage
-      puts "Usage: twat config"
+    def self.usage
+      "Usage: twat config"
     end
 
   end

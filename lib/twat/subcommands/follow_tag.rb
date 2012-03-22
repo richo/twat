@@ -46,9 +46,9 @@ module Twat::Subcommands
       end
     end
 
-    def usage
-      puts "Usage: twat"
-      puts "Usage: twat follow_stream #hashtag"
+    def self.usage
+     ["Usage: twat",
+      "Usage: twat follow_stream #hashtag"]
     end
 
     private

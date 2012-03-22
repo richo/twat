@@ -8,8 +8,8 @@ module Twat::Subcommands
       end
     end
 
-    def usage
-      puts "Usage: twat list [count]"
+    def self.usage
+      "Usage: twat list [count]"
     end
 
   end

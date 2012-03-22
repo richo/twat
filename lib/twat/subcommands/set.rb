@@ -9,8 +9,8 @@ module Twat::Subcommands
       puts "Successfully set #{k} as #{v}"
     end
 
-    def usage
-      puts "Usage: twat set option value"
+    def self.usage
+      "Usage: twat set option value"
       # TODO Dump available options
     end
 

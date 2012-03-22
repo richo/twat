@@ -5,8 +5,8 @@ module Twat::Subcommands
       puts "twat: #{Twat::VERSION}"
     end
 
-    def usage
-      puts "Usage: twat version"
+    def self.usage
+      "Usage: twat version"
     end
 
   end

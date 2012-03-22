@@ -11,8 +11,8 @@ module Twat::Subcommands
       #puts msg
     end
 
-    def usage
-      puts "Usage: twat update tweet goes here"
+    def self.usage
+      "Usage: twat update tweet goes here"
     end
 
   end

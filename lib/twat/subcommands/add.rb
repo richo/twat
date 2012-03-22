@@ -8,8 +8,8 @@ module Twat::Subcommands
       endpoint.authorize_account(@argv[0])
     end
 
-    def usage
-      puts "Usage: twat add accountname"
+    def self.usage
+       "Usage: twat add accountname"
     end
 
   end
