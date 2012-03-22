@@ -3,6 +3,7 @@ module Twat::Subcommands
   class FollowTag < Base
 
     def run
+      return ""
       auth!
       enable_readline!
       @tweetstack = ::Twat::TweetStack.new
