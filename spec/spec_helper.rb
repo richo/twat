@@ -1,14 +1,13 @@
 require 'twat'
 require 'mocha'
 
-RSpec.configure do |config|
-  config.mock_with :mocha
+require 'fileutils'
+
+Dir["#{File.expand_path(File.dirname(__FILE__))}/helpers/**/*.rb"].each do |f|
+  puts "Requiring #{f}"
+  require f
 end
 
-def set_argv(ary)
-  while ARGV.length > 0
-    ARGV.pop
-  end
-
-  ary.each { |e| ARGV << e }
+RSpec.configure do |config|
+  config.mock_with :mocha
 end
