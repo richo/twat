@@ -19,14 +19,14 @@ describe Twat do
   it "Should call follow when invoked with follow" do #{{{
     Twat::Subcommands::Follow.any_instance.expects(:run).returns(nil)
 
-    set_argv ["follow", "rich0H"]
+    set_argv ["follow"]
     Twat::Twat.new.cli_run
   end #}}}
 
   it "Should call add when invoked with add" do #{{{
     Twat::Subcommands::Add.any_instance.expects(:run).returns(nil)
 
-    set_argv ["add", "rich0H"]
+    set_argv ["add"]
     Twat::Twat.new.cli_run
   end #}}}
 
@@ -40,7 +40,7 @@ describe Twat do
   it "Should call delete when invoked with delete" do #{{{
     Twat::Subcommands::Delete.any_instance.expects(:run).returns(nil)
 
-    set_argv ["delete", "rich0H"]
+    set_argv ["delete"]
     Twat::Twat.new.cli_run
   end #}}}
 
@@ -68,14 +68,14 @@ describe Twat do
   it "Should call set when invoked with set" do #{{{
     Twat::Subcommands::Set.any_instance.expects(:run).returns(nil)
 
-    set_argv ["set", "key", "value"]
+    set_argv ["set"]
     Twat::Twat.new.cli_run
   end #}}}
 
   it "Should call update when invoked with update" do #{{{
     Twat::Subcommands::Update.any_instance.expects(:run).returns(nil)
 
-    set_argv ["update", "status goes here"]
+    set_argv ["update"]
     Twat::Twat.new.cli_run
   end #}}}
 
@@ -96,7 +96,7 @@ describe Twat do
   it "Should call update when no other command matches" do #{{{
     Twat::Subcommands::Update.any_instance.expects(:run).returns(nil)
 
-    set_argv ["this", "is", "a", "tweet"]
+    set_argv ["this"]
     Twat::Twat.new.cli_run
   end #}}}
 end
