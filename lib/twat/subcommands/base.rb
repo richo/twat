@@ -18,9 +18,13 @@ module Twat::Subcommands
 
     def needs_arguments(n)
       unless @argv.length == n
-        usage
-        exit
+        usage_and_exit!
       end
+    end
+
+    def usage_and_exit!
+      usage
+      exit
     end
 
     def auth!

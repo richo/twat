@@ -4,6 +4,7 @@ module Twat::Subcommands
     def run
       msg = @argv.join(" ")
       raise TweetTooLong if msg.length > 140
+      usage_and_exit! if msg == ""
 
       auth!
 
