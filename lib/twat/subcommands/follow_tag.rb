@@ -1,17 +1,21 @@
 module Twat::Subcommands
   POLLING_RESOLUTION = 20 # Readline scan time in hz
   class FollowTag < Base
+    # Shim to bail out if we're in test
+    def untested
+      true
+    end
 
     def run
       auth!
-      enable_readline!
+      enable_readline! if untested
       @tweetstack = ::Twat::TweetStack.new
 
       @failcount = 0
 
       # Get 5 tweets
       tweets = new_tweets(:count => 5)
-      while true do
+      while untested do
         begin
           last_id = process_followed(tweets) if tweets.any?
           (config.polling_interval * POLLING_RESOLUTION).times do
