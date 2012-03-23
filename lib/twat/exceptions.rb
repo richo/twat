@@ -1,5 +1,7 @@
 module Twat
   module Exceptions
+    AVAILABLE_ENDPOINTS_ERRMSG = "Available endpoints are #{::Twat::ENDPOINTS.join(", ")}"
+
     class AlreadyConfigured < Exception; end
     class ArgumentRequired < Exception; end
     class NoSuchAccount < Exception; end
@@ -52,7 +54,7 @@ module Twat
       rescue TweetTooLong
         puts "Twitter enforces a maximum status length of 140 characters"
       rescue NoSuchEndpoint
-        puts "Available endpoints are #{ENDPOINTS.join(", ")}"
+        puts AVAILABLE_ENDPOINTS_ERRMSG
       end
     end
   end

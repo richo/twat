@@ -7,8 +7,8 @@ require 'optparse'
 require 'oauth'
 require 'readline-ng'
 
-%w[config exceptions argparse migration options
-  endpoint subcommand version tweetstack].each do |filename|
+%w[config endpoint exceptions argparse migration options
+  subcommand version tweetstack].each do |filename|
   require "twat/#{filename}"
 end
 

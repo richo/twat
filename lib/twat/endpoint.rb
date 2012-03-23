@@ -1,10 +1,10 @@
 module Twat
 
+  ENDPOINTS = ["identi.ca", "twitter"]
+
   %w[base twitter identica].each do |filename|
     require File.join(File.expand_path("../endpoints", __FILE__), filename)
   end
-
-  ENDPOINTS = ["identi.ca", "twitter"]
 
   # Proxies to the actual endpoint classes
   class Endpoint
