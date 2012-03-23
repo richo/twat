@@ -1,12 +1,6 @@
 module Twat
   class Config
 
-    attr_reader :args
-
-    def initialize(args)
-      @args = args
-    end
-
     def config_path
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
     end
@@ -84,10 +78,6 @@ module Twat
       else
         raise NoSuchAccount
       end
-    end
-
-    def account_set?
-      !!args.account
     end
 
     def account_name

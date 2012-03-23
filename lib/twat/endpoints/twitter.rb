@@ -16,6 +16,10 @@ module Twat::Endpoints
       {}
     end
 
+    def endpoint_name
+      :twitter
+    end
+
   end
 end
 

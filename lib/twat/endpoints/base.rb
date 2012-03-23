@@ -15,13 +15,24 @@ module Twat::Endpoints
         account_settings = {
           oauth_token: access_token.token,
           oauth_token_secret: access_token.secret,
-          endpoint: opts[:endpoint]
+          endpoint: endpoint_name
         }
         config.accounts[opts[:account]] = account_settings
         config.save!
       rescue OAuth::Unauthorized
         puts "Couldn't authenticate you, did you enter the pin correctly?"
       end
+    end
+
+    def config
+      return @config if @config
+      @config = ::Twat::Config.new
+      @config.create! unless @config.exists?
+      return @config
+    end
+
+    def endpoint_name
+      raise "Endpoint not set! Naughty programmer"
     end
 
   end

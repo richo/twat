@@ -38,5 +38,9 @@ module Twat::Endpoints
       }
     end
 
+    def endpoint_name
+      :"identi.ca"
+    end
+
   end
 end
