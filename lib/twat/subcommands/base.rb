@@ -22,6 +22,12 @@ module Twat::Subcommands
       end
     end
 
+    def needs_at_least(n)
+      unless @argv.length >= n
+        usage_and_exit!
+      end
+    end
+
     def usage_and_exit!
       usage
       exit
@@ -91,7 +97,7 @@ module Twat::Subcommands
     end
 
     def config
-      @config ||= ::Twat::Config.new(args)
+      @config ||= ::Twat::Config.new
     end
 
     def opts

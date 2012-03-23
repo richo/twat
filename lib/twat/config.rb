@@ -80,6 +80,10 @@ module Twat
       end
     end
 
+    def account_set?
+      !!@account
+    end
+
     def account_name
       if account_set?
         @account
