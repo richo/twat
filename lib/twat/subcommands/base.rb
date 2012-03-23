@@ -1,3 +1,15 @@
+module ::Twitter
+  class Status
+    def as_user
+      begin
+        user.screen_name
+      rescue NoMethodError
+        from_user
+      end
+    end
+  end
+end
+
 module Twat::Subcommands
   COMMANDS = {}
   class Base
@@ -49,19 +61,20 @@ module Twat::Subcommands
       print "\a"
     end
 
+    # XXX FIXME why are there two of these?!
     # Format a tweet all pretty like
     def format(twt)
       text = deentitize(twt.text)
       if config.colors?
-        if twt.user.screen_name == config.account_name.to_s
-          puts "#{twt.user.screen_name.bold.blue}: #{text}"
+        if twt.as_user == config.account_name.to_s
+          puts "#{twt.as_user.bold.blue}: #{text}"
         elsif text.mentions?(config.account_name)
-          puts "#{twt.user.screen_name.bold.red}: #{text}"
+          puts "#{twt.as_user.bold.red}: #{text}"
         else
-          puts "#{twt.user.screen_name.bold.cyan}: #{text}"
+          puts "#{twt.as_user.bold.cyan}: #{text}"
         end
       else
-        puts "#{twt.user.screen_name}: #{text}"
+        puts "#{twt.as_user}: #{text}"
       end
     end
 
@@ -75,16 +88,16 @@ module Twat::Subcommands
       text = deentitize(twt.text)
       if config.colors?
         buf = idx ? "#{idx.cyan}:" : ""
-        if twt.user.screen_name == config.account_name.to_s
-          buf += "#{twt.user.screen_name.bold.blue}: #{text}"
+        if twt.as_user == config.account_name.to_s
+          buf += "#{twt.as_user.bold.blue}: #{text}"
         elsif text.mentions?(config.account_name)
-          buf += "#{twt.user.screen_name.bold.red}: #{text}"
+          buf += "#{twt.as_user.bold.red}: #{text}"
         else
-          buf += "#{twt.user.screen_name.bold.cyan}: #{text}"
+          buf += "#{twt.as_user.bold.cyan}: #{text}"
         end
       else
         buf = idx ? "#{idx}: " : ""
-        buf += "#{twt.user.screen_name}: #{text}"
+        buf += "#{twt.as_user}: #{text}"
       end
     end
 
