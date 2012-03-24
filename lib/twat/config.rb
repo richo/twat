@@ -88,7 +88,7 @@ module Twat
       if account_set?
         @account
       else
-        raise NoDefaultAccount unless config.include?(:default)
+        raise ::Twat::Exceptions::NoDefaultAccount unless config.include?(:default)
         return config[:default].to_sym
       end
     end

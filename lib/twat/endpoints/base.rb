@@ -17,7 +17,7 @@ module Twat::Endpoints
           oauth_token_secret: access_token.secret,
           endpoint: endpoint_name
         }
-        config.accounts[name] = account_settings
+        config.accounts[name.to_sym] = account_settings
         config.save!
       rescue OAuth::Unauthorized
         puts "Couldn't authenticate you, did you enter the pin correctly?"

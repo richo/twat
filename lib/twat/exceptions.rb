@@ -31,7 +31,7 @@ module Twat
       rescue NoSuchAccount
         puts "No such account"
       rescue NoDefaultAccount
-        puts "No default account configured."
+        puts "No default account configured (try twat set default [account])."
       rescue NoSuchCommand
         puts "No such command"
       rescue NoConfigFile

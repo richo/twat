@@ -1,5 +1,8 @@
 module Twat
   class Options
+
+    include ::Twat::Exceptions
+
     BOOL_TRUE=["yes", "true", "1", "on"]
     BOOL_FALSE=["no", "false", "0", "off"]
     BOOL_VALS = BOOL_TRUE + BOOL_FALSE
@@ -37,12 +40,12 @@ module Twat
     # withing the method_missing method, but that will just lead to nastiness
     # later when I implement colors, for example.
     def default=(value)
-      val = value.to_sym
-      unless config.accounts.include?(val)
+      value = value.to_sym
+      unless config.accounts.include?(value)
         raise NoSuchAccount
       end
 
-      config[:default] = val
+      config[:default] = value
       config.save!
     end
 
