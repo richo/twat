@@ -6,6 +6,8 @@ require 'yaml'
 require 'optparse'
 require 'oauth'
 require 'readline-ng'
+require 'socket'
+require 'launchy'
 
 %w[config endpoint exceptions argparse migration options
   subcommand version tweetstack].each do |filename|
