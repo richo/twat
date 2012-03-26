@@ -70,23 +70,9 @@ module Twat
       Migrate.new.migrate!(config_path)
     end
 
-    # I don't know how rubyists feel about method returning something vastly
-    # different to what method= accepts, but I think the api makes sense
-    def account=(acct)
-      if accounts.include?(acct)
-        @account = acct
-      else
-        raise NoSuchAccount
-      end
-    end
-
-    def account_set?
-      !!@account
-    end
-
     def account_name
-      if account_set?
-        @account
+      if $args[:account]
+        return $args[:account].to_sym
       else
         raise ::Twat::Exceptions::NoDefaultAccount unless config.include?(:default)
         return config[:default].to_sym
