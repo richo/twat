@@ -18,20 +18,14 @@ MULTIUSER_CONFIG = { accounts: {
 describe Twat do
 
   it "Should respect the -n flag" do
-    FileUtils.mktemp do |dir|
-      set_env('TWAT_CONFIG' => "#{dir}/twatrc") do
-        File.open("#{dir}/twatrc", 'w') do |conf|
-          conf.chmod(0600)
-          conf.puts(MULTIUSER_CONFIG.to_yaml)
-        end
+    with_config(MULTIUSER_CONFIG) do
 
-        set_argv ["-n", "secondAccount"]
+      set_argv ["-n", "secondAccount"]
 
-        $args = ::Twat::Args.new
-        conf = ::Twat::Config.new
+      $args = ::Twat::Args.new
+      conf = ::Twat::Config.new
 
-        conf.account.should == MULTIUSER_CONFIG[:accounts][:secondAccount]
-      end
+      conf.account.should == MULTIUSER_CONFIG[:accounts][:secondAccount]
     end
   end
 
