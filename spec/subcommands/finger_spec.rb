@@ -7,7 +7,7 @@ describe Twat do
     STDOUT.expects(:puts).with(Twat::Subcommands::Finger.usage)
 
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
-  end
+  end #}}}
 
   it "Should retrieve a tweet for user if called with only a user" do #{{{
     tweet = mock()
@@ -18,7 +18,7 @@ describe Twat do
     set_argv ["finger", "hanke"]
 
     Twat::Twat.new.cli_run
-  end
+  end #}}}
 
   it "Should retrieve n tweets for user if invoked with count" do #{{{
     tweet = mock()
@@ -28,6 +28,6 @@ describe Twat do
     set_argv ["finger", "hanke", "3"]
 
     Twat::Twat.new.cli_run
-  end
+  end #}}}
 
 end
