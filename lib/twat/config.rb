@@ -1,6 +1,8 @@
 module Twat
   class Config
 
+    include ::Twat::Exceptions
+
     def config_path
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
     end
