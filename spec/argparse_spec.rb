@@ -31,4 +31,13 @@ describe Twat do
     end
   end
 
+  ["-h", "--help"].each do |flag|
+    it "Should print help and bail on the #{flag} flag" do
+      set_argv [flag]
+
+      STDOUT.expects(:puts) # Getting the exact usage string TODO
+      lambda { args = ::Twat::Args.new }.should raise_error SystemExit
+    end
+  end
+
 end
