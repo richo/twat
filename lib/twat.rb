@@ -12,10 +12,6 @@ require 'readline-ng'
   require "twat/#{filename}"
 end
 
-%w[follow tweet add delete follow_user updateconfig setoption show user_feed version].each do |filename|
-  require "twat/actions/#{filename}"
-end
-
 class String
   # TODO - It'd be nice to implement the colors support here, maybe even only
   # mix this in if it's enabled?
