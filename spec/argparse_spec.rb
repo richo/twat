@@ -40,4 +40,15 @@ describe Twat do
     end
   end
 
+  ["-v", "--version"].each do |flag|
+    it "Should print the version and exit on #{flag}" do
+      set_argv [flag]
+
+      STDOUT.expects(:puts).with("twat #{::Twat::VERSION}")
+      lambda {
+        args = ::Twat::Args.new }.should raise_error SystemExit
+
+    end
+  end
+
 end
