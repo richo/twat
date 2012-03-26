@@ -17,27 +17,17 @@ MULTIUSER_CONFIG = { accounts: {
 
 describe Twat do
 
-  it "Should respect the -n flag" do
-    with_config(MULTIUSER_CONFIG) do
+  ["-n", "--account"].each do |flag|
+    it "Should respect the #{flag} flag" do
+      with_config(MULTIUSER_CONFIG) do
 
-      set_argv ["-n", "secondAccount"]
+        set_argv [flag, "secondAccount"]
 
-      $args = ::Twat::Args.new
-      conf = ::Twat::Config.new
+        $args = ::Twat::Args.new
+        conf = ::Twat::Config.new
 
-      conf.account.should == MULTIUSER_CONFIG[:accounts][:secondAccount]
-    end
-  end
-
-  it "Should respect the --account flag" do
-    with_config(MULTIUSER_CONFIG) do
-
-      set_argv ["--account", "secondAccount"]
-
-      $args = ::Twat::Args.new
-      conf = ::Twat::Config.new
-
-      conf.account.should == MULTIUSER_CONFIG[:accounts][:secondAccount]
+        conf.account.should == MULTIUSER_CONFIG[:accounts][:secondAccount]
+      end
     end
   end
 
