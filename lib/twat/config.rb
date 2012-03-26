@@ -1,21 +1,17 @@
 module Twat
-  class Twat
-    def configure(&block)
-      yield config
-
-      # If I understand correctly, I can check over what's
-      # happened here?
-    end
-
-    def config
-      @config ||= Config.new
-    end
-  end
-
   class Config
 
     def config_path
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
+    end
+
+    def exists?
+      File.exist?(config_path)
+    end
+
+    def create!
+      @config = { accounts: {} }
+      save!
     end
 
     def create_unless_exists!
@@ -82,25 +78,11 @@ module Twat
       Migrate.new.migrate!(config_path)
     end
 
-    # I don't know how rubyists feel about method returning something vastly
-    # different to what method= accepts, but I think the api makes sense
-    def account=(acct)
-      if accounts.include?(acct)
-        @account = acct
-      else
-        raise NoSuchAccount
-      end
-    end
-
-    def account_set?
-      !!@account
-    end
-
     def account_name
-      if account_set?
-        @account
+      if $args[:account]
+        return $args[:account].to_sym
       else
-        raise NoDefaultAccount unless config.include?(:default)
+        raise ::Twat::Exceptions::NoDefaultAccount unless config.include?(:default)
         return config[:default].to_sym
       end
     end

@@ -1,5 +1,5 @@
 module Twat::Endpoints
-  class Identica
+  class Identica < Base
 
     def initialize
       unless @@endpoint_set
@@ -36,6 +36,10 @@ module Twat::Endpoints
         access_token_url: "https://identi.ca/api/oauth/access_token",
         authorize_url: "https://identi.ca/api/oauth/authorize"
       }
+    end
+
+    def endpoint_name
+      :"identi.ca"
     end
 
   end

@@ -5,8 +5,10 @@ require 'twitter'
 require 'yaml'
 require 'optparse'
 require 'oauth'
+require 'readline-ng'
 
-%w[config exceptions argparse actions migration options endpoint].each do |filename|
+%w[config endpoint exceptions argparse migration options
+  subcommand version tweetstack].each do |filename|
   require "twat/#{filename}"
 end
 
@@ -47,30 +49,11 @@ class String
 end
 
 module Twat
-  VERSION_MAJOR = 0
-  VERSION_MINOR = 6
-  VERSION_PATCH = 3
-
-  VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_PATCH}"
   class Twat
 
-    include HandledExceptions
-
     def cli_run
-      # FIXME Handing in the opts like this feels dirty
-      with_handled_exceptions(ArgParse.new) do |opts|
-        if opts[:account] && opts[:action] != :add
-          config.account = opts[:account]
-        end
-
-        require 'readline-ng'
-        actor = Actions.new
-
-
-        actor.config = config
-        actor.opts = opts
-        actor.send(opts.options[:action])
-      end
+      # FIXME exception handling is gone for now
+      Subcommand.run
     end
   end
 end

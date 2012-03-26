@@ -1,5 +1,5 @@
 module Twat::Endpoints
-  class Twitter
+  class Twitter < Base
 
     def url
       "https://api.twitter.com/"
@@ -14,6 +14,10 @@ module Twat::Endpoints
 
     def oauth_options
       {}
+    end
+
+    def endpoint_name
+      :twitter
     end
 
   end
