@@ -17,10 +17,12 @@ describe Twat do
     :default => :rich0H
   }
 
-  # it "Should bail if config already exists" do #{{{
-  #   with_config(multiuser_config) do
-  #     set_argv ["config"]
-  #   end
-  # end
+  it "Should bail if config already exists" do #{{{
+    with_config(multiuser_config) do
+      STDOUT.expects(:puts).with(Twat::Exceptions::AlreadyConfigured.new.msg)
+      set_argv ["config"]
+      Twat::Twat.new.cli_run
+    end
+  end
 
 end
