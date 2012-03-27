@@ -11,11 +11,11 @@ module Twat::Endpoints
       puts "Please authenticate the application at #{token_request.authorize_url}, then enter pin"
       pin = STDIN.gets.chomp
       begin
-        access_token = token_request.get_access_token(oauth_verifier: pin)
+        access_token = token_request.get_access_token(:oauth_verifier => pin)
         account_settings = {
-          oauth_token: access_token.token,
-          oauth_token_secret: access_token.secret,
-          endpoint: endpoint_name
+          :oauth_token => access_token.token,
+          :oauth_token_secret => access_token.secret,
+          :endpoint => endpoint_name
         }
         config.accounts[name.to_sym] = account_settings
         config.save!

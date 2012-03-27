@@ -17,7 +17,7 @@ module Twat
     end
 
     def migration_1
-      new = { accounts: {} }
+      new = { :accounts => {} }
       default = nil
       current = YAML.load_file(@file)
       current.each do |k, v|

@@ -12,7 +12,7 @@ module Twat
     end
 
     def create!
-      @config = { accounts: {} }
+      @config = { :accounts => {} }
       save!
     end
 
@@ -20,7 +20,7 @@ module Twat
       begin
         config
       rescue NoConfigFile
-        @config = { accounts: {} }
+        @config = { :accounts => {} }
       end
     end
 
