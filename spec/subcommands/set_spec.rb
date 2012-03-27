@@ -67,6 +67,25 @@ describe Twat do
     end
   end #}}}
 
+  it "Should bail if non ints are given as polling intervals" do
+    with_config(valid_config) do
+      set_argv ["set", "polling_interval", "rawk"]
+      STDOUT.expects(:puts).with(Twat::Exceptions::InvalidInt.new.msg)
+
+      Twat::Twat.new.cli_run
+    end
+  end #}}}
+
+  it "Should set polling interval on valid settings" do
+    with_config(valid_config) do
+      set_argv ["set", "polling_interval", "75"]
+      STDOUT.expects(:puts).with("Successfully set polling_interval as 75")
+
+      Twat::Twat.new.cli_run
+      YAML.load_file(ENV['TWAT_CONFIG'])[:polling_interval].should == 75
+    end
+  end #}}}
+
   Twat::Options::BOOL_TRUE.each do |v|
     it "Should allow bool values to be set to #{v} and be considered true" do
 
