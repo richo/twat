@@ -7,6 +7,6 @@ describe Twat do
     STDOUT.expects(:puts).with(Twat::Subcommands::Follow.usage)
 
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
-  end
+  end #}}}
 
 end
