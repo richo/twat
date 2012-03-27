@@ -60,8 +60,7 @@ module Twat
     end
 
     def beep?
-      beep = config[:beep] || "false"
-      Options.bool_true?(beep)
+      config[:beep].nil? ? false : config[:beep]
     end
 
     def polling_interval
