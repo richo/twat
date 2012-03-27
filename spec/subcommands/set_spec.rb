@@ -14,21 +14,21 @@ describe Twat do
     STDOUT.expects(:puts).with(Twat::Subcommands::Set.usage)
 
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
-  end
+  end #}}}
 
   it "Should bail if set is called with only one argument" do #{{{
     set_argv ["set", "key"]
     STDOUT.expects(:puts).with(Twat::Subcommands::Set.usage)
 
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
-  end
+  end #}}}
 
   it "Should bail if set is called with more than two arguments" do #{{{
     set_argv ["set", "key", "value", "junk"]
     STDOUT.expects(:puts).with(Twat::Subcommands::Set.usage)
 
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
-  end
+  end #}}}
 
   it "Should bail on valid invocations with no config" do #{{{
     set_argv ["set", "beep", "rawk"]
@@ -37,7 +37,7 @@ describe Twat do
     STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
 
     Twat::Twat.new.cli_run
-  end
+  end #}}}
 
   it "Should bail when bool options are tried with bogus values" do
     with_config(valid_config) do
@@ -46,7 +46,7 @@ describe Twat do
 
       Twat::Twat.new.cli_run
     end
-  end
+  end #}}}
 
   it "Should bail if a nonexistant account is set as default" do
     with_config(valid_config) do
@@ -55,17 +55,17 @@ describe Twat do
 
       Twat::Twat.new.cli_run
     end
-  end
+  end #}}}
 
   it "Should set valid accounts as default" do
     with_config(valid_config) do
       set_argv ["set", "default", "rich0H"]
-        STDOUT.expects(:puts).with("Successfully set default as rich0H")
+      STDOUT.expects(:puts).with("Successfully set default as rich0H")
 
       Twat::Twat.new.cli_run
-        YAML.load_file(ENV['TWAT_CONFIG'])[:default].should == :rich0H
+      YAML.load_file(ENV['TWAT_CONFIG'])[:default].should == :rich0H
     end
-  end
+  end #}}}
 
   Twat::Options::BOOL_TRUE.each do |v|
     it "Should allow bool values to be set to #{v} and be considered true" do
@@ -81,7 +81,7 @@ describe Twat do
       end
 
     end
-  end
+  end #}}}
 
   Twat::Options::BOOL_FALSE.each do |v|
     it "Should allow bool values to be set to #{v} and be considered true" do
@@ -97,6 +97,6 @@ describe Twat do
       end
 
     end
-  end
+  end #}}}
 
 end
