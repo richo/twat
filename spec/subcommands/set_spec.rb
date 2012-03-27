@@ -52,6 +52,22 @@ describe Twat do
       end
 
     end
-
   end
+
+  Twat::Options::BOOL_FALSE.each do |v|
+    it "Should allow bool values to be set to #{v} and be considered true" do
+
+      with_config(valid_config) do
+        # TODO Build this message automagically
+        STDOUT.expects(:puts).with("Successfully set beep as #{v}")
+
+        set_argv ["set", "beep", v]
+        Twat::Twat.new.cli_run
+
+        YAML.load_file(ENV['TWAT_CONFIG'])[:beep].should === false
+      end
+
+    end
+  end
+
 end
