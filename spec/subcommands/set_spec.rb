@@ -48,6 +48,25 @@ describe Twat do
     end
   end
 
+  it "Should bail if a nonexistant account is set as default" do
+    with_config(valid_config) do
+      set_argv ["set", "default", "rawk"]
+      STDOUT.expects(:puts).with(Twat::Exceptions::NoSuchAccount.new.msg)
+
+      Twat::Twat.new.cli_run
+    end
+  end
+
+  it "Should set valid accounts as default" do
+    with_config(valid_config) do
+      set_argv ["set", "default", "rich0H"]
+        STDOUT.expects(:puts).with("Successfully set default as rich0H")
+
+      Twat::Twat.new.cli_run
+        YAML.load_file(ENV['TWAT_CONFIG'])[:default].should == :rich0H
+    end
+  end
+
   Twat::Options::BOOL_TRUE.each do |v|
     it "Should allow bool values to be set to #{v} and be considered true" do
 
