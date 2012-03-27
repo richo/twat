@@ -23,6 +23,6 @@ describe Twat do
       set_argv ["config"]
       Twat::Twat.new.cli_run
     end
-  end
+  end #}}}
 
 end
