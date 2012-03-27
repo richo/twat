@@ -35,7 +35,7 @@ module Twat::Subcommands
           break unless fail_or_bail
           sleeptime = 60 * (@failcount + 1)
           reader.puts_above "#{"(__-){".red}: the fail whale has been rolled out, sleeping for #{sleeptime} seconds"
-          reader.sleep sleeptime
+          reader.wait sleeptime
         rescue Errno::ECONNRESET, Errno::ETIMEDOUT, SocketError
           break unless fail_or_bail
         end
