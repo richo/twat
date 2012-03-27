@@ -17,7 +17,7 @@ describe Twat do
       set_argv ["update_config"]
       Twat::Twat.new.cli_run
 
-      YAML.load_file(ENV['TWAT_CONFIG']).should == { accounts: Fixtures::Migrations::pre_v1 }
+      YAML.load_file(ENV['TWAT_CONFIG']).should == { :accounts => Fixtures::Migrations::pre_v1 }
     end
   end #}}}
 end
