@@ -26,6 +26,17 @@ module Twat
       !!/^[0-9]+$/.match(val)
     end
 
+    def self.to_bool(value)
+      case
+      when bool_true?(value)
+        return true
+      when bool_false?(value)
+        return false
+      else
+        raise InvalidBool
+      end
+    end
+
     # A set of wrappers around the global config object to set given attributes
     # Catching failures is convenient because of the method_missing? hook
     def method_missing(sym, *args, &block)
@@ -52,21 +63,12 @@ module Twat
     end
 
     def colors=(value)
-      val = value.to_sym
-      raise InvalidBool unless Options.bool_valid?(val)
-      config[:colors] = val
+      config[:colors] = Options.to_bool(value)
       config.save!
     end
 
     def beep=(value)
-      case
-      when Options.bool_true?(value)
-        config[:beep] = true
-      when Options.bool_false?(value)
-        config[:beep] = false
-      else
-        raise InvalidBool
-      end
+      config[:beep] = Options.to_bool(value)
       config.save!
     end
 

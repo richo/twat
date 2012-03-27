@@ -55,8 +55,7 @@ module Twat
     end
 
     def colors?
-      colors = config[:colors] || "true"
-      Options.bool_true?(colors)
+      config[:colors].nil? ? false : config[:colors]
     end
 
     def beep?
