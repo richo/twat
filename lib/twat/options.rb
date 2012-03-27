@@ -33,7 +33,9 @@ module Twat
     end
 
     def config
-      @config ||= Config.new
+      @config ||= Config.new.tap do |n|
+        raise NoConfigFile unless n.exists?
+      end
     end
 
     # This is deliberately not abstracted (it could be easily accessed from

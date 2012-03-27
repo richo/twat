@@ -64,7 +64,7 @@ module Twat
     end
     class InvalidBool < TwatException
       def msg
-        "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
+        "Invalid value, valid values are #{Options::BOOL_VALS.join("|")}"
       end
     end
     class InvalidInt < TwatException
