@@ -74,7 +74,8 @@ module Twat
     # it does this by calling a sequence of migration functions in order
     # which rebuild the config in stages, saving and leaving it in a
     # consistent step at each point
-    def update!
+    def update_config
+      raise NoConfigFile unless exists?
       Migrate.new.migrate!(config_path)
     end
 
