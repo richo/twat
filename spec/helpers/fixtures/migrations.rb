@@ -4,9 +4,9 @@ module Fixtures
 
     def pre_v1
       { :rich0H =>
-        { oauth_token: "I'mtotallyatokenbrah",
-          oauth_token_secret: "I'mtotallyasecretbrah",
-          endpoint: :twitter
+        { :oauth_token => "I'mtotallyatokenbrah",
+          :oauth_token_secret => "I'mtotallyasecretbrah",
+          :endpoint => :twitter
         } }
     end
   end
