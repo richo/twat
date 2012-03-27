@@ -10,13 +10,6 @@ describe Twat do
   end #}}}
 
   it "Should create a config file if one does not already exist" do #{{{
-    valid_config =  { accounts: {
-        :rich0H =>
-          { oauth_token: "I'mtotallyatokenbrah",
-            oauth_token_secret: "I'mtotallyasecretbrah",
-            endpoint: :twitter
-          } } }
-
     FileUtils.mktemp do |dir|
       set_env('TWAT_CONFIG' => "#{dir}/twatrc") do
         # stub out the io
@@ -32,7 +25,7 @@ describe Twat do
 
         Twat::Twat.new.cli_run
 
-        YAML.load_file(ENV['TWAT_CONFIG']).should == valid_config
+        YAML.load_file(ENV['TWAT_CONFIG']).should == Fixtures::valid_config
       end
     end
   end #}}}

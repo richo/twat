@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Twat do
 
-  it "Should bail if called without a config file" do
+  it "Should bail if called without a config file" do #{{{
     with_no_config do
       set_argv ["update_config"]
       STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
@@ -11,7 +11,7 @@ describe Twat do
     end
   end #}}}
 
-  it "Should migrate a pre-v1 config to v1" do
+  it "Should migrate a pre-v1 config to v1" do #{{{
     with_config(Fixtures::Migrations::pre_v1) do
       STDOUT.expects(:puts).with("Successfully ran migrations: 1")
       set_argv ["update_config"]

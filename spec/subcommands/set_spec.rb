@@ -34,7 +34,7 @@ describe Twat do
     end
   end #}}}
 
-  it "Should bail when bool options are tried with bogus values" do
+  it "Should bail when bool options are tried with bogus values" do #{{{
     with_config(Fixtures::valid_config) do
       set_argv ["set", "beep", "rawk"]
       STDOUT.expects(:puts).with(Twat::Exceptions::InvalidBool.new.msg)
@@ -43,7 +43,7 @@ describe Twat do
     end
   end #}}}
 
-  it "Should bail if a nonexistant account is set as default" do
+  it "Should bail if a nonexistant account is set as default" do #{{{
     with_config(Fixtures::valid_config) do
       set_argv ["set", "default", "rawk"]
       STDOUT.expects(:puts).with(Twat::Exceptions::NoSuchAccount.new.msg)
@@ -52,7 +52,7 @@ describe Twat do
     end
   end #}}}
 
-  it "Should set valid accounts as default" do
+  it "Should set valid accounts as default" do #{{{
     with_config(Fixtures::valid_config) do
       set_argv ["set", "default", "rich0H"]
       STDOUT.expects(:puts).with("Successfully set default as rich0H")
@@ -62,7 +62,7 @@ describe Twat do
     end
   end #}}}
 
-  it "Should bail if non ints are given as polling intervals" do
+  it "Should bail if non ints are given as polling intervals" do #{{{
     with_config(Fixtures::valid_config) do
       set_argv ["set", "polling_interval", "rawk"]
       STDOUT.expects(:puts).with(Twat::Exceptions::InvalidInt.new.msg)
@@ -71,7 +71,7 @@ describe Twat do
     end
   end #}}}
 
-  it "Should set polling interval on valid settings" do
+  it "Should set polling interval on valid settings" do #{{{
     with_config(Fixtures::valid_config) do
       set_argv ["set", "polling_interval", "75"]
       STDOUT.expects(:puts).with("Successfully set polling_interval as 75")
@@ -82,7 +82,7 @@ describe Twat do
   end #}}}
 
   Twat::Options::BOOL_TRUE.each do |v|
-    it "Should allow bool values to be set to #{v} and be considered true" do
+    it "Should allow bool values to be set to #{v} and be considered true" do #{{{
 
       with_config(Fixtures::valid_config) do
         # TODO Build this message automagically
@@ -98,7 +98,7 @@ describe Twat do
   end #}}}
 
   Twat::Options::BOOL_FALSE.each do |v|
-    it "Should allow bool values to be set to #{v} and be considered true" do
+    it "Should allow bool values to be set to #{v} and be considered true" do #{{{
 
       with_config(Fixtures::valid_config) do
         # TODO Build this message automagically
