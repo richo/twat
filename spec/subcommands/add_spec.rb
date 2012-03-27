@@ -59,7 +59,7 @@ describe Twat do
   end
 
   it "Should fail if asked for an invalid endpoint" do
-    STDOUT.expects(:puts).with(Twat::Exceptions::AVAILABLE_ENDPOINTS_ERRMSG)
+    STDOUT.expects(:puts).with(Twat::Exceptions::NoSuchEndpoint.new.msg)
 
     set_argv ["--endpoint", "rawk", "add", "rich0H"]
     Twat::Twat.new.cli_run

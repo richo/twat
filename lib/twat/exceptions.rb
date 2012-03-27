@@ -1,60 +1,95 @@
 module Twat
   module Exceptions
-    AVAILABLE_ENDPOINTS_ERRMSG = "Available endpoints are #{::Twat::ENDPOINTS.join(", ")}"
 
-    class AlreadyConfigured < Exception; end
-    class ArgumentRequired < Exception; end
-    class NoSuchAccount < Exception; end
-    class NoDefaultAccount < Exception; end
-    class NoSuchCommand < Exception; end
-    class NoSuchEndpoint < Exception; end
-    class NoConfigFile < Exception; end
-    class RequiresOptVal < Exception; end
-    class Usage < Exception; end
-    class InvalidCredentials < Exception; end
-    class ConfigVersionIncorrect < Exception; end
-    class InvalidSetOpt < Exception; end
-    class InvalidBool < Exception; end
-    class InvalidInt < Exception; end
-    class TweetTooLong < Exception; end
-    class NoSuchTweet < Exception; end
+    class TwatException < Exception; end
+
+    class Usage < TwatException; end
+
+    class AlreadyConfigured < TwatException
+      def msg
+        "Already configured, use add to add more accounts"
+      end
+    end
+
+    class ArgumentRequired < TwatException
+      def msg
+        "This command requires an argument"
+      end
+    end
+    class NoSuchAccount < TwatException
+      def msg
+        "No such account"
+      end
+    end
+    class NoDefaultAccount < TwatException
+      def msg
+        "No default account configured (try twat set default [account])."
+      end
+    end
+    class NoSuchCommand < TwatException
+      def msg
+        "No such command"
+      end
+    end
+    class NoSuchEndpoint < TwatException
+      def msg
+        "Available endpoints are #{::Twat::ENDPOINTS.join(", ")}"
+      end
+    end
+    class NoConfigFile < TwatException
+      def msg
+        "No config file, create one with twat -a [user|nick]"
+      end
+    end
+    class RequiresOptVal < TwatException
+      def msg
+        "--set must take an option=value pair as arguments"
+      end
+    end
+    class InvalidCredentials < TwatException
+      def msg
+        ["Invalid credentials, try reauthenticating with",
+          "twat -a ACCOUNT"]
+      end
+    end
+    class ConfigVersionIncorrect < TwatException
+      def msg
+        "Your config file is out of date. Run with --update-config to rememdy"
+      end
+    end
+    class InvalidSetOpt < TwatException
+      def msg
+        "There is no such configurable option"
+      end
+    end
+    class InvalidBool < TwatException
+      def msg
+        "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
+      end
+    end
+    class InvalidInt < TwatException
+      def msg
+        "Invalid value, must be an integer"
+      end
+    end
+    class TweetTooLong < TwatException
+      def msg
+        "Twitter enforces a maximum status length of 140 characters"
+      end
+    end
+    class NoSuchTweet < TwatException
+      def msg
+        "Specified tweet was not found"
+      end
+    end
 
     def with_handled_exceptions(opts=nil)
       begin
         yield
       rescue Usage
         opts.usage if opts
-      rescue AlreadyConfigured
-        puts "Already configured, use add to add more accounts"
-      rescue ArgumentRequired
-        puts "This command requires an argument"
-      rescue NoSuchAccount
-        puts "No such account"
-      rescue NoDefaultAccount
-        puts "No default account configured (try twat set default [account])."
-      rescue NoSuchCommand
-        puts "No such command"
-      rescue NoConfigFile
-        puts "No config file, create one with twat -a [user|nick]"
-      rescue InvalidSetOpt
-        puts "There is no such configurable option"
-      rescue RequiresOptVal
-        puts "--set must take an option=value pair as arguments"
-      rescue InvalidCredentials
-        puts "Invalid credentials, try reauthenticating with"
-        puts "twat -a ACCOUNT"
-      rescue ConfigVersionIncorrect
-        puts "Your config file is out of date. Run with --update-config to rememdy"
-      rescue InvalidBool
-        puts "Invalid value, valid values are #{Options::BOOL_VALID.join("|")}"
-      rescue InvalidInt
-        puts "Invalid value, must be an integer"
-      rescue Errno::ECONNRESET
-        puts "Connection was reset by third party."
-      rescue TweetTooLong
-        puts "Twitter enforces a maximum status length of 140 characters"
-      rescue NoSuchEndpoint
-        puts AVAILABLE_ENDPOINTS_ERRMSG
+      rescue TwatException => e
+        puts e.msg
       end
     end
   end
