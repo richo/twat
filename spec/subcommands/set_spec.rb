@@ -33,7 +33,6 @@ describe Twat do
   it "Should bail on valid invocations with no config" do #{{{
     set_argv ["set", "beep", "rawk"]
 
-    set_argv ["set", "beep", "rawk"]
     STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
 
     Twat::Twat.new.cli_run
