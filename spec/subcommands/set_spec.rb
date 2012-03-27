@@ -30,12 +30,22 @@ describe Twat do
     lambda { Twat::Twat.new.cli_run }.should raise_error SystemExit
   end
 
-  it "Should bail if a non bool is tried for a bool option" do #{{{
-    # if there's also no config, which error should be thrown?
+  it "Should bail on valid invocations with no config" do #{{{
     set_argv ["set", "beep", "rawk"]
-    STDOUT.expects(:puts).with(Twat::Exceptions::InvalidBool.new.msg)
+
+    set_argv ["set", "beep", "rawk"]
+    STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
 
     Twat::Twat.new.cli_run
+  end
+
+  it "Should bail when bool options are tried with bogus values" do
+    with_config(valid_config) do
+      set_argv ["set", "beep", "rawk"]
+      STDOUT.expects(:puts).with(Twat::Exceptions::InvalidBool.new.msg)
+
+      Twat::Twat.new.cli_run
+    end
   end
 
   Twat::Options::BOOL_TRUE.each do |v|
