@@ -35,3 +35,13 @@ def with_config(cfg)
     end
   end
 end
+
+def with_no_config
+  FileUtils.mktemp do |dir|
+    set_env('TWAT_CONFIG' => "#{dir}/twatrc") do
+
+      yield
+
+    end
+  end
+end

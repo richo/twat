@@ -31,11 +31,13 @@ describe Twat do
   end #}}}
 
   it "Should bail on valid invocations with no config" do #{{{
-    set_argv ["set", "beep", "rawk"]
+    with_no_config do
+      set_argv ["set", "beep", "rawk"]
 
-    STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
+      STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
 
-    Twat::Twat.new.cli_run
+      Twat::Twat.new.cli_run
+    end
   end #}}}
 
   it "Should bail when bool options are tried with bogus values" do

@@ -3,10 +3,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Twat do
 
   it "Should bail if called without a config file" do
-    set_argv ["update_config"]
-    STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
+    with_no_config do
+      set_argv ["update_config"]
+      STDOUT.expects(:puts).with(Twat::Exceptions::NoConfigFile.new.msg)
 
-    Twat::Twat.new.cli_run
+      Twat::Twat.new.cli_run
+    end
   end #}}}
 
   pre_v1 = { :rich0H =>
