@@ -72,6 +72,11 @@ module Twat
       config.save!
     end
 
+    def show_mentions=(value)
+      config[:show_mentions] = Options.to_bool(value)
+      config.save!
+    end
+
     def polling_interval=(value)
       raise InvalidInt unless Options.int_valid?(value)
       val = value.to_i

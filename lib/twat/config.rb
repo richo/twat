@@ -62,6 +62,10 @@ module Twat
       config[:beep].nil? ? false : config[:beep]
     end
 
+    def show_mentions?
+      config[:show_mentions].nil? ? false : config[:show_mentions]
+    end
+
     def polling_interval
       config[:polling_interval] || 60
     end

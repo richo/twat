@@ -62,6 +62,16 @@ describe Twat do
     end
   end #}}}
 
+  it "Should set a given option as show_mentions" do #{{{
+    with_config(Fixtures::valid_config) do
+      set_argv ["set", "show_mentions", "true"]
+      STDOUT.expects(:puts).with("Successfully set show_mentions as true")
+
+      Twat::Twat.new.cli_run
+      YAML.load_file(ENV['TWAT_CONFIG'])[:show_mentions].should == true
+    end
+  end #}}}
+
   it "Should bail if non ints are given as polling intervals" do #{{{
     with_config(Fixtures::valid_config) do
       set_argv ["set", "polling_interval", "rawk"]

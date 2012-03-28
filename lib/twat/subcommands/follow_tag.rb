@@ -44,11 +44,13 @@ module Twat::Subcommands
 
     def new_tweets(opts)
       unless @argv.empty?
-        Twitter.search(@argv.join(" "), opts)
+        ret = Twitter.search(@argv.join(" "), opts)
       else
-        Twitter.home_timeline(opts)
+        ret = Twitter.home_timeline(opts)
       end
     end
+
+
 
     def self.usage
      ["Usage: twat",
