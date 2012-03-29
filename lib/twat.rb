@@ -7,7 +7,7 @@ require 'optparse'
 require 'oauth'
 require 'readline-ng'
 
-%w[twitter_mixin endpoint exceptions config argparse migration options
+%w[follow_mixin endpoint exceptions config argparse migration options
   subcommand version tweetstack].each do |filename|
   require "twat/#{filename}"
 end
