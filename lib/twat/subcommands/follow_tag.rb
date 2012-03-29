@@ -1,6 +1,10 @@
+require 'pry'
 module Twat::Subcommands
   POLLING_RESOLUTION = 20 # Readline scan time in hz
   class FollowTag < Base
+
+    include TwitterMixin
+
     # Shim to bail out if we're in test
     def untested
       true
@@ -42,35 +46,12 @@ module Twat::Subcommands
       end
     end
 
-    def new_tweets(opts)
-      unless @argv.empty?
-        ret = Twitter.search(@argv.join(" "), opts)
-      else
-        ret = Twitter.home_timeline(opts)
-      end
-    end
-
-
-
     def self.usage
      ["Usage: twat",
       "Usage: twat follow_stream #hashtag"]
     end
 
     private
-
-    # @return last_id
-    def process_followed(tweets)
-      last_id = nil
-      tweets.reverse.each do |tweet|
-        id = @tweetstack << tweet
-        beep if config.beep? && tweet.text.mentions?(config.account_name)
-        reader.puts_above readline_format(tweet, @tweetstack.last)
-        last_id = tweet.id
-      end
-
-      return last_id
-    end
 
     def handle_input(inp)
       case inp
