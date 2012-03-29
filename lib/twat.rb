@@ -7,6 +7,10 @@ require 'optparse'
 require 'oauth'
 require 'readline-ng'
 
+%w[tweets mentions timeline].each do |filename|
+  require "twat/models/#{filename}"
+end
+
 %w[follow_mixin endpoint exceptions config argparse migration options
   subcommand version tweetstack].each do |filename|
   require "twat/#{filename}"
