@@ -1,5 +1,4 @@
 module Twat::Subcommands
-  POLLING_RESOLUTION = 20
   class Mentions < Base
   include FollowMixin
 
