@@ -16,7 +16,7 @@ module FollowMixin
     tweets = new_tweets(:count => 5)
     while untested do
       begin
-        last_id = process_followed(tweets) if tweets.any?
+        process_followed(tweets) if tweets.any?
         (config.polling_interval * POLLING_RESOLUTION).times do
           begin
             reader.tick
@@ -26,7 +26,7 @@ module FollowMixin
           end
           sleep 1.0/POLLING_RESOLUTION
         end
-        tweets = new_tweets(:since_id => last_id)
+        tweets = new_tweets
         @failcount = 0
       rescue Interrupt
         break
@@ -77,15 +77,10 @@ module FollowMixin
   end
 
   def process_followed(tweets)
-    last_id = nil
     tweets.reverse.each do |tweet|
-      id = @tweetstack << tweet
       beep if config.beep? && tweet.text.mentions?(config.account_name)
       reader.puts_above readline_format(tweet, @tweetstack.last)
-      last_id = tweet.id
     end
-
-    return last_id
   end
 
 end

@@ -8,12 +8,12 @@ module Twat
       end
 
       def raw(opts)
-        fetch(@sym, opts)
+        fetch(opts)
       end
 
 
       def new_tweets
-        fetch @default.merge(:since => last_id)
+        fetch(@default.merge(:since => last_id))
       end
 
       private
