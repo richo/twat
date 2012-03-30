@@ -2,8 +2,9 @@ module Twat
   module Models
     class Tweets
 
-      def initialize(sym, opts={})
+      def initialize(sym, args=[], opts={})
         @sym = sym
+        @args = args
         @default = opts
       end
 
@@ -19,7 +20,7 @@ module Twat
       private
 
       def fetch(opts)
-        twts = Twitter.send(@sym, opts)
+        twts = Twitter.send(@sym, *@args, opts)
         last_id = twts[-1].id
         return twts
       end

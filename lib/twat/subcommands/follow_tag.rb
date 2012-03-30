@@ -13,11 +13,15 @@ module Twat::Subcommands
       if twit
         twit.new_tweets
       else
-        twit = ::Twat::Models::Tweets.new(:home_timeline)
+        # initialise twit
+        if @argv.empty?
+          twit = ::Twat::Models::Tweets.new(:home_timeline)
+        else
+          twit = ::Twat::Models::Tweets.new(:search, @argv.join(" "))
+        end
         twit.raw(:count => 5)
       end
     end
-
   end
   COMMANDS['follow_tag'] = FollowTag
 end
