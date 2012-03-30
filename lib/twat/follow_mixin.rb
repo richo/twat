@@ -45,7 +45,7 @@ module FollowMixin
 
   def handle_input(inp)
     case inp
-    when /[rR][tT] ([0-9]{1,2})/
+    when /(?:[rR][tT]|retweet) ([0-9]{1,2})/
       begin
         retweet($1.to_i)
       rescue NoSuchTweet
