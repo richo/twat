@@ -30,8 +30,7 @@ describe Twat do
       set_argv [flag]
 
       STDOUT.expects(:puts).with("twat #{::Twat::VERSION}")
-      lambda {
-        args = ::Twat::Args.new }.should raise_error SystemExit
+      lambda { args = ::Twat::Args.new }.should raise_error SystemExit
 
     end #}}}
   end
