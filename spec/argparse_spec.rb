@@ -36,4 +36,14 @@ describe Twat do
     end #}}}
   end
 
+  it "Should print a nice error message when called with a nonexistant account" do #{{{
+    with_config(Fixtures::multiuser_config) do
+
+      set_argv ["-n", "nonexistantaccount", "rawr", "update"]
+
+      STDOUT.expects(:puts).with(Twat::Exceptions::NoSuchAccount.new.msg)
+      Twat::Twat.new.cli_run
+    end
+  end
+
 end
