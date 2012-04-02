@@ -93,6 +93,7 @@ module Twat
     end
 
     def account
+      raise NoSuchAccount unless accounts.include?(account_name)
       accounts[account_name]
     end
 
