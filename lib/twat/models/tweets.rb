@@ -2,6 +2,8 @@ module Twat
   module Models
     class Tweets
 
+      attr_accessor :last_id
+
       def initialize(sym, args=[], opts={})
         @sym = sym
         @args = args

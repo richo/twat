@@ -7,7 +7,7 @@ require 'optparse'
 require 'oauth'
 require 'readline-ng'
 
-%w[tweets mentions timeline].each do |filename|
+%w[tweets].each do |filename|
   require "twat/models/#{filename}"
 end
 
