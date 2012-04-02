@@ -1,6 +1,8 @@
 module Twat
   class Config
 
+    include ::Twat::Exceptions
+
     def config_path
       @config_path ||= ENV['TWAT_CONFIG'] || "#{ENV['HOME']}/.twatrc"
     end
@@ -12,6 +14,14 @@ module Twat
     def create!
       @config = { accounts: {} }
       save!
+    end
+
+    def create_unless_exists!
+      begin
+        config
+      rescue NoConfigFile
+        @config = { accounts: {} }
+      end
     end
 
     def config
@@ -45,13 +55,15 @@ module Twat
     end
 
     def colors?
-      colors = config[:colors] || "true"
-      Options.bool_true?(colors)
+      config[:colors].nil? ? false : config[:colors]
     end
 
     def beep?
-      beep = config[:beep] || "false"
-      Options.bool_true?(beep)
+      config[:beep].nil? ? false : config[:beep]
+    end
+
+    def show_mentions?
+      config[:show_mentions].nil? ? false : config[:show_mentions]
     end
 
     def polling_interval
@@ -66,27 +78,14 @@ module Twat
     # it does this by calling a sequence of migration functions in order
     # which rebuild the config in stages, saving and leaving it in a
     # consistent step at each point
-    def update!
+    def update_config
+      raise NoConfigFile unless exists?
       Migrate.new.migrate!(config_path)
     end
 
-    # I don't know how rubyists feel about method returning something vastly
-    # different to what method= accepts, but I think the api makes sense
-    def account=(acct)
-      if accounts.include?(acct)
-        @account = acct
-      else
-        raise NoSuchAccount
-      end
-    end
-
-    def account_set?
-      !!@account
-    end
-
     def account_name
-      if account_set?
-        @account
+      if $args[:account]
+        return $args[:account].to_sym
       else
         raise ::Twat::Exceptions::NoDefaultAccount unless config.include?(:default)
         return config[:default].to_sym
@@ -94,6 +93,7 @@ module Twat
     end
 
     def account
+      raise NoSuchAccount unless accounts.include?(account_name)
       accounts[account_name]
     end
 

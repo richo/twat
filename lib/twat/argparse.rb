@@ -58,9 +58,6 @@ module Twat
           puts "twat #{::Twat::VERSION}"
           exit
         end #}}}
-        opts.on("--update-config", "Update config to latest version") do #{{{ --update-config
-          options[:action] = :updateconfig
-        end #}}}
       end
       @optparser.parse!
 

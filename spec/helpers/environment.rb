@@ -21,3 +21,27 @@ def set_env(pairs)
     end
   end
 end
+
+def with_config(cfg)
+  FileUtils.mktemp do |dir|
+    set_env('TWAT_CONFIG' => "#{dir}/twatrc") do
+      File.open("#{dir}/twatrc", 'w') do |conf|
+        conf.chmod(0600)
+        conf.puts(cfg.to_yaml)
+      end
+
+      yield
+
+    end
+  end
+end
+
+def with_no_config
+  FileUtils.mktemp do |dir|
+    set_env('TWAT_CONFIG' => "#{dir}/twatrc") do
+
+      yield
+
+    end
+  end
+end
