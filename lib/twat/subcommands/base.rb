@@ -61,29 +61,12 @@ module Twat::Subcommands
       print "\a"
     end
 
-    # XXX FIXME why are there two of these?!
-    # Format a tweet all pretty like
-    def format(twt)
-      text = deentitize(twt.text)
-      if config.colors?
-        if twt.as_user == config.account_name.to_s
-          puts "#{twt.as_user.bold.blue}: #{text}"
-        elsif text.mentions?(config.account_name)
-          puts "#{twt.as_user.bold.red}: #{text}"
-        else
-          puts "#{twt.as_user.bold.cyan}: #{text}"
-        end
-      else
-        puts "#{twt.as_user}: #{text}"
-      end
-    end
-
     def pad(n)
       "%02d" % n
     end
 
     # Format a tweet all pretty like
-    def readline_format(twt, idx = nil)
+    def format(twt, idx = nil)
       idx = pad(idx) if idx
       text = deentitize(twt.text)
       if config.colors?

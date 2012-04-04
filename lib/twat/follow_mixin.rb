@@ -81,7 +81,7 @@ module FollowMixin
     tweets.reverse.each do |tweet|
       id = @tweetstack << tweet
       beep if config.beep? && tweet.text.mentions?(config.account_name)
-      reader.puts_above readline_format(tweet, @tweetstack.last)
+      reader.puts_above format(tweet, @tweetstack.last)
       last_id = tweet.id
     end
 

@@ -7,7 +7,7 @@ module Twat::Subcommands
 
       begin
         Twitter.user_timeline(@argv[0], :count => (@argv[1] || 1).to_i).each do |tweet|
-          format(tweet)
+          puts format(tweet)
         end
       # rescue Twitter::NotFound
       #   puts "#{@argv[0].bold.red} doesn't appear to be a valid user"
