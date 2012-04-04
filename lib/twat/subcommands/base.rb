@@ -78,12 +78,12 @@ module Twat::Subcommands
         else
           buf += "#{twt.as_user.bold.cyan}: #{text}"
         end
+        buf.colorise_handles!
       else
         buf = idx ? "#{idx}: " : ""
         buf += "#{twt.as_user}: #{text}"
       end
     end
-
 
     def deentitize(text)
       {"&lt;" => "<", "&gt;" => ">", "&amp;" => "&", "&quot;" => '"' }.each do |k,v|

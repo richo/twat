@@ -42,6 +42,11 @@ class String
   def mentions?(name)
     return self.downcase.include?(name.to_s.downcase)
   end
+
+  def colorise_handles!
+    self.gsub!(/@[a-z0-9_-]+/i) { |s| s.cyan }
+    return self
+  end
 end
 
 module Twat
