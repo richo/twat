@@ -15,6 +15,10 @@ end
 class String
   # TODO - It'd be nice to implement the colors support here, maybe even only
   # mix this in if it's enabled?
+  def black
+    "[30m#{self}[39m"
+  end
+
   def red
     "[31m#{self}[39m"
   end
@@ -46,7 +50,7 @@ class String
   def colorise!
     colorise_handles!
     colorise_hashtags!
-    # colorise_urls!
+    colorise_urls!
   end
 
   def colorise_handles!
@@ -56,6 +60,11 @@ class String
 
   def colorise_hashtags!
     self.gsub!(/#[a-z0-9_+-]+/i) { |s| s.cyan }
+    return self
+  end
+
+  def colorise_urls!
+    self.gsub!(%r{https?://[a-z0-9./_+-]+}i) { |s| s.black }
     return self
   end
 end
