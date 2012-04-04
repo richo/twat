@@ -17,14 +17,16 @@ module FollowMixin
     while untested do
       begin
         last_id = process_followed(tweets) if tweets.any?
-        (config.polling_interval * POLLING_RESOLUTION).times do
-          begin
-            reader.tick
-            reader.each_line { |i| handle_input(i) }
-          rescue ::Twat::Exceptions::TweetTooLong
-            reader.puts_above "Too long".red
+        catch(:force_process) do
+          (config.polling_interval * POLLING_RESOLUTION).times do
+            begin
+              reader.tick
+              reader.each_line { |i| handle_input(i) }
+            rescue ::Twat::Exceptions::TweetTooLong
+              reader.puts_above "Too long".red
+            end
+            sleep 1.0/POLLING_RESOLUTION
           end
-          sleep 1.0/POLLING_RESOLUTION
         end
         tweets = new_tweets(:since_id => last_id)
         @failcount = 0
@@ -59,6 +61,7 @@ module FollowMixin
 
       Twitter.update(inp)
     end
+    throw :force_process
   end
 
   # Wrapper methods from the tweetstack implementation
