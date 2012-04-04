@@ -21,7 +21,7 @@ module FollowMixin
           begin
             reader.tick
             reader.each_line { |i| handle_input(i) }
-          rescue TweetTooLong
+          rescue ::Twat::Exceptions::TweetTooLong
             reader.puts_above "Too long".red
           end
           sleep 1.0/POLLING_RESOLUTION
@@ -48,14 +48,14 @@ module FollowMixin
     when /[rR][tT] ([0-9]{1,2})/
       begin
         retweet($1.to_i)
-      rescue NoSuchTweet
+      rescue ::Twat::Exceptions::NoSuchTweet
         print "No such tweet\n".red
       end
     when /follow (.*)/
       Twitter.follow($1)
     else
       # Assume they want to tweet something
-      raise TweetTooLong if inp.length > 140
+      raise ::Twat::Exceptions::TweetTooLong if inp.length > 140
 
       Twitter.update(inp)
     end
