@@ -78,7 +78,7 @@ module Twat::Subcommands
         else
           buf += "#{twt.as_user.bold.cyan}: #{text}"
         end
-        buf.colorise_handles!
+        buf.colorise!
       else
         buf = idx ? "#{idx}: " : ""
         buf += "#{twt.as_user}: #{text}"

@@ -43,8 +43,19 @@ class String
     return self.downcase.include?(name.to_s.downcase)
   end
 
+  def colorise!
+    colorise_handles!
+    colorise_hashtags!
+    # colorise_urls!
+  end
+
   def colorise_handles!
-    self.gsub!(/@[a-z0-9_-]+/i) { |s| s.cyan }
+    self.gsub!(/@[a-z0-9_+-]+/i) { |s| s.cyan }
+    return self
+  end
+
+  def colorise_hashtags!
+    self.gsub!(/#[a-z0-9_+-]+/i) { |s| s.cyan }
     return self
   end
 end
