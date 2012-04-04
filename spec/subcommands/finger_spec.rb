@@ -20,6 +20,7 @@ describe Twat do
 
       set_argv ["finger", "hanke"]
 
+      STDOUT.expects(:puts)
       Twat::Twat.new.cli_run
     end
   end #}}}
@@ -32,6 +33,7 @@ describe Twat do
 
       set_argv ["finger", "hanke", "3"]
 
+      STDOUT.expects(:puts).times(3)
       Twat::Twat.new.cli_run
     end
   end #}}}
