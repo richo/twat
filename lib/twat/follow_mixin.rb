@@ -19,8 +19,12 @@ module FollowMixin
         last_id = process_followed(tweets) if tweets.any?
         (config.polling_interval * POLLING_RESOLUTION).times do
           reader.tick
-          reader.each_line { |i| handle_input(i) }
-          sleep 1.0/POLLING_RESOLUTION
+          lines = 0
+          reader.each_line do |i|
+            lines += 1
+            handle_input(i)
+          end
+          sleep 1.0/POLLING_RESOLUTION if lines == 0
         end
         tweets = new_tweets(:since_id => last_id)
         @failcount = 0
