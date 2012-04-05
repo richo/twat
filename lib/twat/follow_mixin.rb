@@ -18,13 +18,13 @@ module FollowMixin
       begin
         last_id = process_followed(tweets) if tweets.any?
         (config.polling_interval * POLLING_RESOLUTION).times do
-          begin
-            reader.tick
-            reader.each_line { |i| handle_input(i) }
-          rescue ::Twat::Exceptions::TweetTooLong
-            reader.puts_above "Too long".red
+          reader.tick
+          lines = 0
+          reader.each_line do |i|
+            lines += 1
+            handle_input(i)
           end
-          sleep 1.0/POLLING_RESOLUTION
+          sleep 1.0/POLLING_RESOLUTION if lines == 0
         end
         tweets = new_tweets(:since_id => last_id)
         @failcount = 0
@@ -55,9 +55,11 @@ module FollowMixin
       Twitter.follow($1)
     else
       # Assume they want to tweet something
-      raise ::Twat::Exceptions::TweetTooLong if inp.length > 140
-
-      Twitter.update(inp)
+      if inp.length > 140
+        reader.puts_above "Too long".red
+      else
+        Twitter.update(inp)
+      end
     end
   end
 
