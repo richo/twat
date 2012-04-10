@@ -82,6 +82,11 @@ module Twat
         "Specified tweet was not found"
       end
     end
+    class NoInternetConnection < TwatException
+      def msg
+        "Couldn't connect to the endpoint"
+      end
+    end
 
     def with_handled_exceptions(opts=nil)
       begin

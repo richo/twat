@@ -15,7 +15,7 @@ module FollowMixin
     @failcount = 0
 
     # Get 5 tweets
-    tweets = new_tweets(:count => 5)
+    tweets = retrieve_tweets(:count => 5)
     while untested do
       begin
         last_id = process_followed(tweets) if tweets.any?
@@ -28,7 +28,7 @@ module FollowMixin
           end
           sleep 1.0/POLLING_RESOLUTION if lines == 0
         end
-        tweets = new_tweets(:since_id => last_id)
+        tweets = retrieve_tweets(:since_id => last_id)
         @failcount = 0
       rescue Interrupt
         break
@@ -44,6 +44,12 @@ module FollowMixin
   end
 
   private
+
+  def retrieve_tweets(opts)
+    new_tweets(opts)
+  rescue SocketError
+    raise ::Twat::Exceptions::NoInternetConnection
+  end
 
   def handle_input(inp)
     ret = process_input(inp)
