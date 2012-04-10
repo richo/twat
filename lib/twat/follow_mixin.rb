@@ -62,14 +62,14 @@ module FollowMixin
 
   def process_input(inp)
     case inp
-    when /[rR][tT] ([0-9]{1,2})/
+    when /^[rR][tT] ([0-9]{1,2})/
       begin
         retweet($1.to_i)
         return true
       rescue ::Twat::Exceptions::NoSuchTweet
         return "#{inp.red} #{":: No such tweet".bold.red}"
       end
-    when /follow (.*)/
+    when /^follow (.*)/
       Twitter.follow($1)
       return true
     else
