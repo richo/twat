@@ -48,24 +48,27 @@ module FollowMixin
     when /[rR][tT] ([0-9]{1,2})/
       begin
         retweet($1.to_i)
+        reader.puts_above inp.green
       rescue ::Twat::Exceptions::NoSuchTweet
-        print "No such tweet\n".red
+        reader.puts_above "#{inp.red} #{":: No such tweet".bold.red}"
       end
     when /follow (.*)/
       Twitter.follow($1)
+      reader.puts_above inp.green
     else
       # Assume they want to tweet something
       if inp.length > 140
-        reader.puts_above "Too long".red
+        reader.puts_above "#{inp.red} #{":: Too long".bold.red}"
       else
         Twitter.update(inp)
+        reader.puts_above inp.green
       end
     end
   end
 
   # Wrapper methods from the tweetstack implementation
   def retweet(idx)
-    raise NoSuchTweet unless @tweetstack.include?(idx)
+    raise ::Twat::Exceptions::NoSuchTweet unless @tweetstack.include?(idx)
     Twitter.retweet(@tweetstack[idx].id)
   end
 
