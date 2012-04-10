@@ -5,6 +5,8 @@ module FollowMixin
     true
   end
 
+  class PrintNothing < Exception; end
+
   def run
     auth!
     enable_readline! if untested
@@ -44,24 +46,39 @@ module FollowMixin
   private
 
   def handle_input(inp)
+    ret = process_input(inp)
+    return if ret.nil?
+
+    if ret === true
+      reader.puts_above(inp.green)
+    elsif ret === false
+      reader.puts_above(inp.red)
+    else
+      reader.puts_above(ret)
+    end
+  rescue PrintNothing
+    nil
+  end
+
+  def process_input(inp)
     case inp
     when /[rR][tT] ([0-9]{1,2})/
       begin
         retweet($1.to_i)
-        reader.puts_above inp.green
+        return true
       rescue ::Twat::Exceptions::NoSuchTweet
-        reader.puts_above "#{inp.red} #{":: No such tweet".bold.red}"
+        return "#{inp.red} #{":: No such tweet".bold.red}"
       end
     when /follow (.*)/
       Twitter.follow($1)
-      reader.puts_above inp.green
+      return true
     else
       # Assume they want to tweet something
       if inp.length > 140
-        reader.puts_above "#{inp.red} #{":: Too long".bold.red}"
+        return "#{inp.red} #{":: Too long".bold.red}"
       else
         Twitter.update(inp)
-        reader.puts_above inp.green
+        return true
       end
     end
   end
