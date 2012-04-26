@@ -78,6 +78,16 @@ module FollowMixin
     when /^follow (.*)/
       Twitter.follow($1)
       return true
+    when /^reply ([0-9]{1,2}) (.*)$/
+      # TODO This should be a method of the tweetstack
+      in_reply_to = get_tweet($1.to_i)
+      msg = "@#{in_reply_to.as_user} #{$2}"
+
+      if msg.length > 140
+        return "#{msg} #{":: Too long".bold.red}"
+      else
+        Twitter.update(msg, in_reploy_to_status_id: in_reply_to.id)
+      end
     else
       # Assume they want to tweet something
       if inp.length > 140
@@ -89,10 +99,14 @@ module FollowMixin
     end
   end
 
+  def get_tweet(idx)
+    raise ::Twat::Exceptions::NoSuchTweet unless @tweetstack.include?(idx)
+    @tweetstack[idx]
+  end
+
   # Wrapper methods from the tweetstack implementation
   def retweet(idx)
-    raise ::Twat::Exceptions::NoSuchTweet unless @tweetstack.include?(idx)
-    Twitter.retweet(@tweetstack[idx].id)
+    Twitter.retweet(get_tweet_id(idx).id)
   end
 
   def fail_or_bail
