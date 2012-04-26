@@ -87,6 +87,7 @@ module FollowMixin
         return "#{msg} #{":: Too long".bold.red}"
       else
         Twitter.update(msg, in_reploy_to_status_id: in_reply_to.id)
+        return msg.green
       end
     else
       # Assume they want to tweet something
