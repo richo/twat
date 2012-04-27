@@ -86,7 +86,7 @@ module FollowMixin
       if msg.length > 140
         return "#{msg} #{":: Too long".bold.red}"
       else
-        Twitter.update(msg, in_reploy_to_status_id: in_reply_to.id)
+        Twitter.update(msg, in_reply_to_status_id: in_reply_to.id)
         return msg.green
       end
     else
