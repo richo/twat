@@ -107,7 +107,7 @@ module FollowMixin
 
   # Wrapper methods from the tweetstack implementation
   def retweet(idx)
-    Twitter.retweet(get_tweet_id(idx).id)
+    Twitter.retweet(get_tweet(idx).id)
   end
 
   def fail_or_bail
