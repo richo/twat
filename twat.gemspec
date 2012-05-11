@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Twat::VERSION
   s.authors     = ["Rich Healey"]
   s.email       = ["richo@psych0tik.net"]
-  s.homepage    = "http://github.com/richoH/twat"
+  s.homepage    = "http://github.com/richo/twat"
   s.summary     = "Command line tool for tweeting and whatnot"
   s.description = s.summary
 
