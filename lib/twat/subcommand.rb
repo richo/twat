@@ -1,4 +1,4 @@
-%w(base add config delete follow_tag follow list mentions set update update_config finger version).each do |filename|
+%w(base add config delete follow_tag follow list mentions set update update_config finger version track).each do |filename|
   require File.join(File.expand_path("../subcommands/#{filename}", __FILE__))
 end
 
