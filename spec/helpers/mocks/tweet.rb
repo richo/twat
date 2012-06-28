@@ -1,6 +1,6 @@
 module Twat::Mocks
   class Tweet
-    def initialize(opts)
+    def initialize(opts={})
       @opts = opts
     end
 

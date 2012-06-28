@@ -13,7 +13,7 @@ describe Twat do
 
   it "Should retrieve a tweet for user if called with only a user" do #{{{
     with_config(Fixtures::multiuser_config) do
-      tweet = mock()
+      tweet = Twat::Mocks::Tweet.new
       tweet.expects(:each).yields(tweet)
       Twitter.expects(:user_timeline).with("hanke", :count => 1).returns(tweet)
       Twat::Subcommands::Finger.any_instance.expects(:format).with(tweet)
@@ -27,7 +27,7 @@ describe Twat do
 
   it "Should retrieve n tweets for user if invoked with count" do #{{{
     with_config(Fixtures::multiuser_config) do
-      tweet = mock()
+      tweet = Twat::Mocks::Tweet.new
       Twitter.expects(:user_timeline).with("hanke", :count => 3).returns([tweet, tweet, tweet])
       Twat::Subcommands::Finger.any_instance.expects(:format).with(tweet).times(3)
 
