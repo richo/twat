@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = s.summary
 
   s.add_dependency "twitter"
-  s.add_dependency "oauth"
+  s.add_dependency "oauth", "= 0.4.4"
   s.add_dependency "readline-ng", ">= 0.0.8"
   s.add_development_dependency "rake"
   s.add_development_dependency "mocha"
