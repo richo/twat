@@ -70,7 +70,8 @@ module FollowMixin
     case inp
     when /^(?:retweet|rt) ([0-9]{1,2})/i
       begin
-        retweet($1.to_i)
+        twt = get_tweet($1.to_i)
+        Twitter.retweet(twt.id)
         return true
       rescue ::Twat::Exceptions::NoSuchTweet
         return "#{inp.red} #{":: No such tweet".bold.red}"
@@ -103,11 +104,6 @@ module FollowMixin
   def get_tweet(idx)
     raise ::Twat::Exceptions::NoSuchTweet unless @tweetstack.include?(idx)
     @tweetstack[idx]
-  end
-
-  # Wrapper methods from the tweetstack implementation
-  def retweet(idx)
-    Twitter.retweet(get_tweet(idx).id)
   end
 
   def fail_or_bail
