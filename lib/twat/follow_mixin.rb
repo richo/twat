@@ -68,7 +68,7 @@ module FollowMixin
 
   def process_input(inp)
     case inp
-    when /^[rR][tT] ([0-9]{1,2})/
+    when /^(?:retweet|rt) ([0-9]{1,2})/i
       begin
         retweet($1.to_i)
         return true
