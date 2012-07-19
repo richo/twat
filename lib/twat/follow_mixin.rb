@@ -89,6 +89,17 @@ module FollowMixin
       else
         Twitter.update(msg, in_reply_to_status_id: in_reply_to.id)
         return msg.green
+
+      end
+    when /^delete ([0-9]{1,2})$/
+      begin
+        twt = get_tweet($1.to_i)
+        Twitter.delete(twt.id)
+        return true
+      rescue ::Twat::Exceptions::NoSuchTweet
+        return "#{inp.red} #{":: No such tweet".bold.red}"
+      # rescue Twitter.whatever exception
+      #   return "#{inp.red} #{":: Couldn't delete".bold.red}"
       end
     else
       # Assume they want to tweet something
