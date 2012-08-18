@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = "Command line tool for tweeting and whatnot"
   s.description = s.summary
 
-  s.add_dependency "twitter", "~> 2.5.0"
+  s.add_dependency "twitter", "~> 3"
   s.add_dependency "oauth", "= 0.4.4"
   s.add_dependency "readline-ng", ">= 0.0.8"
   s.add_development_dependency "rake"
