@@ -9,7 +9,7 @@ module Twat::Subcommands
 
     def new_tweets(opts)
       unless @argv.empty?
-        ret = Twitter.search(@argv.join(" "), opts)
+        ret = Twitter.search(@argv.join(" "), opts).results
       else
         ret = Twitter.home_timeline(opts)
       end
