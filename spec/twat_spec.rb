@@ -1,5 +1,4 @@
 require 'twat'
-require 'mocha'
 
 describe Twat do
 
