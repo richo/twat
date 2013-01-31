@@ -16,8 +16,6 @@ module Twat::Subcommands
 
     include ::Twat::Exceptions
 
-    attr_reader :opts
-
     def initialize(argv)
       @argv=argv
     end
