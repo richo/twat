@@ -22,4 +22,9 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+
+  if ENV['GEM_PRIVATE_KEY']
+    s.signing_key = "#{ENV['GEM_PRIVATE_KEY']}/gem-private_key.pem"
+    s.cert_chain  = ["#{ENV['GEM_PRIVATE_KEY']}/gem-public_cert.pem"]
+  end
 end
