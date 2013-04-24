@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    twat (0.10.1)
+    twat (1.0.0)
       oauth (= 0.4.4)
       readline-ng (>= 0.0.8)
       twitter

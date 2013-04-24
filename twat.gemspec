@@ -5,7 +5,7 @@ require "twat/version"
 Gem::Specification.new do |s|
   s.name        = "twat"
   s.version     = Twat::VERSION
-  s.authors     = ["Rich Healey"]
+  s.authors     = ["Richo Healey"]
   s.email       = ["richo@psych0tik.net"]
   s.homepage    = "http://github.com/richo/twat"
   s.summary     = "Command line tool for tweeting and whatnot"
