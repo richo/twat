@@ -4,20 +4,20 @@ PATH
     twat (0.10.1)
       oauth (= 0.4.4)
       readline-ng (>= 0.0.8)
-      twitter (~> 3)
+      twitter
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     diff-lcs (1.1.3)
-    faraday (0.8.5)
+    faraday (0.8.7)
       multipart-post (~> 1.1)
     metaclass (0.0.1)
     mktemp (0.0.1)
     mocha (0.13.1)
       metaclass (~> 0.0.1)
-    multi_json (1.6.0)
-    multipart-post (1.1.5)
+    multi_json (1.7.2)
+    multipart-post (1.2.0)
     oauth (0.4.4)
     rake (10.0.3)
     readline-ng (0.2.0)
@@ -29,11 +29,11 @@ GEM
     rspec-expectations (2.12.1)
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.12.1)
-    simple_oauth (0.1.9)
-    twitter (3.8.0)
-      faraday (~> 0.8)
-      multi_json (~> 1.3)
-      simple_oauth (~> 0.1.6)
+    simple_oauth (0.2.0)
+    twitter (4.6.2)
+      faraday (~> 0.8, < 0.10)
+      multi_json (~> 1.0)
+      simple_oauth (~> 0.2)
 
 PLATFORMS
   ruby
