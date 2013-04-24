@@ -51,7 +51,6 @@ module Twat::Subcommands
         config.endpoint.consumer_info.each do |key, value|
           twit.send("#{key}=", value)
         end
-        twit.endpoint = config.endpoint.url
       end
     end
 
